@@ -235,7 +235,6 @@ class App extends Component {
   }
 
   onGrainFocusedAtIdx = sidx => {
-    const oldSidx = this.state.sidx
     this.setStateAndCache({ sidx }, () => {})
   }
 

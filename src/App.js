@@ -5,9 +5,10 @@ import Grain from './components/Grain'
 import { isNil } from 'ramda'
 
 class App extends Component {
+  state = storageGetOr({ grainTitleInput: '' }, 'app-state')
+
   render() {
     const grains = [{ title: 'I am a grain' }, { title: 'Another grain ;)' }]
-
     return (
       <div className="App">
         <header className="App-header">
@@ -34,10 +35,8 @@ class App extends Component {
               type="text"
               name="title"
               id="grain-title"
-              value={() => this.state.grainTitleInput}
-              onKeyDown={e =>
-                this.setState({ grainTitleInput: e.target.value })
-              }
+              value={this.state.grainTitleInput}
+              onChange={e => this.setState({ grainTitleInput: e.target.value })}
             />
             {grains.map((grain, idx) => (
               <Grain key={idx} title={grain.title} />

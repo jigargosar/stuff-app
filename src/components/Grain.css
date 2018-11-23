@@ -1,0 +1,8 @@
+.Grain {
+  padding: 4px;
+}
+
+.Grain-root-selected {
+  outline: 5px blue;
+  outline-offset: -2px;
+}

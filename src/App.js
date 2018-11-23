@@ -46,12 +46,45 @@ function cacheAppState(state) {
   storageSet(appStateStorageKey(), state)
 }
 
-// APP
+// GRAIN MODEL
 
 function getGrainListItemDomId(grain) {
   return 'grain-list-item--' + grain.id
 }
 
+function addNewGrainWithTitle(title_, lookup) {
+  const title = title_.trim()
+  if (title) {
+    const grain = newGrainWithTitle(title)
+    const sortLookup = compose(
+      fromPairs,
+      addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
+      sortGrains,
+      values,
+    )
+    return compose(
+      sortLookup,
+      assoc(grain.id)(grain),
+    )(lookup)
+  } else {
+    return lookup
+  }
+}
+
+function newGrainWithTitle(title) {
+  return {
+    id: 'gid--' + nanoid(),
+    title,
+    desc: '',
+    idx: 0,
+    ca: Date.now(),
+    ma: Date.now(),
+  }
+}
+
+function setGrainTitle(title, grainId, lookup) {}
+
+// APP
 class App extends Component {
   state = loadAppState()
 
@@ -78,20 +111,45 @@ class App extends Component {
 
   renderGrain = curry((sidx, g, idx) => {
     const isSelected = idx === sidx
-    return (
-      <div
-        key={g.id}
-        id={getGrainListItemDomId(g)}
-        className={cn('Grain', { 'Grain-root-selected': isSelected })}
-        tabIndex={isSelected ? 0 : -1}
-        onFocus={() => this.onGrainFocusAtIdx(idx)}
-        onKeyDown={e => this.onGrainKeyDown(g, e)}
-      >
-        <small>{g.idx}</small>
-        {' : '}
-        <span>{g.title}</span>
-      </div>
-    )
+
+    const edit = this.state.edit
+    if (edit && edit.grainId === g.id) {
+      return (
+        <input
+          key={g.id}
+          id={getGrainListItemDomId(g)}
+          // className={cn('Grain', { 'Grain-root-selected': isSelected })}
+          className="GrainInlineEditInput"
+          value={edit.title}
+          onChange={e =>
+            this.setState(
+              {
+                edit: mergeLeft({ title: e.target.value }, this.state.edit),
+              },
+              this.cacheState,
+            )
+          }
+          // tabIndex={isSelected ? 0 : -1}
+          onFocus={() => this.onGrainFocusedAtIdx(idx)}
+          onKeyDown={e => this.onGrainEditKeyDown(g, e)}
+        />
+      )
+    } else {
+      return (
+        <div
+          key={g.id}
+          id={getGrainListItemDomId(g)}
+          className={cn('Grain', { 'Grain-root-selected': isSelected })}
+          tabIndex={isSelected ? 0 : -1}
+          onFocus={() => this.onGrainFocusedAtIdx(idx)}
+          onKeyDown={e => this.onGrainKeyDown(g, e)}
+        >
+          <small>{g.idx}</small>
+          {' : '}
+          <span>{g.title}</span>
+        </div>
+      )
+    }
   })
 
   render() {
@@ -160,7 +218,7 @@ class App extends Component {
     )
   }
 
-  onGrainFocusAtIdx = sidx => {
+  onGrainFocusedAtIdx = sidx => {
     this.setState({ sidx }, this.cacheState)
   }
 
@@ -204,42 +262,31 @@ class App extends Component {
 
   onGrainKeyDown = (grain, e) => {
     if (isHotKey('Enter', e)) {
-      this.setState({ edit: { grainId: grain.id, title: grain.title } })
+      this.setState(
+        { edit: { grainId: grain.id, title: grain.title } },
+        this.cacheState,
+      )
+    }
+  }
+  onGrainEditKeyDown = e => {
+    if (isHotKey('Enter', e)) {
+      const edit = this.state.edit
+      this.setState(
+        {
+          edit: null,
+          grainsLookup: setGrainTitle(
+            edit.title,
+            edit.grainId,
+            this.state.grainsLookup,
+          ),
+        },
+        this.cacheState,
+      )
     }
   }
 }
 
 export default App
-
-function addNewGrainWithTitle(title_, lookup) {
-  const title = title_.trim()
-  if (title) {
-    const grain = newGrainWithTitle(title)
-    const sortLookup = compose(
-      fromPairs,
-      addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
-      sortGrains,
-      values,
-    )
-    return compose(
-      sortLookup,
-      assoc(grain.id)(grain),
-    )(lookup)
-  } else {
-    return lookup
-  }
-}
-
-function newGrainWithTitle(title) {
-  return {
-    id: 'gid--' + nanoid(),
-    title,
-    desc: '',
-    idx: 0,
-    ca: Date.now(),
-    ma: Date.now(),
-  }
-}
 
 // HELPERS
 

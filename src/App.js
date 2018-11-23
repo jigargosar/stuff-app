@@ -254,13 +254,7 @@ class App extends Component {
     const grainsLength = this.sortedGrains.length
     if (grainsLength > 1) {
       const sidx = mathMod(this.currentSidx + offset, grainsLength)
-      this.setState(
-        { sidx },
-        compose(
-          this.focusSidx,
-          this.cacheState,
-        ),
-      )
+      this.setStateAndCache({ sidx }, this.focusSidx)
     }
   }
 

@@ -279,7 +279,7 @@ class App extends Component {
   focusSidx = () => {
     const grainAtSidx = this.sortedGrains[this.currentSidx]
     if (grainAtSidx) {
-      focusDomId(getGrainListItemDomId(grainAtSidx))
+      this.focusGrain(grainAtSidx)
     }
   }
 

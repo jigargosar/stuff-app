@@ -48,9 +48,7 @@ class App extends Component {
   }
 
   onGrainInputChange = e => {
-    this.setState({ grainTitleInput: e.target.value })
-
-    this.cacheState()
+    this.setState({ grainTitleInput: e.target.value }, () => this.cacheState())
   }
 
   cacheState = () => {

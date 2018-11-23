@@ -43,14 +43,12 @@ input {
 }
 
 .Grain-title-input {
-  padding: 4px;
-  margin: 4px;
+  padding: 8px;
   min-width: 200px;
 }
 
 .Grain {
-  padding: 4px;
-  margin: 4px;
+  padding: 8px;
   flex: 1 1 auto;
   width: 300px;
   text-align: left;

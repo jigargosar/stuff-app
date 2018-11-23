@@ -71,6 +71,25 @@ function addNewGrainWithTitle(title_, lookup) {
   }
 }
 
+function setGrainTitle(title_, grainId, lookup) {
+  const title = title_.trim()
+  const grain = lookup[grainId]
+  if (title && grain && grain.title !== title) {
+    const sortLookup = compose(
+      fromPairs,
+      addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
+      sortGrains,
+      values,
+    )
+    return compose(
+      sortLookup,
+      assoc(grain.id)(grain),
+    )(lookup)
+  } else {
+    return lookup
+  }
+}
+
 function newGrainWithTitle(title) {
   return {
     id: 'gid--' + nanoid(),
@@ -81,8 +100,6 @@ function newGrainWithTitle(title) {
     ma: Date.now(),
   }
 }
-
-function setGrainTitle(title, grainId, lookup) {}
 
 // APP
 class App extends Component {

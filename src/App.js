@@ -191,14 +191,20 @@ class App extends Component {
     const grainsLength = this.sortedGrains.length
     if (grainsLength > 1) {
       const sidx = mathMod(this.currentSidx + offset, grainsLength)
-      this.setState({ sidx }, this.focusSidx)
+      this.setState(
+        { sidx },
+        compose(
+          this.focusSidx,
+          this.cacheState,
+        ),
+      )
     }
   }
 
   focusSidx = () => {
     const grainAtSidx = this.sortedGrains[this.currentSidx]
     if (grainAtSidx) {
-      const el = window.getElementById(getGrainListItemDomId(grainAtSidx))
+      const el = document.getElementById(getGrainListItemDomId(grainAtSidx))
       if (el) {
         el.focus()
         return

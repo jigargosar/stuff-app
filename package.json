@@ -6,6 +6,7 @@
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.2",
+    "ramda": "^0.26.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
@@ -49,11 +50,11 @@
     ]
   },
   "devDependencies": {
-    "@storybook/react": "^4.0.8",
+    "@babel/core": "^7.1.6",
     "@storybook/addon-actions": "^4.0.8",
     "@storybook/addon-links": "^4.0.8",
     "@storybook/addons": "^4.0.8",
-    "@babel/core": "^7.1.6",
+    "@storybook/react": "^4.0.8",
     "babel-loader": "^8.0.4"
   }
 }

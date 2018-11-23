@@ -136,7 +136,7 @@ class App extends Component {
           key={g.id}
           id={getGrainListItemDomId(g)}
           // className={cn('Grain', { 'Grain-root-selected': isSelected })}
-          className="GrainInlineEditInput"
+          className="Grain Grain--inline-edit-input"
           value={edit.title}
           onChange={e =>
             this.setState(
@@ -156,7 +156,7 @@ class App extends Component {
         <div
           key={g.id}
           id={getGrainListItemDomId(g)}
-          className={cn('Grain', { 'Grain-root-selected': isSelected })}
+          className={cn('Grain')}
           tabIndex={isSelected ? 0 : -1}
           onFocus={() => this.onGrainFocusedAtIdx(idx)}
           onKeyDown={e => this.onGrainKeyDown(g, e)}

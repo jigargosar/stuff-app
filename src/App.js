@@ -35,8 +35,6 @@ class App extends Component {
             <input
               className="Grain-title-input"
               type="text"
-              name="title"
-              id="grain-title"
               value={this.state.grainTitleInput}
               onChange={this.onGrainInputChange.bind(this)}
             />

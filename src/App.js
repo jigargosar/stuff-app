@@ -235,7 +235,8 @@ class App extends Component {
   }
 
   onGrainFocusedAtIdx = sidx => {
-    this.setStateAndCache({ sidx }, this.focusSidx)
+    const oldSidx = this.state.sidx
+    this.setStateAndCache({ sidx }, () => {})
   }
 
   onWindowKeyDown = e => {
@@ -299,6 +300,7 @@ class App extends Component {
       )
     }
   }
+
   onGrainEditKeyDown = e => {
     if (isHotKey('Enter', e)) {
       const edit = this.state.edit

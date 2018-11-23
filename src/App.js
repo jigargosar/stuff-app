@@ -287,7 +287,12 @@ class App extends Component {
 
   onGrainKeyDown = (grain, e) => {
     if (isHotKey('Enter', e)) {
-      this.setStateAndCache({ edit: { grainId: grain.id, title: grain.title } })
+      this.setStateAndCache(
+        {
+          edit: { grainId: grain.id, title: grain.title },
+        },
+        this.focusSidx,
+      )
     }
   }
   onGrainEditKeyDown = e => {

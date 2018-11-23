@@ -149,34 +149,42 @@ class App extends Component {
   }
 
   addNewGrain() {
-    const title = this.state.grainTitleInput.trim()
-    if (title) {
-      const grain = newGrainWithTitle(title)
-      const sortLookup = compose(
-        fromPairs,
-        addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
-        sortGrains,
-        values,
-      )
-      this.setState(
-        {
-          grainsLookup: compose(
-            sortLookup,
-            assoc(grain.id)(grain),
-          )(this.state.grainsLookup),
-          grainTitleInput: '',
-        },
-        this.cacheState,
-      )
-    }
+    this.setState(
+      {
+        grainsLookup: addNewGrainWithTitle(
+          this.state.grainTitleInput,
+          this.state.grainsLookup,
+        ),
+        grainTitleInput: '',
+      },
+      this.cacheState,
+    )
   }
-
   onGrainFocus = sidx => {
     this.setState({ sidx }, this.cacheState)
   }
 }
 
 export default App
+
+function addNewGrainWithTitle(title_, lookup) {
+  const title = title_.trim()
+  if (title) {
+    const grain = newGrainWithTitle(title)
+    const sortLookup = compose(
+      fromPairs,
+      addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
+      sortGrains,
+      values,
+    )
+    return compose(
+      sortLookup,
+      assoc(grain.id)(grain),
+    )(lookup)
+  } else {
+    return lookup
+  }
+}
 
 function newGrainWithTitle(title) {
   return {

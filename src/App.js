@@ -174,13 +174,13 @@ class App extends Component {
 
   onWindowKeyDown = e => {
     if (isHotKey('ArrowDown', e)) {
-      this.rollSidxBy(1)
+      this.rollSidxByAndFocus(1)
     } else if (isHotKey('ArrowUp', e)) {
-      this.rollSidxBy(-1)
+      this.rollSidxByAndFocus(-1)
     }
   }
 
-  rollSidxBy = offset => {
+  rollSidxByAndFocus = offset => {
     const grainsLength = this.sortedGrains.length
     if (grainsLength > 1) {
       this.setState({ sidx: mathMod(this.currentSidx + offset, grainsLength) })

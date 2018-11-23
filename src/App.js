@@ -84,8 +84,8 @@ class App extends Component {
         id={getGrainListItemDomId(g)}
         className={cn('Grain', { 'Grain-root-selected': isSelected })}
         tabIndex={isSelected ? 0 : -1}
-        onFocus={() => this.onGrainFocus(idx)}
-        onKeyDown={e => this.onGrainKeyDown(idx, g, e)}
+        onFocus={() => this.onGrainFocusAtIdx(idx)}
+        onKeyDown={e => this.onGrainKeyDown(g, e)}
       >
         <small>{g.idx}</small>
         {' : '}
@@ -160,7 +160,7 @@ class App extends Component {
     )
   }
 
-  onGrainFocus = sidx => {
+  onGrainFocusAtIdx = sidx => {
     this.setState({ sidx }, this.cacheState)
   }
 
@@ -202,7 +202,7 @@ class App extends Component {
     console.error('focusSidx failed')
   }
 
-  onGrainKeyDown = (idx, grain, e) => {
+  onGrainKeyDown = (grain, e) => {
     if (isHotKey('Enter', e)) {
       this.setState({ edit: { grainId: grain.id, title: grain.title } })
     }

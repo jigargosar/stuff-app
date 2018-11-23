@@ -181,6 +181,7 @@ class App extends Component {
 
   onWindowKeyDown = e => {
     if (this.sortedGrains.length > 1) {
+      e.preventDefault()
       if (isHotKey('ArrowDown', e)) {
         this.rollSidxByAndFocus(1)
       } else if (isHotKey('ArrowUp', e)) {

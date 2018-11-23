@@ -235,7 +235,7 @@ class App extends Component {
   }
 
   onGrainFocusedAtIdx = sidx => {
-    this.setState({ sidx }, this.cacheState)
+    this.setStateAndCache({ sidx }, this.focusSidx)
   }
 
   onWindowKeyDown = e => {

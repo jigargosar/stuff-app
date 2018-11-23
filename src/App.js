@@ -45,24 +45,32 @@ Grain.propTypes = {
   sortIdx: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 }
+const sortGrains = sortWith([ascend(prop('idx')), descend(prop('ca'))])
 
-// APP
+// APP STORAGE
+
 const appStateStorageKey = () => 'app-state'
 
-function preProcessAppState(state) {
+function loadAppState() {
   const defaultState = {
     grainTitleInput: '',
     grainsLookup: {},
     sidx: -1,
   }
 
-  return compose(mergeDeepRight(defaultState))(state)
+  return compose(mergeDeepRight(defaultState))(
+    storageGetOr({}, appStateStorageKey()),
+  )
 }
 
-const sortGrains = sortWith([ascend(prop('idx')), descend(prop('ca'))])
+function cacheAppState(state) {
+  storageSet(appStateStorageKey(), state)
+}
+
+// APP
 
 class App extends Component {
-  state = preProcessAppState(storageGetOr({}, appStateStorageKey()))
+  state = loadAppState()
 
   get sortedGrains() {
     return compose(
@@ -130,7 +138,7 @@ class App extends Component {
   }
 
   cacheState = () => {
-    storageSet(appStateStorageKey(), this.state)
+    cacheAppState(this.state)
   }
 
   onGrainInputKeyDown = e => {

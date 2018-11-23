@@ -45,6 +45,7 @@ Grain.propTypes = {
   sortIdx: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 }
+
 const sortGrains = sortWith([ascend(prop('idx')), descend(prop('ca'))])
 
 // APP STORAGE

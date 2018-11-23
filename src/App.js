@@ -22,14 +22,18 @@ import nanoid from 'nanoid'
 
 const appStateStorageKey = () => 'app-state'
 
-const mergeDefaultAppState = mergeDeepRight({
-  grainTitleInput: '',
-  grainsLookup: {},
-})
+function preProcessAppState(state) {
+  const defaultState = {
+    grainTitleInput: '',
+    grainsLookup: {},
+  }
+
+  return compose(mergeDeepRight(defaultState))(state)
+}
 
 const sortGrains = sortWith([ascend(prop('idx')), descend(prop('ca'))])
 class App extends Component {
-  state = mergeDefaultAppState(storageGetOr({}, appStateStorageKey()))
+  state = preProcessAppState(storageGetOr({}, appStateStorageKey()))
   get sortedGrains() {
     return compose(
       sortGrains,

@@ -270,8 +270,9 @@ class App extends Component {
     if (grainAtSidx) {
       const el = document.getElementById(getGrainListItemDomId(grainAtSidx))
       if (el) {
-        el.focus()
-        return
+        if (document.activeElement !== el) {
+          el.focus()
+        }
       }
     }
     console.error('focusSidx failed')

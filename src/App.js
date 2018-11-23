@@ -10,6 +10,7 @@ import {
   curry,
   descend,
   fromPairs,
+  identity,
   isNil,
   map,
   mathMod,
@@ -265,6 +266,13 @@ class App extends Component {
     }
   }
 
+  setStateAndCache = (state, fn = identity) => {
+    this.setState(state, () => {
+      fn()
+      this.cacheState()
+    })
+  }
+
   focusSidx = () => {
     const grainAtSidx = this.sortedGrains[this.currentSidx]
     if (grainAtSidx) {
@@ -279,26 +287,20 @@ class App extends Component {
 
   onGrainKeyDown = (grain, e) => {
     if (isHotKey('Enter', e)) {
-      this.setState(
-        { edit: { grainId: grain.id, title: grain.title } },
-        this.cacheState,
-      )
+      this.setStateAndCache({ edit: { grainId: grain.id, title: grain.title } })
     }
   }
   onGrainEditKeyDown = e => {
     if (isHotKey('Enter', e)) {
       const edit = this.state.edit
-      this.setState(
-        {
-          edit: null,
-          grainsLookup: setGrainTitle(
-            edit.title,
-            edit.grainId,
-            this.state.grainsLookup,
-          ),
-        },
-        this.cacheState,
-      )
+      this.setStateAndCache({
+        edit: null,
+        grainsLookup: setGrainTitle(
+          edit.title,
+          edit.grainId,
+          this.state.grainsLookup,
+        ),
+      })
     }
   }
 }

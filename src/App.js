@@ -149,7 +149,7 @@ class App extends Component {
           }
           // tabIndex={isSelected ? 0 : -1}
           onFocus={() => this.onGrainFocusedAtIdx(idx)}
-          onKeyDown={e => this.onGrainEditKeyDown(g, e)}
+          onKeyDown={this.onGrainEditKeyDown}
         />
       )
     } else {
@@ -293,14 +293,17 @@ class App extends Component {
   onGrainEditKeyDown = e => {
     if (isHotKey('Enter', e)) {
       const edit = this.state.edit
-      this.setStateAndCache({
-        edit: null,
-        grainsLookup: setGrainTitle(
-          edit.title,
-          edit.grainId,
-          this.state.grainsLookup,
-        ),
-      })
+      this.setStateAndCache(
+        {
+          edit: null,
+          grainsLookup: setGrainTitle(
+            edit.title,
+            edit.grainId,
+            this.state.grainsLookup,
+          ),
+        },
+        this.focusSidx,
+      )
     }
   }
 }

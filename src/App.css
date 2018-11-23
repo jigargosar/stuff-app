@@ -56,6 +56,6 @@
 .Grain-root-selected {
   /*outline: hsla(240, 100%, 50%, 0.3) outset 5px;*/
   /*outline-offset: -2px;*/
-  outline: none;
-  box-shadow: -0px -0px 4px 4px hsla(193, 85%, 68%, 0.8);
+  /*outline: none;*/
+  /*box-shadow: -0px -0px 4px 4px hsla(193, 85%, 68%, 0.8);*/
 }

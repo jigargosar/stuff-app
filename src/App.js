@@ -29,6 +29,12 @@ class App extends Component {
           </section>
           <section>
             <p>Grain:</p>
+            <input
+              className="Grain-title-input"
+              type="text"
+              name="title"
+              id="grain-title"
+            />
             {grains.map((grain, idx) => (
               <Grain key={idx} title={grain.title} />
             ))}

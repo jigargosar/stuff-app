@@ -30,3 +30,9 @@
     transform: rotate(360deg);
   }
 }
+
+.Grain-title-input {
+  padding: 4px;
+  margin: 4px;
+  min-width: 200px;
+}

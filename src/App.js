@@ -12,6 +12,7 @@ import {
   fromPairs,
   isNil,
   map,
+  mathMod,
   mergeDeepRight,
   mergeLeft,
   prop,
@@ -72,6 +73,14 @@ function cacheAppState(state) {
 
 class App extends Component {
   state = loadAppState()
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.onWindowKeyDown)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onWindowKeyDown)
+  }
 
   get sortedGrains() {
     return compose(
@@ -161,6 +170,21 @@ class App extends Component {
   }
   onGrainFocus = sidx => {
     this.setState({ sidx }, this.cacheState)
+  }
+
+  onWindowKeyDown = e => {
+    if (isHotKey('ArrowDown', e)) {
+      this.rollSidxBy(1)
+    } else if (isHotKey('ArrowUp', e)) {
+      this.rollSidxBy(-1)
+    }
+  }
+
+  rollSidxBy = offset => {
+    const grainsLength = this.sortedGrains.length
+    if (grainsLength > 1) {
+      this.setState({ sidx: mathMod(this.currentSidx + offset, grainsLength) })
+    }
   }
 }
 

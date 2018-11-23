@@ -4,8 +4,10 @@ import './App.css'
 import Grain from './components/Grain'
 import { isNil } from 'ramda'
 
+const appStateStorageKey = () => 'app-state'
+
 class App extends Component {
-  state = storageGetOr({ grainTitleInput: '' }, 'app-state')
+  state = storageGetOr({ grainTitleInput: '' }, appStateStorageKey())
 
   render() {
     const grains = [{ title: 'I am a grain' }, { title: 'Another grain ;)' }]
@@ -36,7 +38,7 @@ class App extends Component {
               name="title"
               id="grain-title"
               value={this.state.grainTitleInput}
-              onChange={e => this.setState({ grainTitleInput: e.target.value })}
+              onChange={this.onGrainInputChange.bind(this)}
             />
             {grains.map((grain, idx) => (
               <Grain key={idx} title={grain.title} />
@@ -45,6 +47,16 @@ class App extends Component {
         </main>
       </div>
     )
+  }
+
+  onGrainInputChange = e => {
+    this.setState({ grainTitleInput: e.target.value })
+
+    this.cacheState()
+  }
+
+  cacheState = () => {
+    storageSet(appStateStorageKey(), this.state)
   }
 }
 

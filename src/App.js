@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Grain from './components/Grain'
-import { compose, isNil, mapObjIndexed, mergeDeepRight, values } from 'ramda'
+import {
+  assoc,
+  compose,
+  isNil,
+  mapObjIndexed,
+  mergeDeepRight,
+  values,
+} from 'ramda'
 import isHotKey from 'is-hotkey'
 import nanoid from 'nanoid'
 
@@ -56,7 +63,7 @@ class App extends Component {
   }
 
   onGrainInputChange = e => {
-    this.setState({ grainTitleInput: e.target.value }, () => this.cacheState())
+    this.setState({ grainTitleInput: e.target.value }, this.cacheState)
   }
 
   cacheState = () => {
@@ -72,7 +79,14 @@ class App extends Component {
   addNewGrain() {
     const title = this.state.grainTitleInput.trim()
     if (title) {
-      newGrainWithTitle(title)
+      const grain = newGrainWithTitle(title)
+      this.setState(
+        {
+          grainsLookup: assoc(grain.id)(grain)(this.state.grainsLookup),
+          grainTitleInput: '',
+        },
+        this.cacheState,
+      )
     }
   }
 }

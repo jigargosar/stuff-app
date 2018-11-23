@@ -80,7 +80,7 @@ class App extends Component {
 export default App
 
 function newGrainWithTitle(title) {
-  return { id: 'gid--' + nanoid(), title }
+  return { id: 'gid--' + nanoid(), title, ca: Date.now(), ma: Date.now() }
 }
 
 export function storageGetOr(defaultValue, key) {

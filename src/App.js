@@ -183,8 +183,21 @@ class App extends Component {
   rollSidxByAndFocus = offset => {
     const grainsLength = this.sortedGrains.length
     if (grainsLength > 1) {
-      this.setState({ sidx: mathMod(this.currentSidx + offset, grainsLength) })
+      const sidx = mathMod(this.currentSidx + offset, grainsLength)
+      this.setState({ sidx }, this.focusSidx)
     }
+  }
+
+  focusSidx = () => {
+    const grainAtSidx = this.sortedGrains[this.currentSidx]
+    if (grainAtSidx) {
+      const el = window.getElementById(computeGrainDomId(grainAtSidx))
+      if (el) {
+        el.focus()
+        return
+      }
+    }
+    console.error('focusSidx failed')
   }
 }
 

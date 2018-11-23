@@ -5,6 +5,7 @@ import Grain from './components/Grain'
 import {
   assoc,
   compose,
+  curry,
   isNil,
   mapObjIndexed,
   mergeDeepRight,
@@ -21,6 +22,7 @@ class App extends Component {
   )
 
   render() {
+    const renderGrain = (grain, id) => <Grain key={id} title={grain.title} />
     return (
       <div className="App">
         <header className="App-header">
@@ -50,12 +52,7 @@ class App extends Component {
               onChange={this.onGrainInputChange}
               onKeyDown={this.onGrainInputKeyDown}
             />
-            {compose(
-              values,
-              mapObjIndexed((grain, id) => (
-                <Grain key={id} title={grain.title} />
-              )),
-            )(this.state.grainsLookup)}
+            {objToList(renderGrain)(this.state.grainsLookup)}
           </section>
         </main>
       </div>
@@ -96,6 +93,15 @@ export default App
 function newGrainWithTitle(title) {
   return { id: 'gid--' + nanoid(), title, ca: Date.now(), ma: Date.now() }
 }
+
+// HELPERS
+
+export const objToList = curry((fn, obj) =>
+  compose(
+    values,
+    mapObjIndexed(fn),
+  )(obj),
+)
 
 export function storageGetOr(defaultValue, key) {
   try {

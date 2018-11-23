@@ -9,6 +9,7 @@ import {
   compose,
   curry,
   descend,
+  findIndex,
   fromPairs,
   identity,
   isNil,
@@ -17,8 +18,10 @@ import {
   mergeDeepRight,
   mergeLeft,
   prop,
+  propEq,
   sortWith,
   tap,
+  unless,
   values,
 } from 'ramda'
 import isHotKey from 'is-hotkey'
@@ -230,7 +233,7 @@ class App extends Component {
         grainsLookup: insertNewGrain(grain, this.state.grainsLookup),
         grainTitleInput: '',
       },
-      this.cacheState,
+      this.setSidxForGrain(grain),
     )
   }
 
@@ -283,6 +286,15 @@ class App extends Component {
     console.error('focusSidx failed')
   }
 
+  focusGrain = grain => {
+    const el = document.getElementById(getGrainListItemDomId(grain))
+    if (el) {
+      el.focus()
+      return
+    }
+    console.error('focusSidx failed')
+  }
+
   onGrainKeyDown = (grain, e) => {
     if (isHotKey('Enter', e)) {
       this.setStateAndCache(
@@ -308,6 +320,13 @@ class App extends Component {
         this.focusSidx,
       )
     }
+  }
+
+  setSidxForGrain = grain => {
+    compose(
+      unless(isNil)(this.set),
+      findIndex(propEq('id', grain.id)),
+    )(this.sortedGrains)
   }
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
+import Grain from './components/Grain'
 
 class App extends Component {
   render() {
@@ -24,7 +25,8 @@ class App extends Component {
             </a>
           </section>
           <section>
-            <p>App Content</p>
+            <p>Grain:</p>
+            <Grain />
           </section>
         </main>
       </div>

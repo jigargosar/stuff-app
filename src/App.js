@@ -6,11 +6,9 @@ import {
   ascend,
   assoc,
   compose,
-  curry,
   descend,
   fromPairs,
   isNil,
-  mapObjIndexed,
   mergeDeepRight,
   prop,
   sortWith,
@@ -27,11 +25,18 @@ const mergeDefaultAppState = mergeDeepRight({
   grainsLookup: {},
 })
 
+const sortGrains = sortWith([ascend(prop('idx')), descend(prop('ca'))])
 class App extends Component {
   state = mergeDefaultAppState(storageGetOr({}, appStateStorageKey()))
+  get sortedGrains() {
+    return compose(
+      sortGrains,
+      values,
+    )(this.state.grainsLookup)
+  }
 
   render() {
-    const renderGrain = (grain, id) => <Grain key={id} title={grain.title} />
+    const renderGrain = grain => <Grain key={grain.id} title={grain.title} />
     return (
       <div className="App">
         <header className="App-header">
@@ -61,7 +66,7 @@ class App extends Component {
               onChange={this.onGrainInputChange}
               onKeyDown={this.onGrainInputKeyDown}
             />
-            {objToList(renderGrain)(this.state.grainsLookup)}
+            {this.sortedGrains.map(renderGrain)}
           </section>
         </main>
       </div>
@@ -86,16 +91,16 @@ class App extends Component {
     const title = this.state.grainTitleInput.trim()
     if (title) {
       const grain = newGrainWithTitle(title)
-      const sortGrains = compose(
+      const sortLookup = compose(
         fromPairs,
         toPairs(g => [g.id, g]),
-        sortWith([ascend(prop('idx')), descend(prop('ca'))]),
+        sortGrains,
         values,
       )
       this.setState(
         {
           grainsLookup: compose(
-            sortGrains,
+            sortLookup,
             assoc(grain.id)(grain),
           )(this.state.grainsLookup),
           grainTitleInput: '',
@@ -119,13 +124,6 @@ function newGrainWithTitle(title) {
 }
 
 // HELPERS
-
-export const objToList = curry((fn, obj) =>
-  compose(
-    values,
-    mapObjIndexed(fn),
-  )(obj),
-)
 
 export function storageGetOr(defaultValue, key) {
   try {

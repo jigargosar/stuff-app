@@ -180,10 +180,12 @@ class App extends Component {
   }
 
   onWindowKeyDown = e => {
-    if (isHotKey('ArrowDown', e)) {
-      this.rollSidxByAndFocus(1)
-    } else if (isHotKey('ArrowUp', e)) {
-      this.rollSidxByAndFocus(-1)
+    if (this.sortedGrains.length > 1) {
+      if (isHotKey('ArrowDown', e)) {
+        this.rollSidxByAndFocus(1)
+      } else if (isHotKey('ArrowUp', e)) {
+        this.rollSidxByAndFocus(-1)
+      }
     }
   }
 

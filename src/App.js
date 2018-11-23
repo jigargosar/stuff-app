@@ -9,7 +9,6 @@ import {
   compose,
   curry,
   descend,
-  findIndex,
   fromPairs,
   identity,
   isNil,
@@ -18,10 +17,8 @@ import {
   mergeDeepRight,
   mergeLeft,
   prop,
-  propEq,
   sortWith,
   tap,
-  unless,
   values,
 } from 'ramda'
 import isHotKey from 'is-hotkey'
@@ -233,7 +230,7 @@ class App extends Component {
         grainsLookup: insertNewGrain(grain, this.state.grainsLookup),
         grainTitleInput: '',
       },
-      this.setSidxForGrain(grain),
+      this.focusGrain(grain),
     )
   }
 
@@ -320,13 +317,6 @@ class App extends Component {
         this.focusSidx,
       )
     }
-  }
-
-  setSidxForGrain = grain => {
-    compose(
-      unless(isNil)(this.set),
-      findIndex(propEq('id', grain.id)),
-    )(this.sortedGrains)
   }
 }
 

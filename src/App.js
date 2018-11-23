@@ -59,7 +59,7 @@ class App extends Component {
         sortIdx={g.idx}
         isSelected={idx === sidx}
         title={g.title}
-        onFocus={() => this.onGrainFocusIn(sidx)}
+        onFocus={() => this.onGrainFocus(idx)}
       />
     ))
     return (
@@ -137,7 +137,7 @@ class App extends Component {
     }
   }
 
-  onGrainFocusIn = sidx => {
+  onGrainFocus = sidx => {
     this.setState({ sidx }, this.cacheState)
   }
 }

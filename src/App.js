@@ -73,12 +73,13 @@ function addNewGrainWithTitle(title_, lookup) {
 }
 
 function setGrainTitle(title_, grainId, lookup) {
+  debugger
   const title = title_.trim()
   const grain = lookup[grainId]
   if (title && grain && grain.title !== title) {
     const sortLookup = compose(
       fromPairs,
-      addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
+      addIndex(map)((g, idx) => [g.id, mergeLeft(g, { idx })]),
       sortGrains,
       values,
     )

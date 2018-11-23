@@ -23,7 +23,9 @@ class App extends Component {
               Learn React
             </a>
           </section>
-          <section>App Content</section>
+          <section>
+            <p>App Content</p>
+          </section>
         </main>
       </div>
     )

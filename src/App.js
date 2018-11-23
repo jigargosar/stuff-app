@@ -22,32 +22,6 @@ import {
 import isHotKey from 'is-hotkey'
 import nanoid from 'nanoid'
 import cn from 'classname'
-import PropTypes from 'prop-types'
-
-// Grain
-
-function Grain({ domId, isSelected, onFocus, sortIdx, title }) {
-  return (
-    <div
-      onFocus={onFocus}
-      id={domId}
-      tabIndex={isSelected ? 0 : -1}
-      className={cn('Grain', { 'Grain-root-selected': isSelected })}
-    >
-      <small>{sortIdx}</small>
-      {' : '}
-      <span>{title}</span>
-    </div>
-  )
-}
-
-Grain.propTypes = {
-  domId: PropTypes.string.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  sortIdx: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-}
 
 const sortGrains = sortWith([ascend(prop('idx')), descend(prop('ca'))])
 
@@ -60,6 +34,7 @@ function loadAppState() {
     grainTitleInput: '',
     grainsLookup: {},
     sidx: -1,
+    edit: null,
   }
 
   return compose(mergeDeepRight(defaultState))(
@@ -100,16 +75,25 @@ class App extends Component {
 
     return grainsLength > 0 ? clamp(0, grainsLength - 1, this.state.sidx) : -1
   }
-  renderGrain = curry((sidx, g, idx) => (
-    <Grain
-      key={g.id}
-      domId={getGrainListItemDomId(g)}
-      sortIdx={g.idx}
-      isSelected={idx === sidx}
-      title={g.title}
-      onFocus={() => this.onGrainFocus(idx)}
-    />
-  ))
+
+  renderGrain = curry((sidx, g, idx) => {
+    const isSelected = idx === sidx
+    return (
+      <div
+        key={g.id}
+        id={getGrainListItemDomId(g)}
+        className={cn('Grain', { 'Grain-root-selected': isSelected })}
+        tabIndex={isSelected ? 0 : -1}
+        onFocus={() => this.onGrainFocus(idx)}
+        onKeyDown={e => this.onGrainKeyDown(idx, g, e)}
+      >
+        <small>{g.idx}</small>
+        {' : '}
+        <span>{g.title}</span>
+      </div>
+    )
+  })
+
   render() {
     return (
       <div className="App">
@@ -175,6 +159,7 @@ class App extends Component {
       this.cacheState,
     )
   }
+
   onGrainFocus = sidx => {
     this.setState({ sidx }, this.cacheState)
   }
@@ -215,6 +200,12 @@ class App extends Component {
       }
     }
     console.error('focusSidx failed')
+  }
+
+  onGrainKeyDown = (idx, grain, e) => {
+    if (isHotKey('Enter', e)) {
+      this.setState({ edit: { grainId: grain.id, title: grain.title } })
+    }
   }
 }
 

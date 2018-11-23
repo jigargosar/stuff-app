@@ -14,6 +14,7 @@ class Grain extends Component {
     const selected = this.props.isSelected
     return (
       <div
+        onFocusIn={this.props.onFocusIn}
         tabIndex={selected ? 0 : -1}
         className={cn('Grain', { 'Grain-root-selected': selected })}
       >

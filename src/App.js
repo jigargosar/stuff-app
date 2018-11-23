@@ -3,12 +3,18 @@ import logo from './logo.svg'
 import './App.css'
 import Grain from './components/Grain'
 import {
+  ascend,
   assoc,
   compose,
   curry,
+  descend,
+  fromPairs,
   isNil,
   mapObjIndexed,
   mergeDeepRight,
+  prop,
+  sortWith,
+  toPairs,
   values,
 } from 'ramda'
 import isHotKey from 'is-hotkey'
@@ -80,9 +86,18 @@ class App extends Component {
     const title = this.state.grainTitleInput.trim()
     if (title) {
       const grain = newGrainWithTitle(title)
+      const sortGrains = compose(
+        fromPairs,
+        toPairs(g => [g.id, g]),
+        sortWith([ascend(prop('idx')), descend(prop('ca'))]),
+        values,
+      )
       this.setState(
         {
-          grainsLookup: assoc(grain.id)(grain)(this.state.grainsLookup),
+          grainsLookup: compose(
+            sortGrains,
+            assoc(grain.id)(grain),
+          )(this.state.grainsLookup),
           grainTitleInput: '',
         },
         this.cacheState,

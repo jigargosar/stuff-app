@@ -38,7 +38,9 @@ class App extends Component {
   }
 
   render() {
-    const renderGrain = grain => <Grain key={grain.id} title={grain.title} />
+    const renderGrain = g => (
+      <Grain key={g.id} sortIdx={g.idx} title={g.title} />
+    )
     return (
       <div className="App">
         <header className="App-header">

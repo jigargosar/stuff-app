@@ -2,7 +2,20 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Grain from './components/Grain'
-import { compose, isNil, mapObjIndexed, mergeDeepRight, values } from 'ramda'
+import {
+  __,
+  call,
+  compose,
+  defaultTo,
+  find,
+  head,
+  identity,
+  isNil,
+  mapObjIndexed,
+  mergeDeepRight,
+  values,
+} from 'ramda'
+import isHotKey from 'is-hotkey'
 
 const appStateStorageKey = () => 'app-state'
 
@@ -63,14 +76,21 @@ class App extends Component {
   }
 
   onGrainInputKeyDown = e => {
-    switch (e.key) {
-      case 'Enter':
-        break
+    const mappings = [e => isHotKey('Enter', e), () => this.addNewGrain()]
 
-      default:
-        break
-    }
+    compose(
+      call,
+      defaultTo(identity),
+      find(
+        compose(
+          call(__, e),
+          head,
+        ),
+      ),
+    )(mappings)
   }
+
+  addNewGrain() {}
 }
 
 export default App

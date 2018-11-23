@@ -16,10 +16,13 @@ import nanoid from 'nanoid'
 
 const appStateStorageKey = () => 'app-state'
 
+const mergeDefaultAppState = mergeDeepRight({
+  grainTitleInput: '',
+  grainsLookup: {},
+})
+
 class App extends Component {
-  state = mergeDeepRight({ grainTitleInput: '', grainsLookup: {} })(
-    storageGetOr({}, appStateStorageKey()),
-  )
+  state = mergeDefaultAppState(storageGetOr({}, appStateStorageKey()))
 
   render() {
     const renderGrain = (grain, id) => <Grain key={id} title={grain.title} />

@@ -97,6 +97,7 @@ function newGrainWithTitle(title) {
   return {
     id: 'gid--' + nanoid(),
     title,
+    idx: 0,
     ca: Date.now(),
     ma: Date.now(),
   }

@@ -4,6 +4,7 @@ import './App.css'
 import Grain from './components/Grain'
 import { compose, isNil, mapObjIndexed, mergeDeepRight, values } from 'ramda'
 import isHotKey from 'is-hotkey'
+import nanoid from 'nanoid'
 
 const appStateStorageKey = () => 'app-state'
 
@@ -14,7 +15,6 @@ class App extends Component {
 
   render() {
     console.log(this.state)
-    const grains = [{ title: 'I am a grain' }, { title: 'Another grain ;)' }]
     return (
       <div className="App">
         <header className="App-header">
@@ -69,10 +69,19 @@ class App extends Component {
     }
   }
 
-  addNewGrain() {}
+  addNewGrain() {
+    const title = this.state.grainTitleInput.trim()
+    if (title) {
+      newGrainWithTitle(title)
+    }
+  }
 }
 
 export default App
+
+function newGrainWithTitle(title) {
+  return { id: 'gid--' + nanoid(), title }
+}
 
 export function storageGetOr(defaultValue, key) {
   try {

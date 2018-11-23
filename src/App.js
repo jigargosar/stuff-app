@@ -26,7 +26,7 @@ class App extends Component {
           </section>
           <section>
             <p>Grain:</p>
-            <Grain />
+            <Grain title={'I am a Grain'} />
           </section>
         </main>
       </div>

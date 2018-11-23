@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 class Grain extends Component {
   render() {
-    return <div>I am a grain</div>
+    return <div>{this.props.title}</div>
   }
 }
 

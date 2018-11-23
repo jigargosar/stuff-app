@@ -25,23 +25,23 @@ import PropTypes from 'prop-types'
 
 // Grain
 
-function Grain(props) {
-  const selected = props.isSelected
+function Grain({ isSelected, onFocus, sortIdx, title }) {
   return (
     <div
-      onFocus={props.onFocus}
-      tabIndex={selected ? 0 : -1}
-      className={cn('Grain', { 'Grain-root-selected': selected })}
+      onFocus={onFocus}
+      tabIndex={isSelected ? 0 : -1}
+      className={cn('Grain', { 'Grain-root-selected': isSelected })}
     >
-      <small>{props.sortIdx}</small>
+      <small>{sortIdx}</small>
       {' : '}
-      <span>{props.title}</span>
+      <span>{title}</span>
     </div>
   )
 }
 
 Grain.propTypes = {
   isSelected: PropTypes.bool.isRequired,
+  onFocus: PropTypes.func.isRequired,
   sortIdx: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 }

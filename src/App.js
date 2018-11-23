@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import './App.css'
 import Grain from './components/Grain'
 import {
+  addIndex,
   ascend,
   assoc,
   compose,
@@ -11,6 +12,7 @@ import {
   isNil,
   map,
   mergeDeepRight,
+  mergeLeft,
   prop,
   sortWith,
   values,
@@ -93,7 +95,7 @@ class App extends Component {
       const grain = newGrainWithTitle(title)
       const sortLookup = compose(
         fromPairs,
-        map(g => [g.id, g]),
+        addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
         sortGrains,
         values,
       )

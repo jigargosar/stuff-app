@@ -14,7 +14,7 @@ class Grain extends Component {
     const selected = this.props.isSelected
     return (
       <div
-        tabIndex={selected ? 0 : null}
+        tabIndex={selected ? 0 : -1}
         className={cn('Grain', { 'Grain-root-selected': selected })}
       >
         <small>{this.props.sortIdx}</small>

@@ -26,6 +26,7 @@ function preProcessAppState(state) {
   const defaultState = {
     grainTitleInput: '',
     grainsLookup: {},
+    sidx: -1,
   }
 
   return compose(mergeDeepRight(defaultState))(state)

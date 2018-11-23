@@ -227,7 +227,7 @@ class App extends Component {
   }
 
   addNewGrain() {
-    this.setState(
+    this.setStateAndCache(
       {
         grainsLookup: addNewGrainWithTitle(
           this.state.grainTitleInput,

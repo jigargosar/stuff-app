@@ -2,14 +2,17 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Grain from './components/Grain'
-import { isNil } from 'ramda'
+import { compose, isNil, mapObjIndexed, mergeDeepRight, values } from 'ramda'
 
 const appStateStorageKey = () => 'app-state'
 
 class App extends Component {
-  state = storageGetOr({ grainTitleInput: '' }, appStateStorageKey())
+  state = mergeDeepRight({ grainTitleInput: '', grainsLookup: {} })(
+    storageGetOr({}, appStateStorageKey()),
+  )
 
   render() {
+    console.log(this.state)
     const grains = [{ title: 'I am a grain' }, { title: 'Another grain ;)' }]
     return (
       <div className="App">
@@ -36,11 +39,15 @@ class App extends Component {
               className="Grain-title-input"
               type="text"
               value={this.state.grainTitleInput}
-              onChange={this.onGrainInputChange.bind(this)}
+              onChange={this.onGrainInputChange}
+              onKeyDown={this.onGrainInputKeyDown}
             />
-            {grains.map((grain, idx) => (
-              <Grain key={idx} title={grain.title} />
-            ))}
+            {compose(
+              values,
+              mapObjIndexed((grain, id) => (
+                <Grain key={id} title={grain.title} />
+              )),
+            )(this.state.grainsLookup)}
           </section>
         </main>
       </div>
@@ -53,6 +60,16 @@ class App extends Component {
 
   cacheState = () => {
     storageSet(appStateStorageKey(), this.state)
+  }
+
+  onGrainInputKeyDown = e => {
+    switch (e.key) {
+      case 'Enter':
+        break
+
+      default:
+        break
+    }
   }
 }
 

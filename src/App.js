@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import Grain from './components/Grain'
 import {
   addIndex,
   ascend,
@@ -21,7 +20,33 @@ import {
 } from 'ramda'
 import isHotKey from 'is-hotkey'
 import nanoid from 'nanoid'
+import cn from 'classname'
+import PropTypes from 'prop-types'
 
+// Grain
+
+function Grain(props) {
+  const selected = props.isSelected
+  return (
+    <div
+      onFocus={props.onFocus}
+      tabIndex={selected ? 0 : -1}
+      className={cn('Grain', { 'Grain-root-selected': selected })}
+    >
+      <small>{props.sortIdx}</small>
+      {' : '}
+      <span>{props.title}</span>
+    </div>
+  )
+}
+
+Grain.propTypes = {
+  isSelected: PropTypes.bool.isRequired,
+  sortIdx: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+}
+
+// APP
 const appStateStorageKey = () => 'app-state'
 
 function preProcessAppState(state) {

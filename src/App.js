@@ -34,7 +34,10 @@ class App extends Component {
               type="text"
               name="title"
               id="grain-title"
-              onKeyDown={e => storageSet('grain-title-input', e.target.value)}
+              value={() => this.state.grainTitleInput}
+              onKeyDown={e =>
+                this.setState({ grainTitleInput: e.target.value })
+              }
             />
             {grains.map((grain, idx) => (
               <Grain key={idx} title={grain.title} />

@@ -13,14 +13,14 @@ class Grain extends Component {
   render() {
     const selected = this.props.isSelected
     return (
-      <p
+      <div
         tabIndex={selected ? 0 : null}
         className={cn('Grain', { 'Grain-root-selected': selected })}
       >
         <small>{this.props.sortIdx}</small>
         {' : '}
         <span>{this.props.title}</span>
-      </p>
+      </div>
     )
   }
 }

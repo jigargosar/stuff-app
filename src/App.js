@@ -90,7 +90,9 @@ class App extends Component {
               onChange={this.onGrainInputChange}
               onKeyDown={this.onGrainInputKeyDown}
             />
-            {this.sortedGrains.map(renderGrain(this.currentSidx))}
+            <div className="Grains-list">
+              {this.sortedGrains.map(renderGrain(this.currentSidx))}
+            </div>
           </section>
         </main>
       </div>

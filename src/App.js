@@ -26,10 +26,11 @@ import PropTypes from 'prop-types'
 
 // Grain
 
-function Grain({ isSelected, onFocus, sortIdx, title }) {
+function Grain({ domId, isSelected, onFocus, sortIdx, title }) {
   return (
     <div
       onFocus={onFocus}
+      id={domId}
       tabIndex={isSelected ? 0 : -1}
       className={cn('Grain', { 'Grain-root-selected': isSelected })}
     >
@@ -41,6 +42,7 @@ function Grain({ isSelected, onFocus, sortIdx, title }) {
 }
 
 Grain.propTypes = {
+  domId: PropTypes.string.isRequired,
   isSelected: PropTypes.bool.isRequired,
   onFocus: PropTypes.func.isRequired,
   sortIdx: PropTypes.number.isRequired,
@@ -71,6 +73,10 @@ function cacheAppState(state) {
 
 // APP
 
+function getGrainListItemDomId(grain) {
+  return 'grain-list-item--' + grain.id
+}
+
 class App extends Component {
   state = loadAppState()
 
@@ -97,6 +103,7 @@ class App extends Component {
   renderGrain = curry((sidx, g, idx) => (
     <Grain
       key={g.id}
+      domId={getGrainListItemDomId(g)}
       sortIdx={g.idx}
       isSelected={idx === sidx}
       title={g.title}
@@ -191,7 +198,7 @@ class App extends Component {
   focusSidx = () => {
     const grainAtSidx = this.sortedGrains[this.currentSidx]
     if (grainAtSidx) {
-      const el = window.getElementById(computeGrainDomId(grainAtSidx))
+      const el = window.getElementById(getGrainListItemDomId(grainAtSidx))
       if (el) {
         el.focus()
         return

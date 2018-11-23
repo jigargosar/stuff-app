@@ -9,10 +9,10 @@ import {
   descend,
   fromPairs,
   isNil,
+  map,
   mergeDeepRight,
   prop,
   sortWith,
-  toPairs,
   values,
 } from 'ramda'
 import isHotKey from 'is-hotkey'
@@ -93,7 +93,7 @@ class App extends Component {
       const grain = newGrainWithTitle(title)
       const sortLookup = compose(
         fromPairs,
-        toPairs(g => [g.id, g]),
+        map(g => [g.id, g]),
         sortGrains,
         values,
       )

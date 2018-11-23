@@ -34,6 +34,7 @@ class App extends Component {
               type="text"
               name="title"
               id="grain-title"
+              onKeyDown={e => storageSet('grain-title-input', e.target.value)}
             />
             {grains.map((grain, idx) => (
               <Grain key={idx} title={grain.title} />

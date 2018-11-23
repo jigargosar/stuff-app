@@ -18,6 +18,7 @@ import {
   mergeLeft,
   prop,
   sortWith,
+  tap,
   values,
 } from 'ramda'
 import isHotKey from 'is-hotkey'
@@ -73,7 +74,6 @@ function addNewGrainWithTitle(title_, lookup) {
 }
 
 function setGrainTitle(title_, grainId, lookup) {
-  debugger
   const title = title_.trim()
   const grain = lookup[grainId]
   if (title && grain && grain.title !== title) {
@@ -83,9 +83,11 @@ function setGrainTitle(title_, grainId, lookup) {
       sortGrains,
       values,
     )
+    const updatedGrain = mergeLeft({ title }, grain)
     return compose(
       sortLookup,
-      assoc(grain.id)(grain),
+      tap(console.log),
+      assoc(grain.id)(updatedGrain),
     )(lookup)
   } else {
     return lookup

@@ -59,7 +59,7 @@ class App extends Component {
         sortIdx={g.idx}
         isSelected={idx === sidx}
         title={g.title}
-        onFocusIn={() => this.onGrainFocusIn(sidx)}
+        onFocus={() => this.onGrainFocusIn(sidx)}
       />
     ))
     return (

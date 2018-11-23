@@ -5,6 +5,8 @@ import Grain from './components/Grain'
 
 class App extends Component {
   render() {
+    const grains = [{ title: 'I am a grain' }, { title: 'Another grain ;)' }]
+
     return (
       <div className="App">
         <header className="App-header">
@@ -26,7 +28,9 @@ class App extends Component {
           </section>
           <section>
             <p>Grain:</p>
-            <Grain title={'I am a Grain'} />
+            {grains.map((grain, idx) => (
+              <Grain key={idx} title={grain.title} />
+            ))}
           </section>
         </main>
       </div>

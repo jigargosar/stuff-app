@@ -102,6 +102,17 @@ function newGrainWithTitle(title) {
   }
 }
 
+function focusDomId(domId) {
+  requestAnimationFrame(() => {
+    const el = document.getElementById(domId)
+    if (el) {
+      el.focus()
+      return
+    }
+    console.error('focusDomId failed', domId)
+  })
+}
+
 // APP
 class App extends Component {
   state = loadAppState()
@@ -268,26 +279,12 @@ class App extends Component {
   focusSidx = () => {
     const grainAtSidx = this.sortedGrains[this.currentSidx]
     if (grainAtSidx) {
-      const el = document.getElementById(getGrainListItemDomId(grainAtSidx))
-      if (el) {
-        if (document.activeElement !== el) {
-          el.focus()
-        }
-      }
+      focusDomId(getGrainListItemDomId(grainAtSidx))
     }
-    console.error('focusSidx failed')
   }
 
   focusGrain = grain => {
-    const domId = getGrainListItemDomId(grain)
-    requestAnimationFrame(() => {
-      const el = document.getElementById(domId)
-      if (el) {
-        el.focus()
-        return
-      }
-      console.error('focusDomId failed', domId)
-    })
+    focusDomId(getGrainListItemDomId(grain))
   }
 
   onGrainKeyDown = (grain, e) => {

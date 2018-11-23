@@ -6,7 +6,9 @@ import {
   addIndex,
   ascend,
   assoc,
+  clamp,
   compose,
+  curry,
   descend,
   fromPairs,
   isNil,
@@ -33,8 +35,10 @@ function preProcessAppState(state) {
 }
 
 const sortGrains = sortWith([ascend(prop('idx')), descend(prop('ca'))])
+
 class App extends Component {
   state = preProcessAppState(storageGetOr({}, appStateStorageKey()))
+
   get sortedGrains() {
     return compose(
       sortGrains,
@@ -42,10 +46,21 @@ class App extends Component {
     )(this.state.grainsLookup)
   }
 
+  get currentSidx() {
+    const grainsLength = this.sortedGrains.length
+
+    return grainsLength > 0 ? clamp(0, grainsLength - 1, this.state.sidx) : -1
+  }
+
   render() {
-    const renderGrain = g => (
-      <Grain key={g.id} sortIdx={g.idx} title={g.title} />
-    )
+    const renderGrain = curry((sidx, g, idx) => (
+      <Grain
+        key={g.id}
+        sortIdx={g.idx}
+        isSelected={idx === sidx}
+        title={g.title}
+      />
+    ))
     return (
       <div className="App">
         <header className="App-header">
@@ -75,7 +90,7 @@ class App extends Component {
               onChange={this.onGrainInputChange}
               onKeyDown={this.onGrainInputKeyDown}
             />
-            {this.sortedGrains.map(renderGrain)}
+            {this.sortedGrains.map(renderGrain(this.currentSidx))}
           </section>
         </main>
       </div>

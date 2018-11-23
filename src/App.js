@@ -85,17 +85,16 @@ class App extends Component {
 
     return grainsLength > 0 ? clamp(0, grainsLength - 1, this.state.sidx) : -1
   }
-
+  renderGrain = curry((sidx, g, idx) => (
+    <Grain
+      key={g.id}
+      sortIdx={g.idx}
+      isSelected={idx === sidx}
+      title={g.title}
+      onFocus={() => this.onGrainFocus(idx)}
+    />
+  ))
   render() {
-    const renderGrain = curry((sidx, g, idx) => (
-      <Grain
-        key={g.id}
-        sortIdx={g.idx}
-        isSelected={idx === sidx}
-        title={g.title}
-        onFocus={() => this.onGrainFocus(idx)}
-      />
-    ))
     return (
       <div className="App">
         <header className="App-header">
@@ -126,7 +125,7 @@ class App extends Component {
               onKeyDown={this.onGrainInputKeyDown}
             />
             <div className="Grains-list">
-              {this.sortedGrains.map(renderGrain(this.currentSidx))}
+              {this.sortedGrains.map(this.renderGrain(this.currentSidx))}
             </div>
           </section>
         </main>

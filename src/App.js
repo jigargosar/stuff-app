@@ -53,24 +53,21 @@ function cacheAppState(state) {
 function getGrainListItemDomId(grain) {
   return 'grain-list-item--' + grain.id
 }
-
-function addNewGrainWithTitle(title_, lookup) {
+function maybeNewGrainWithTitle(title_) {
   const title = title_.trim()
-  if (title) {
-    const grain = newGrainWithTitle(title)
-    const sortLookup = compose(
-      fromPairs,
-      addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
-      sortGrains,
-      values,
-    )
-    return compose(
-      sortLookup,
-      assoc(grain.id)(grain),
-    )(lookup)
-  } else {
-    return lookup
-  }
+  return title ? newGrainWithTitle(title) : null
+}
+function insertNewGrain(grain, lookup) {
+  const sortLookup = compose(
+    fromPairs,
+    addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
+    sortGrains,
+    values,
+  )
+  return compose(
+    sortLookup,
+    assoc(grain.id)(grain),
+  )(lookup)
 }
 
 function setGrainTitle(title_, grainId, lookup) {
@@ -227,12 +224,10 @@ class App extends Component {
   }
 
   addNewGrain() {
+    const grain = maybeNewGrainWithTitle(this.state.grainTitleInput)
     this.setStateAndCache(
       {
-        grainsLookup: addNewGrainWithTitle(
-          this.state.grainTitleInput,
-          this.state.grainsLookup,
-        ),
+        grainsLookup: insertNewGrain(grain, this.state.grainsLookup),
         grainTitleInput: '',
       },
       this.cacheState,

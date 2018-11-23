@@ -116,7 +116,7 @@ class App extends Component {
             </a>
           </section>
           <section>
-            <p>Grain:</p>
+            <p>Grains:</p>
             <input
               className="Grain-title-input"
               type="text"

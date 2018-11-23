@@ -284,12 +284,15 @@ class App extends Component {
   }
 
   focusGrain = grain => {
-    const el = document.getElementById(getGrainListItemDomId(grain))
-    if (el) {
-      el.focus()
-      return
-    }
-    console.error('focusSidx failed')
+    const domId = getGrainListItemDomId(grain)
+    requestAnimationFrame(() => {
+      const el = document.getElementById(domId)
+      if (el) {
+        el.focus()
+        return
+      }
+      console.error('focusDomId failed', domId)
+    })
   }
 
   onGrainKeyDown = (grain, e) => {

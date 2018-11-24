@@ -16,6 +16,7 @@ import nanoid from 'nanoid'
 import * as PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
 import { space, width } from 'styled-system'
+import { Flex } from 'rebass'
 
 console.log(`system`, space, width)
 
@@ -58,6 +59,10 @@ const TopInput = styled.input`
   ${space}
 `
 
+const FCol = styled(Flex)`
+  flex-direction: column;
+`
+
 TopInput.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
@@ -98,8 +103,8 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <main className="flex flex-column items-center">
-          <div className="pa3 measure-narrow w-100 flex flex-column">
+        <FCol className="items-center">
+          <FCol p={3} width={'20em'}>
             <TopInput
               p={3}
               value={getInputValue()}
@@ -113,8 +118,8 @@ function App() {
                 </div>
               ))}
             </div>
-          </div>
-        </main>
+          </FCol>
+        </FCol>
       </div>
     </ThemeProvider>
   )

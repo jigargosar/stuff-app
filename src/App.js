@@ -51,13 +51,16 @@ function cacheAppState(state) {
 // GRAIN MODEL
 
 function getGrainListItemDomId(grain) {
+  assert(grain)
   return 'grain-list-item--' + grain.id
 }
 function maybeNewGrainWithTitle(title_) {
+  assert(title_)
   const title = title_.trim()
   return title ? newGrainWithTitle(title) : null
 }
 function insertNewGrain(grain, lookup) {
+  assert(grain && lookup)
   const sortLookup = compose(
     fromPairs,
     addIndex(map)((g, idx) => [g.id, mergeLeft({ idx }, g)]),
@@ -71,6 +74,7 @@ function insertNewGrain(grain, lookup) {
 }
 
 function setGrainTitle(title_, grainId, lookup) {
+  assert(title_ && grainId && lookup)
   const title = title_.trim()
   const grain = lookup[grainId]
   if (title && grain && grain.title !== title) {
@@ -91,7 +95,14 @@ function setGrainTitle(title_, grainId, lookup) {
   }
 }
 
+function assert(bool, msg = 'Assertion Failed') {
+  if (!bool) {
+    throw new Error(msg)
+  }
+}
+
 function newGrainWithTitle(title) {
+  assert(title)
   return {
     id: 'gid--' + nanoid(),
     title,

@@ -14,7 +14,10 @@ import {
 import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
 import * as PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
+import { space, width } from 'styled-system'
+
+console.log(`system`, space, width)
 
 // HOTKEY HELPERS
 
@@ -52,7 +55,7 @@ export function cacheAppState(state) {
 // APP
 
 const TopInput = styled.input`
-  padding: 8px;
+  ${space}
 `
 
 TopInput.propTypes = {
@@ -90,27 +93,30 @@ function App() {
   ]
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-      <main className="flex flex-column items-center">
-        <div className="pa3 measure-narrow w-100 flex flex-column">
-          <TopInput
-            value={getInputValue()}
-            onChange={ev => setInputValue(ev.target.value)}
-            onKeyDown={hotKeys(['Enter', onInputSubmit])}
-          />
-          <div className="">
-            {values(state.lookup).map(g => (
-              <div key={g.id} className="pv2 bb b--light-gray">
-                {g.title}
-              </div>
-            ))}
+    <ThemeProvider theme={{}}>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+        </header>
+        <main className="flex flex-column items-center">
+          <div className="pa3 measure-narrow w-100 flex flex-column">
+            <TopInput
+              p={3}
+              value={getInputValue()}
+              onChange={ev => setInputValue(ev.target.value)}
+              onKeyDown={hotKeys(['Enter', onInputSubmit])}
+            />
+            <div className="">
+              {values(state.lookup).map(g => (
+                <div key={g.id} className="pv2 bb b--light-gray">
+                  {g.title}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </ThemeProvider>
   )
 }
 

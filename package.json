@@ -3,16 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "classname": "^0.0.0",
-    "husky": "^1.2.0",
+    "classnames": "^2.2.6",
     "is-hotkey": "^0.1.4",
-    "lint-staged": "^8.1.0",
     "nanoid": "^2.0.0",
     "prettier": "^1.15.2",
     "prop-types": "^15.6.2",
     "ramda": "^0.26.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
     "react-scripts": "2.1.1",
     "source-map-explorer": "^1.6.0"
   },
@@ -59,6 +57,8 @@
     "@storybook/addon-links": "^4.0.8",
     "@storybook/addons": "^4.0.8",
     "@storybook/react": "^4.0.8",
-    "babel-loader": "^8.0.4"
+    "babel-loader": "^8.0.4",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0"
   }
 }

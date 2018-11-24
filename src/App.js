@@ -72,27 +72,28 @@ function App() {
 
   useEffect(() => cacheAppState(state))
 
-  const onInputSubmit = () => {
-    const title = state.inputValue.trim()
-    if (title) {
-      const grain = {
-        id: 'grain--' + nanoid(),
-        ca: Date.now(),
-        ma: Date.now(),
-        title,
-        desc: '',
-      }
-
-      deepMergeState({
-        inputValue: '',
-        lookup: { [grain.id]: grain },
-      })
-    }
-  }
-  const [getInputValue, setInputValue] = [
+  const [getInputValue, setInputValue, onInputSubmit] = [
     () => state.inputValue,
     inputValue => deepMergeState({ inputValue }),
+    () => {
+      const title = state.inputValue.trim()
+      if (title) {
+        const grain = {
+          id: 'grain--' + nanoid(),
+          ca: Date.now(),
+          ma: Date.now(),
+          title,
+          desc: '',
+        }
+
+        deepMergeState({
+          inputValue: '',
+          lookup: { [grain.id]: grain },
+        })
+      }
+    },
   ]
+
   return (
     <div className="App">
       <header className="App-header">

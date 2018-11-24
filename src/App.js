@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import { compose, isNil, mergeDeepRight } from 'ramda'
@@ -36,10 +36,14 @@ function Example({ count, setCount }) {
 // APP
 
 function App() {
-  // const [state, setState] = useState(() => {
-  //   console.log('App use state Called')
-  //   return loadAppState()
-  // })
+  const [state, setState] = useState(() => {
+    console.log('App use state Called')
+    return loadAppState()
+  })
+
+  useEffect(function persistState() {
+    cacheAppState(state)
+  })
 
   const [count, setCount] = useState(0)
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import { compose, isNil, mergeDeepRight } from 'ramda'
+import { compose, isNil, mergeDeepLeft, mergeDeepRight } from 'ramda'
 
 // APP STORAGE
 
@@ -9,8 +9,8 @@ const appStateStorageKey = () => 'app-state'
 
 export function loadAppState() {
   const defaultState = {
-    grainTitleInput: '',
-    grainsLookup: {},
+    inputValue: '',
+    lookup: {},
     sidx: -1,
     edit: null,
   }
@@ -36,10 +36,7 @@ function Example({ count, setCount }) {
 // APP
 
 function App() {
-  const [state, setState] = useState(() => {
-    console.log('App use state Called')
-    return loadAppState()
-  })
+  const [state, setState] = useState(loadAppState)
 
   useEffect(function persistState() {
     cacheAppState(state)
@@ -54,6 +51,12 @@ function App() {
       </header>
       <main>
         <p>HelloWorld</p>
+        <input
+          value={state.inputValue}
+          onChange={ev =>
+            setState(mergeDeepLeft({ inputValue: ev.target.value }))
+          }
+        />
         <Example count={count} setCount={setCount} />
       </main>
     </div>

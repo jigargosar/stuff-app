@@ -16,7 +16,7 @@ import nanoid from 'nanoid'
 import * as PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
 import { space, width } from 'styled-system'
-import { Flex } from 'rebass'
+import { Box, Flex } from 'rebass'
 
 console.log(`system`, space, width)
 
@@ -111,13 +111,13 @@ function App() {
               onChange={ev => setInputValue(ev.target.value)}
               onKeyDown={hotKeys(['Enter', onInputSubmit])}
             />
-            <FCol pt={3}>
+            <Box pt={3}>
               {values(state.lookup).map(g => (
-                <div key={g.id} className="pv2 bb b--light-gray">
+                <Box key={g.id} className="pv2 bb b--light-gray">
                   {g.title}
-                </div>
+                </Box>
               ))}
-            </FCol>
+            </Box>
           </FCol>
         </FCol>
       </div>

@@ -13,6 +13,7 @@ import {
 } from 'ramda'
 import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
+import * as PropTypes from 'prop-types'
 
 // HOTKEY HELPERS
 
@@ -49,6 +50,22 @@ export function cacheAppState(state) {
 
 // APP
 
+function TopInput(props) {
+  return (
+    <input
+      value={props.value}
+      onChange={props.onChange}
+      onKeyDown={hotKeys(['Enter', props.onSubmit])}
+    />
+  )
+}
+
+TopInput.propTypes = {
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+}
+
 function App() {
   const [state, setState] = useState(loadAppState)
 
@@ -72,6 +89,10 @@ function App() {
       )
     }
   }
+  const [getInputValue, setInputValue] = [
+    () => state.inputValue,
+    inputValue => setState(mergeDeepLeft({ inputValue })),
+  ]
   return (
     <div className="App">
       <header className="App-header">
@@ -79,12 +100,10 @@ function App() {
       </header>
       <main className="flex flex-column items-center">
         <div className="pa3 measure-narrow w-100">
-          <input
-            value={state.inputValue}
-            onChange={ev =>
-              setState(mergeDeepLeft({ inputValue: ev.target.value }))
-            }
-            onKeyDown={hotKeys(['Enter', onInputSubmit])}
+          <TopInput
+            value={getInputValue()}
+            onChange={ev => setInputValue(ev.target.value)}
+            onSubmit={onInputSubmit}
           />
           <div className="">
             {values(state.lookup).map(g => (

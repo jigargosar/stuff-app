@@ -18,7 +18,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { space, width } from 'styled-system'
 import { Box, Flex } from 'rebass'
 
-console.log(`system`, space, width)
+console.debug(`system`, width, space)
 
 // HOTKEY HELPERS
 

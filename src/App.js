@@ -54,39 +54,37 @@ function App() {
 
   useEffect(() => cacheAppState(state))
 
+  const onInputSubmit = () => {
+    const title = state.inputValue.trim()
+    if (title) {
+      const grain = {
+        id: 'grain--' + nanoid(),
+        ca: Date.now(),
+        ma: Date.now(),
+        title,
+        desc: '',
+      }
+      setState(
+        mergeDeepLeft({
+          inputValue: '',
+          lookup: { [grain.id]: grain },
+        }),
+      )
+    }
+  }
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
       <main className="flex flex-column items-center">
-        <div className="measure-narrow w-100">
+        <div className="pa3 measure-narrow w-100">
           <input
             value={state.inputValue}
             onChange={ev =>
               setState(mergeDeepLeft({ inputValue: ev.target.value }))
             }
-            onKeyDown={hotKeys([
-              'Enter',
-              () => {
-                const title = state.inputValue.trim()
-                if (title) {
-                  const grain = {
-                    id: 'grain--' + nanoid(),
-                    ca: Date.now(),
-                    ma: Date.now(),
-                    title,
-                    desc: '',
-                  }
-                  setState(
-                    mergeDeepLeft({
-                      inputValue: '',
-                      lookup: { [grain.id]: grain },
-                    }),
-                  )
-                }
-              },
-            ])}
+            onKeyDown={hotKeys(['Enter', onInputSubmit])}
           />
           <div className="">
             {values(state.lookup).map(g => (

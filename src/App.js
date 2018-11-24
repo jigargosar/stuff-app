@@ -100,7 +100,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
       </header>
       <main className="flex flex-column items-center">
-        <div className="pa3 measure-narrow w-100">
+        <div className="pa3 measure-narrow w-100 flex flex-column">
           <TopInput
             value={getInputValue()}
             onChange={ev => setInputValue(ev.target.value)}

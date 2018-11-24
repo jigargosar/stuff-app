@@ -111,9 +111,9 @@ function App() {
               onChange={ev => setInputValue(ev.target.value)}
               onKeyDown={hotKeys(['Enter', onInputSubmit])}
             />
-            <Box pt={3}>
+            <Box className="pt3">
               {values(state.lookup).map(g => (
-                <Box py={3} key={g.id} className="bb b--light-gray">
+                <Box key={g.id} className="pv2 bb b--light-gray">
                   {g.title}
                 </Box>
               ))}

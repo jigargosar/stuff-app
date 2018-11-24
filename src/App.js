@@ -1,7 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import { compose, isNil, mergeDeepLeft, mergeDeepRight } from 'ramda'
+import {
+  compose,
+  defaultTo,
+  find,
+  identity,
+  isNil,
+  mergeDeepLeft,
+  mergeDeepRight,
+  tap,
+} from 'ramda'
+import isHotkey from 'is-hotkey/src'
+import nanoid from 'nanoid'
+
+// HOTKEY HELPERS
+
+function hotKeys(...mappings) {
+  return function(ev) {
+    return compose(
+      ([keys, handler]) => handler(ev),
+      defaultTo([null, identity]),
+      tap(console.log),
+      find(([keys]) => isHotkey(keys, ev)),
+    )(mappings)
+  }
+}
 
 // APP STORAGE
 
@@ -53,6 +77,22 @@ function App() {
           onChange={ev =>
             setState(mergeDeepLeft({ inputValue: ev.target.value }))
           }
+          onKeyDown={hotKeys([
+            'Enter',
+            () => {
+              const title = state.inputValue.trim()
+              if (title) {
+                const grain = {
+                  id: 'grain--' + nanoid(),
+                  ca: Date.now(),
+                  ma: Date.now(),
+                  title,
+                  desc: '',
+                }
+                setState(mergeDeepLeft({ lookup: { [grain.id]: grain } }))
+              }
+            },
+          ])}
         />
         <Example count={count} setCount={setCount} />
       </main>

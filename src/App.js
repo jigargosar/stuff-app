@@ -162,14 +162,7 @@ class App extends Component {
           // className={cn('Grain', { 'Grain-root-selected': isSelected })}
           className="Grain Grain--inline-edit-input"
           value={edit.title}
-          onChange={e =>
-            this.setState(
-              {
-                edit: mergeLeft({ title: e.target.value }, this.state.edit),
-              },
-              this.cacheState,
-            )
-          }
+          onChange={this.onGrainEditTitleChange}
           // tabIndex={isSelected ? 0 : -1}
           onFocus={() => this.onGrainFocusedAtIdx(idx)}
           onKeyDown={this.onGrainEditKeyDown}
@@ -328,6 +321,14 @@ class App extends Component {
         this.focusSidx,
       )
     }
+  }
+
+  onGrainEditTitleChange = e => {
+    const { edit } = this.state
+    assert(edit)
+    this.setState({
+      edit: mergeLeft({ title: e.target.value })(edit),
+    })
   }
 }
 

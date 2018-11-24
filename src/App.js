@@ -9,7 +9,6 @@ import {
   isNil,
   mergeDeepLeft,
   mergeDeepRight,
-  tap,
 } from 'ramda'
 import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
@@ -21,7 +20,6 @@ function hotKeys(...mappings) {
     return compose(
       ([keys, handler]) => handler(ev),
       defaultTo([null, identity]),
-      tap(console.log),
       find(([keys]) => isHotkey(keys, ev)),
     )(mappings)
   }

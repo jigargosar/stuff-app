@@ -103,7 +103,7 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <FCol className="items-center">
+        <FCol as={'main'} className="items-center">
           <FCol p={3} width={'20em'}>
             <TopInput
               p={3}
@@ -111,13 +111,13 @@ function App() {
               onChange={ev => setInputValue(ev.target.value)}
               onKeyDown={hotKeys(['Enter', onInputSubmit])}
             />
-            <div className="">
+            <FCol pt={3}>
               {values(state.lookup).map(g => (
                 <div key={g.id} className="pv2 bb b--light-gray">
                   {g.title}
                 </div>
               ))}
-            </div>
+            </FCol>
           </FCol>
         </FCol>
       </div>

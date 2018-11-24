@@ -9,6 +9,7 @@ import {
   isNil,
   mergeDeepLeft,
   mergeDeepRight,
+  values,
 } from 'ramda'
 import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
@@ -92,6 +93,9 @@ function App() {
             },
           ])}
         />
+        {values(state.lookup).map(g => (
+          <div>{g.title}</div>
+        ))}
         <Example count={count} setCount={setCount} />
       </main>
     </div>

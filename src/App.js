@@ -56,12 +56,8 @@ export function cacheAppState(state) {
 // APP
 
 const TopInput = styled.input`
-  ${space}
+  padding: ${props => props.theme.space[3] + 'px'};
 `
-TopInput.defaultProps = {
-  p: 3,
-}
-
 TopInput.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
@@ -102,7 +98,7 @@ function App() {
   ]
 
   return (
-    <ThemeProvider theme={{}}>
+    <ThemeProvider theme={{ space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }}>
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />

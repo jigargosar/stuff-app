@@ -113,7 +113,7 @@ function App() {
             />
             <Box pt={3}>
               {values(state.lookup).map(g => (
-                <Box key={g.id} className="pv2 bb b--light-gray">
+                <Box py={3} key={g.id} className="bb b--light-gray">
                   {g.title}
                 </Box>
               ))}

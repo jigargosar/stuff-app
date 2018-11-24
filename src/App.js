@@ -50,12 +50,12 @@ export function cacheAppState(state) {
 
 // APP
 
-function TopInput(props) {
+function TopInput({ value, onChange, onSubmit }) {
   return (
     <input
-      value={props.value}
-      onChange={props.onChange}
-      onKeyDown={hotKeys(['Enter', props.onSubmit])}
+      value={value}
+      onChange={onChange}
+      onKeyDown={hotKeys(['Enter', onSubmit])}
     />
   )
 }

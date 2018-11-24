@@ -14,6 +14,7 @@ import {
 import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
 import * as PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 // HOTKEY HELPERS
 
@@ -50,20 +51,14 @@ export function cacheAppState(state) {
 
 // APP
 
-function TopInput({ value, onChange, onSubmit }) {
-  return (
-    <input
-      value={value}
-      onChange={onChange}
-      onKeyDown={hotKeys(['Enter', onSubmit])}
-    />
-  )
-}
+const TopInput = styled.input`
+  padding: 8px;
+`
 
 TopInput.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
+  onKeyDown: PropTypes.func,
 }
 
 function App() {
@@ -104,7 +99,7 @@ function App() {
           <TopInput
             value={getInputValue()}
             onChange={ev => setInputValue(ev.target.value)}
-            onSubmit={onInputSubmit}
+            onKeyDown={hotKeys(['Enter', onInputSubmit])}
           />
           <div className="">
             {values(state.lookup).map(g => (

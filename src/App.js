@@ -47,20 +47,10 @@ export function cacheAppState(state) {
   storageSet(appStateStorageKey(), state)
 }
 
-function Example({ count, setCount }) {
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(ct => ct + 1)}>Click me</button>
-    </div>
-  )
-}
-
 // APP
 
 function App() {
   const [state, setState] = useState(loadAppState)
-  const [count, setCount] = useState(0)
 
   useEffect(() => cacheAppState(state))
 
@@ -71,7 +61,6 @@ function App() {
       </header>
       <main className="flex flex-column items-center">
         <div className="measure-narrow w-100">
-          <p>HelloWorld</p>
           <input
             value={state.inputValue}
             onChange={ev =>
@@ -104,7 +93,6 @@ function App() {
               <div className="pv2 bb b--light-gray">{g.title}</div>
             ))}
           </div>
-          <Example count={count} setCount={setCount} />
         </div>
       </main>
     </div>

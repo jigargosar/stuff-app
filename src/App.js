@@ -37,12 +37,9 @@ function Example({ count, setCount }) {
 
 function App() {
   const [state, setState] = useState(loadAppState)
-
-  useEffect(function persistState() {
-    cacheAppState(state)
-  })
-
   const [count, setCount] = useState(0)
+
+  useEffect(() => cacheAppState(state))
 
   return (
     <div className="App">

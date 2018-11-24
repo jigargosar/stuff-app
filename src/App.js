@@ -69,34 +69,43 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      <main>
-        <p>HelloWorld</p>
-        <input
-          value={state.inputValue}
-          onChange={ev =>
-            setState(mergeDeepLeft({ inputValue: ev.target.value }))
-          }
-          onKeyDown={hotKeys([
-            'Enter',
-            () => {
-              const title = state.inputValue.trim()
-              if (title) {
-                const grain = {
-                  id: 'grain--' + nanoid(),
-                  ca: Date.now(),
-                  ma: Date.now(),
-                  title,
-                  desc: '',
+      <main className="flex flex-column items-center">
+        <div className="measure-narrow w-100">
+          <p>HelloWorld</p>
+          <input
+            value={state.inputValue}
+            onChange={ev =>
+              setState(mergeDeepLeft({ inputValue: ev.target.value }))
+            }
+            onKeyDown={hotKeys([
+              'Enter',
+              () => {
+                const title = state.inputValue.trim()
+                if (title) {
+                  const grain = {
+                    id: 'grain--' + nanoid(),
+                    ca: Date.now(),
+                    ma: Date.now(),
+                    title,
+                    desc: '',
+                  }
+                  setState(
+                    mergeDeepLeft({
+                      inputValue: '',
+                      lookup: { [grain.id]: grain },
+                    }),
+                  )
                 }
-                setState(mergeDeepLeft({ lookup: { [grain.id]: grain } }))
-              }
-            },
-          ])}
-        />
-        {values(state.lookup).map(g => (
-          <div>{g.title}</div>
-        ))}
-        <Example count={count} setCount={setCount} />
+              },
+            ])}
+          />
+          <div className="">
+            {values(state.lookup).map(g => (
+              <div className="pv2 bb b--light-gray">{g.title}</div>
+            ))}
+          </div>
+          <Example count={count} setCount={setCount} />
+        </div>
       </main>
     </div>
   )

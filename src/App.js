@@ -68,6 +68,7 @@ TopInput.propTypes = {
 
 function App() {
   const [state, setState] = useState(loadAppState)
+  const deepMergeState = partialState => setState(mergeDeepLeft(partialState))
 
   useEffect(() => cacheAppState(state))
 
@@ -81,17 +82,16 @@ function App() {
         title,
         desc: '',
       }
-      setState(
-        mergeDeepLeft({
-          inputValue: '',
-          lookup: { [grain.id]: grain },
-        }),
-      )
+
+      deepMergeState({
+        inputValue: '',
+        lookup: { [grain.id]: grain },
+      })
     }
   }
   const [getInputValue, setInputValue] = [
     () => state.inputValue,
-    inputValue => setState(mergeDeepLeft({ inputValue })),
+    inputValue => deepMergeState({ inputValue }),
   ]
   return (
     <div className="App">

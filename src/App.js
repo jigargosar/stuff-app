@@ -58,16 +58,20 @@ export function cacheAppState(state) {
 const TopInput = styled.input`
   ${space}
 `
-
-const FCol = styled(Flex)`
-  flex-direction: column;
-`
+TopInput.defaultProps = {
+  p: 3,
+}
 
 TopInput.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
+  ...space.propTypes,
 }
+
+const FCol = styled(Flex)`
+  flex-direction: column;
+`
 
 function App() {
   const [state, setState] = useState(loadAppState)
@@ -106,7 +110,6 @@ function App() {
         <FCol as={'main'} className="items-center">
           <FCol p={3} width={'20em'}>
             <TopInput
-              p={3}
               value={getInputValue()}
               onChange={ev => setInputValue(ev.target.value)}
               onKeyDown={hotKeys(['Enter', onInputSubmit])}

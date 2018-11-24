@@ -114,6 +114,7 @@ function newGrainWithTitle(title) {
 }
 
 function focusDomId(domId) {
+  assert(domId)
   requestAnimationFrame(() => {
     const el = document.getElementById(domId)
     if (el) {

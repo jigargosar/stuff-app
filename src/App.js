@@ -103,7 +103,9 @@ function App() {
           />
           <div className="">
             {values(state.lookup).map(g => (
-              <div className="pv2 bb b--light-gray">{g.title}</div>
+              <div key={g.id} className="pv2 bb b--light-gray">
+                {g.title}
+              </div>
             ))}
           </div>
         </div>

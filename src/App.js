@@ -137,7 +137,9 @@ function App() {
           <Box pt={3} className="">
             {currentGrains.map(g => (
               <FRowCY key={g.id} py={2} className="bb b--light-gray">
-                <input type="checkbox" value={Boolean(g.done)} />
+                <Box p={2}>
+                  <input type="checkbox" value={Boolean(g.done)} />
+                </Box>
                 <Box className="flex-auto">{g.title}</Box>
                 <button onClick={() => deleteGrain(g)}>X</button>
               </FRowCY>

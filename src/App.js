@@ -104,6 +104,8 @@ function App() {
     },
   ]
 
+  const currentGrains = values(state.lookup)
+
   return (
     <ThemeProvider theme={styledComponentsTheme}>
       <FCol className="items-center">
@@ -114,7 +116,7 @@ function App() {
             onKeyDown={hotKeys(['Enter', onInputSubmit])}
           />
           <Box pt={3} className="">
-            {values(state.lookup).map(g => (
+            {currentGrains.map(g => (
               <Box key={g.id} py={2} className="bb b--light-gray">
                 {g.title}
               </Box>

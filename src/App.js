@@ -243,6 +243,16 @@ function renderGrainItem(immerState) {
   )
 }
 
+function renderTopInput(state, immerState) {
+  return (
+    <TopInput
+      value={getInputValue(state)}
+      onChange={iv => setInputValue(iv, immerState)}
+      onKeyDown={hotKeys(['Enter', () => onInputSubmit(immerState)])}
+    />
+  )
+}
+
 function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
@@ -260,11 +270,7 @@ function App() {
     <ThemeProvider theme={styledComponentsTheme}>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          <TopInput
-            value={getInputValue(state)}
-            onChange={iv => setInputValue(iv, immerState)}
-            onKeyDown={hotKeys(['Enter', () => onInputSubmit(immerState)])}
-          />
+          {renderTopInput(state, immerState)}
           <Box pt={3} className="">
             {mapOverGrainsWithSelection(renderGrainItem(immerState), state)}
           </Box>

@@ -122,7 +122,6 @@ function App() {
         const done = s.lookup[g.id].done
         s.lookup[g.id].done = !Boolean(done)
       }),
-    console.log(Boolean),
   ]
 
   return (

@@ -327,12 +327,7 @@ function renderGrainItem(immerState) {
           value={edit.title}
           onChange={title => onEditGrainTitleChange(title, immerState)}
           p={3}
-          onKeyDown={hotKeys([
-            'Enter',
-            () => {
-              endEditMode(immerState)
-            },
-          ])}
+          onKeyDown={hotKeys(['Enter', () => endEditMode(immerState)])}
         />
       )
     } else {

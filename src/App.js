@@ -66,30 +66,31 @@ CheckBox.propTypes = {
   value: PropTypes.bool.isRequired,
 }
 
-export function InputText({ value, onChange }) {
+export function InputText({ value, onChange, ...otherProps }) {
   return (
     <input
       type="text"
       value={value}
       onChange={ev => onChange(ev.target.value, ev)}
+      {...otherProps}
     />
   )
 }
 
 InputText.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
 }
 
 // APP Components
 
-const TopInput = styled.input`
+const TopInput = styled(InputText)`
   padding: ${props => props.theme.space[3] + 'px'};
 `
 TopInput.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-  onKeyDown: PropTypes.func,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func.isRequired,
 }
 
 // APP

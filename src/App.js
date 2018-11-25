@@ -113,6 +113,18 @@ function insertGrain(grain, immerState) {
   })
 }
 
+function deleteGrain(grain, immerState) {
+  immerState(state => {
+    delete state.lookup[grain.id]
+  })
+}
+
+function grainSetDoneProp(bool, g, immerState) {
+  immerState(state => {
+    state.lookup[g.id].done = bool
+  })
+}
+
 function getInputValue(state) {
   return state.inputValue
 }
@@ -133,7 +145,7 @@ function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
   useEffect(() => cacheAppState(state))
-  const [currentGrains, deleteGrain, toggleDoneGrain] = [
+  const [currentGrains] = [
     values(state.lookup),
     g => immerState(s => void delete s.lookup[g.id]),
     g =>
@@ -159,11 +171,11 @@ function App() {
                   <input
                     type="checkbox"
                     value={Boolean(g.done)}
-                    onChange={() => toggleDoneGrain(g)}
+                    onChange={bool => grainSetDoneProp(bool, g, immerState)}
                   />
                 </Box>
                 <Box className="flex-auto">{g.title}</Box>
-                <button onClick={() => deleteGrain(g)}>X</button>
+                <button onClick={() => deleteGrain(g, immerState)}>X</button>
               </FRowCY>
             ))}
           </Box>

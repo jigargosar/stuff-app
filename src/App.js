@@ -165,6 +165,12 @@ function onWindowKeydown(state, immerState) {
   }
 }
 
+function mapOverGrainsWithSelection(fn, state) {
+  const grains = currentGrains(state)
+  const sidx = R.mathMod(state.sidx, grains.length - 1)
+  return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
+}
+
 function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
@@ -188,21 +194,26 @@ function App() {
             onKeyDown={hotKeys(['Enter', () => onInputSubmit(immerState)])}
           />
           <Box pt={3} className="">
-            {currentGrains(state).map(g => (
-              <FRowCY key={g.id} py={2} className="bb b--light-gray">
-                <Box p={2}>
-                  <input
-                    type="checkbox"
-                    value={Boolean(g.done)}
-                    onChange={ev =>
-                      grainSetDoneProp(ev.target.checked, g, immerState)
-                    }
-                  />
-                </Box>
-                <Box className="flex-auto">{g.title}</Box>
-                <button onClick={() => deleteGrain(g, immerState)}>X</button>
-              </FRowCY>
-            ))}
+            {mapOverGrainsWithSelection(
+              ({ grain }) => (
+                <FRowCY key={grain.id} py={2} className="bb b--light-gray">
+                  <Box p={2}>
+                    <input
+                      type="checkbox"
+                      value={Boolean(grain.done)}
+                      onChange={ev =>
+                        grainSetDoneProp(ev.target.checked, grain, immerState)
+                      }
+                    />
+                  </Box>
+                  <Box className="flex-auto">{grain.title}</Box>
+                  <button onClick={() => deleteGrain(grain, immerState)}>
+                    X
+                  </button>
+                </FRowCY>
+              ),
+              state,
+            )}
           </Box>
         </FCol>
       </FCol>

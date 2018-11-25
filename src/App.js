@@ -243,7 +243,7 @@ function App() {
         <FCol p={3} width={'30em'}>
           <TopInput
             value={getInputValue(state)}
-            onChange={ev => setInputValue(ev.target.value, immerState)}
+            onChange={iv => setInputValue(iv, immerState)}
             onKeyDown={hotKeys(['Enter', () => onInputSubmit(immerState)])}
           />
           <Box pt={3} className="">

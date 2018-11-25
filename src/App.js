@@ -243,6 +243,7 @@ function mapOverGrainsWithSelection(fn, state) {
 function renderGrainItem(immerState) {
   return ({ grain, isSelected }) => (
     <FRowCY
+      id={grainDomId(grain)}
       tabIndex={isSelected ? 0 : -1}
       key={grain.id}
       py={2}

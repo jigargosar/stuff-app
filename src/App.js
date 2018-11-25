@@ -145,10 +145,47 @@ function currentGrains(state) {
   return R.values(state.lookup)
 }
 
+function onWindowKeydown(state, immerState) {
+  return ev => {
+    const tagName = ev.target.tagName
+    console.debug(ev, tagName)
+    if (tagName !== 'INPUT') {
+      hotKeys(
+        [
+          'ArrowUp',
+          ev => {
+            ev.preventDefault()
+          },
+        ],
+        [
+          'ArrowDown',
+          ev => {
+            ev.preventDefault()
+          },
+        ],
+      )(ev)
+    } else {
+    }
+
+    // hotKeys(
+    //   ['ArrowUp', ev => console.log(ev)],
+    //   ['ArrowDown', ev => console.log(ev)],
+    // )(ev)
+  }
+}
+
 function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
   useEffect(() => cacheAppState(state))
+
+  useEffect(() => {
+    const listener = onWindowKeydown(state, immerState)
+    window.addEventListener('keydown', listener)
+    return () => {
+      window.removeEventListener('keydown', listener)
+    }
+  })
 
   return (
     <ThemeProvider theme={styledComponentsTheme}>

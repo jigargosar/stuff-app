@@ -29,7 +29,7 @@ export const FRow = styled(Flex)`
   flex-direction: row;
 `
 
-export const FRowC = styled(FRow)`
+export const FRowCY = styled(FRow)`
   align-items: center;
 `
 
@@ -132,11 +132,11 @@ function App() {
           />
           <Box pt={3} className="">
             {currentGrains.map(g => (
-              <FRowC key={g.id} py={2} className="bb b--light-gray">
+              <FRowCY key={g.id} py={2} className="bb b--light-gray">
                 <input type="checkbox" value={Boolean(g.done)} />
                 <Box className="flex-auto">{g.title}</Box>
                 <button onClick={() => deleteGrain(g)}>X</button>
-              </FRowC>
+              </FRowCY>
             ))}
           </Box>
         </FCol>

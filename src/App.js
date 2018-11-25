@@ -243,17 +243,33 @@ function onWindowKeydown(state, immerState) {
 
 function mapOverGrainsWithSelection(fn, state) {
   const grains = currentGrains(state)
-  const sidx = R.clamp(0, grains.length - 1, state.sidx)
-  return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
+  if (grains.length > 0) {
+    const sidx = R.clamp(0, grains.length - 1, state.sidx)
+    return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
+  } else {
+    return []
+  }
 }
 
-function startEditingGrain(grain, immerState) {
+function getMaybeGrainAtSidx(state) {
+  const grains = currentGrains(state)
+  const grainsLength = grains.length
+  if (grainsLength > 0) {
+    const clampedSidx = R.clamp(0, grains.length - 1, state.sidx)
+    return grains[clampedSidx]
+  }
+}
+
+function startEditingSelectedGrain(immerState) {
   return immerState(state => {
     const edit = state.edit
     if (edit) {
       console.warn('Handle start editing when already in edit mode')
     } else {
-      state.edit = { grainId: grain.id, title: grain.title }
+      const grain = getMaybeGrainAtSidx(state)
+      if (grain) {
+        state.edit = { grainId: grain.id, title: grain.title }
+      }
     }
   })
 }
@@ -270,7 +286,7 @@ function renderGrainItem(immerState) {
         'Enter',
         ev => {
           if (ev.target.id === grainDomId(grain)) {
-            startEditingGrain(grain, immerState)
+            startEditingSelectedGrain(immerState)
           }
         },
       ])}

@@ -109,11 +109,7 @@ function App() {
 
   const [currentGrains, deleteGrain] = [
     values(state.lookup),
-    g => {
-      immerState(s => {
-        delete s.lookup[g.id]
-      })
-    },
+    g => immerState(s => void delete s.lookup[g.id]),
   ]
 
   return (

@@ -248,11 +248,17 @@ function onWindowKeydown(state, immerState) {
     }
 
     const sidxGrain = getMaybeGrainAtSidx(state)
-    if (sidxGrain && ev.target.id !== getGrainDomId(sidxGrain))
+    if (sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)) {
       hotKeys(
         ['ArrowUp', () => debounceFocusId(getGrainDomId(sidxGrain))],
         ['ArrowDown', () => debounceFocusId(getGrainDomId(sidxGrain))],
       )(ev)
+    } else {
+      hotKeys(
+        ['ArrowUp', () => rollSelectionBy(-1, immerState)],
+        ['ArrowDown', () => rollSelectionBy(1, immerState)],
+      )(ev)
+    }
   }
 }
 
@@ -343,34 +349,14 @@ function renderGrainItem(immerState) {
           {...commonProps}
           py={2}
           className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
-          onKeyDown={hotKeys(
-            [
-              'Enter',
-              ev => {
-                if (ev.target.id === grainDomId) {
-                  startEditingSelectedGrain(immerState)
-                }
-              },
-            ],
-            [
-              'ArrowDown',
-              ev => {
-                if (ev.target.id === grainDomId) {
-                  ev.stopPropagation()
-                  rollSelectionBy(1, immerState)
-                }
-              },
-            ],
-            [
-              'ArrowUp',
-              ev => {
-                if (ev.target.id === grainDomId) {
-                  ev.stopPropagation()
-                  rollSelectionBy(-1, immerState)
-                }
-              },
-            ],
-          )}
+          onKeyDown={hotKeys([
+            'Enter',
+            ev => {
+              if (ev.target.id === grainDomId) {
+                startEditingSelectedGrain(immerState)
+              }
+            },
+          ])}
         >
           <Box p={2}>
             <CheckBox

@@ -149,12 +149,21 @@ const pd = ev => {
   ev.preventDefault()
 }
 
+const wrapPD = fn =>
+  compose(
+    fn,
+    R.tap(pd),
+  )
+
 function onWindowKeydown(state, immerState) {
   return ev => {
     const tagName = ev.target.tagName
     console.debug(ev, tagName)
     if (tagName === 'INPUT' || tagName === 'BODY') {
-      hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
+      hotKeys(
+        ['ArrowUp', wrapPD(() => console.debug('ev tapped', ev))],
+        ['ArrowDown', pd],
+      )(ev)
     } else {
     }
 

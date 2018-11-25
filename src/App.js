@@ -289,6 +289,32 @@ function startEditingSelectedGrain(immerState) {
   })
 }
 
+function endEditMode(immerState) {
+  return immerState(state => {
+    const edit = state.edit
+    if (edit) {
+      const title = edit.title.trim()
+      if (title) {
+        state.lookup[edit.grainId].title = title
+      }
+      state.edit = null
+    } else {
+      console.error('Trying to end edit mode, while not editing')
+    }
+  })
+}
+
+function onEditGrainTitleChange(title, immerState) {
+  return immerState(state => {
+    const edit = state.edit
+    if (edit) {
+      edit.title = title
+    } else {
+      console.error('Trying to update edit mode, while not editing')
+    }
+  })
+}
+
 function renderGrainItem(immerState) {
   return ({ grain, isSelected, edit }) => {
     if (edit && edit.grainId === grain.id) {
@@ -299,16 +325,14 @@ function renderGrainItem(immerState) {
           key={grain.id}
           // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
           value={edit.title}
-          onChange={() => {}}
+          onChange={title => onEditGrainTitleChange(title, immerState)}
           p={3}
-          /*onKeyDown={hotKeys([
+          onKeyDown={hotKeys([
             'Enter',
-            ev => {
-              if (ev.target.id === grainDomId(grain)) {
-                startEditingSelectedGrain(immerState)
-              }
+            () => {
+              endEditMode(immerState)
             },
-          ])}*/
+          ])}
         />
       )
     } else {

@@ -16,6 +16,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { Box, Flex } from 'rebass'
 import * as invariant from 'invariant'
 import { produce } from 'immer'
+import debounce from 'lodash.debounce'
 
 const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
 
@@ -188,13 +189,28 @@ const wrapPD = fn =>
     R.tap(pd),
   )
 
-function rollSelectionBy(offset, immerState) {
+function grainDomId(grain) {
+  return 'grain-li--' + grain.id
+}
+
+function focusId(domId) {
+  try {
+    document.getElementById(domId).focus()
+  } catch (e) {
+    console.error('Focus Failed:', domId)
+  }
+}
+
+const debounceFocusId = debounce(focusId)
+
+function rollSelectionBy(offset, shouldFocus, immerState) {
   return immerState(state => {
     const grains = currentGrains(state)
     const grainsLength = grains.length
     if (grainsLength > 1) {
       const clampedSidx = R.clamp(0, grains.length - 1, state.sidx)
       state.sidx = R.mathMod(clampedSidx + offset, grainsLength)
+      debounceFocusId(grainDomId(grains[state.sidx]))
     }
   })
 }
@@ -212,8 +228,8 @@ function onWindowKeydown(state, immerState) {
     }
 
     hotKeys(
-      ['ArrowUp', () => rollSelectionBy(-1, immerState)],
-      ['ArrowDown', () => rollSelectionBy(1, immerState)],
+      ['ArrowUp', () => rollSelectionBy(-1, true, immerState)],
+      ['ArrowDown', () => rollSelectionBy(1, true, immerState)],
     )(ev)
   }
 }

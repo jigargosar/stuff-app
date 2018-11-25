@@ -91,6 +91,7 @@ function createGrainWithTitle(title) {
     ma: Date.now(),
     title,
     desc: '',
+    done: false,
   }
 }
 

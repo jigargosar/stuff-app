@@ -160,8 +160,8 @@ function rollSelectionBy(offset, immerState) {
     const grains = currentGrains(state)
     const grainsLength = grains.length
     if (grainsLength > 1) {
-      const sidx = R.mathMod(state.sidx, grainsLength - 1)
-      state.sidx = R.clamp(0, grainsLength - 1)(sidx)
+      const sidx = R.clamp(0, grains.length - 1, state.sidx)
+      state.sidx = R.mathMod(sidx, grainsLength - 1)
     }
   })
 }
@@ -180,14 +180,14 @@ function onWindowKeydown(state, immerState) {
 
     hotKeys(
       ['ArrowUp', () => rollSelectionBy(-1, immerState)],
-      ['ArrowDown', ev => console.log(ev)],
+      ['ArrowDown', () => rollSelectionBy(1, immerState)],
     )(ev)
   }
 }
 
 function mapOverGrainsWithSelection(fn, state) {
   const grains = currentGrains(state)
-  const sidx = R.mathMod(state.sidx, grains.length - 1)
+  const sidx = R.clamp(0, grains.length - 1, state.sidx)
   return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
 }
 

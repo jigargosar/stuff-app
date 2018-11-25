@@ -95,26 +95,32 @@ function createGrainWithTitle(title) {
   }
 }
 
+function setInputValue(iv, immerState) {
+  immerState(state => {
+    state.inputValue = iv
+  })
+}
+
+function getInputValue(state) {
+  return state.inputValue
+}
+
+function onInputSubmit(immerState) {
+  immerState(state => {
+    const title = getInputValue(state).trim()
+    if (title) {
+      const grain = createGrainWithTitle(title)
+
+      state.inputValue = ''
+      state.lookup[grain.id] = grain
+    }
+  })
+}
+
 function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
   useEffect(() => cacheAppState(state))
-
-  const [getInputValue, setInputValue, onInputSubmit] = [
-    () => state.inputValue,
-    iv => immerState(s => void (s.inputValue = iv)),
-    () => {
-      const title = state.inputValue.trim()
-      if (title) {
-        const grain = createGrainWithTitle(title)
-        immerState(s => {
-          s.inputValue = ''
-          s.lookup[grain.id] = grain
-        })
-      }
-    },
-  ]
-
   const [currentGrains, deleteGrain, toggleDoneGrain] = [
     values(state.lookup),
     g => immerState(s => void delete s.lookup[g.id]),
@@ -130,9 +136,9 @@ function App() {
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
           <TopInput
-            value={getInputValue()}
-            onChange={ev => setInputValue(ev.target.value)}
-            onKeyDown={hotKeys(['Enter', onInputSubmit])}
+            value={getInputValue(state)}
+            onChange={ev => setInputValue(ev.target.value, immerState)}
+            onKeyDown={hotKeys(['Enter', () => onInputSubmit(immerState)])}
           />
           <Box pt={3} className="">
             {currentGrains.map(g => (

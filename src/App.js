@@ -29,6 +29,10 @@ export const FRow = styled(Flex)`
   flex-direction: row;
 `
 
+export const FRowC = styled(FRow)`
+  align-items: center;
+`
+
 // HOTKEY HELPERS
 
 function hotKeys(...mappings) {
@@ -106,9 +110,15 @@ function App() {
     },
   ]
 
-  const [currentGrains, deleteGrain] = [
+  const [currentGrains, deleteGrain, toggleDoneGrain] = [
     values(state.lookup),
     g => immerState(s => void delete s.lookup[g.id]),
+    g =>
+      immerState(s => {
+        const done = s.lookup[g.id].done
+        s.lookup[g.id].done = !Boolean(done)
+      }),
+    console.log(Boolean),
   ]
 
   return (
@@ -122,10 +132,11 @@ function App() {
           />
           <Box pt={3} className="">
             {currentGrains.map(g => (
-              <FRow key={g.id} py={2} className="bb b--light-gray">
+              <FRowC key={g.id} py={2} className="bb b--light-gray">
+                <input type="checkbox" value={Boolean(g.done)} />
                 <Box className="flex-auto">{g.title}</Box>
                 <button onClick={() => deleteGrain(g)}>X</button>
-              </FRow>
+              </FRowC>
             ))}
           </Box>
         </FCol>

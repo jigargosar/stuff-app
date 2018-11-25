@@ -317,8 +317,9 @@ function onEditGrainTitleChange(title, immerState) {
 
 function renderGrainItem(immerState) {
   return ({ grain, isSelected, edit }) => {
+    const grainDomId = grainDomId(grain)
     const commonProps = {
-      id: grainDomId(grain),
+      id: grainDomId,
       tabIndex: isSelected ? 0 : null,
       key: grain.id,
     }
@@ -344,7 +345,7 @@ function renderGrainItem(immerState) {
             [
               'Enter',
               ev => {
-                if (ev.target.id === grainDomId(grain)) {
+                if (ev.target.id === grainDomId) {
                   startEditingSelectedGrain(immerState)
                 }
               },
@@ -352,16 +353,20 @@ function renderGrainItem(immerState) {
             [
               'ArrowDown',
               ev => {
-                if (ev.target.id === grainDomId(grain)) {
+                if (ev.target.id === grainDomId) {
                   rollSelectionBy(1, immerState)
+                } else {
+                  debounceFocusId(grainDomId)
                 }
               },
             ],
             [
               'ArrowUp',
               ev => {
-                if (ev.target.id === grainDomId(grain)) {
+                if (ev.target.id === grainDomId) {
                   rollSelectionBy(-1, immerState)
+                } else {
+                  debounceFocusId(grainDomId)
                 }
               },
             ],

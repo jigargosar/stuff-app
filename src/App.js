@@ -370,9 +370,9 @@ function App() {
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
           {renderTopInput(state, immerState)}
-          <Box pt={3} className="">
+          <FCol pt={3} className="">
             {mapOverGrainsWithSelection(renderGrainItem(immerState), state)}
-          </Box>
+          </FCol>
         </FCol>
       </FCol>
     </ThemeProvider>

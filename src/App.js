@@ -317,12 +317,15 @@ function onEditGrainTitleChange(title, immerState) {
 
 function renderGrainItem(immerState) {
   return ({ grain, isSelected, edit }) => {
+    const commonProps = {
+      id: grainDomId(grain),
+      tabIndex: isSelected ? 0 : null,
+      key: grain.id,
+    }
     if (edit && edit.grainId === grain.id) {
       return (
         <InputText
-          id={grainDomId(grain)}
-          tabIndex={isSelected ? 0 : -1}
-          key={grain.id}
+          {...commonProps}
           // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
           value={edit.title}
           onChange={title => onEditGrainTitleChange(title, immerState)}
@@ -333,9 +336,7 @@ function renderGrainItem(immerState) {
     } else {
       return (
         <FRowCY
-          id={grainDomId(grain)}
-          tabIndex={isSelected ? 0 : -1}
-          key={grain.id}
+          {...commonProps}
           py={2}
           className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
           onKeyDown={hotKeys([

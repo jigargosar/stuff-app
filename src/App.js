@@ -223,7 +223,7 @@ function focusId(domId) {
 
 const debounceFocusId = debounce(focusId)
 
-function rollSelectionBy(offset, shouldFocus, immerState) {
+function rollSelectionBy(offset, immerState) {
   return immerState(state => {
     const grains = currentGrains(state)
     const grainsLength = grains.length
@@ -248,8 +248,8 @@ function onWindowKeydown(state, immerState) {
     }
 
     hotKeys(
-      ['ArrowUp', () => rollSelectionBy(-1, true, immerState)],
-      ['ArrowDown', () => rollSelectionBy(1, true, immerState)],
+      ['ArrowUp', () => rollSelectionBy(-1, immerState)],
+      ['ArrowDown', () => rollSelectionBy(1, immerState)],
     )(ev)
   }
 }

@@ -171,8 +171,14 @@ function onTopInputSubmit(immerState) {
 
       resetInputValue(immerState)
       insertGrain(grain, immerState)
+      setSidxToGrain(grain, immerState)
       debounceFocusId(grainDomId(grain))
     }
+  })
+}
+function setSidxToGrain(grain, immerState) {
+  immerState(state => {
+    state.sidx = currentGrains(state).findIndex(g => g.id === grain.id)
   })
 }
 

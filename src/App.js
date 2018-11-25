@@ -245,7 +245,9 @@ function mapOverGrainsWithSelection(fn, state) {
   const grains = currentGrains(state)
   if (grains.length > 0) {
     const sidx = R.clamp(0, grains.length - 1, state.sidx)
-    return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
+    return grains.map((grain, idx) =>
+      fn({ grain, isSelected: sidx === idx, edit: state.edit }),
+    )
   } else {
     return []
   }
@@ -275,8 +277,8 @@ function startEditingSelectedGrain(immerState) {
 }
 
 function renderGrainItem(immerState) {
-  return ({ grain, isSelected }) => {
-    if (false) {
+  return ({ grain, isSelected, edit }) => {
+    if (edit) {
       return (
         <FRowCY
           id={grainDomId(grain)}

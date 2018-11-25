@@ -94,7 +94,7 @@ function App() {
 
   const [getInputValue, setInputValue, onInputSubmit] = [
     () => state.inputValue,
-    inputValue => setState({ inputValue }),
+    iv => setState(produce(s => void (s.inputValue = iv))),
     () => {
       const title = state.inputValue.trim()
       if (title) {

@@ -171,7 +171,9 @@ function App() {
                   <input
                     type="checkbox"
                     value={Boolean(g.done)}
-                    onChange={bool => grainSetDoneProp(bool, g, immerState)}
+                    onChange={ev =>
+                      grainSetDoneProp(ev.target.checked, g, immerState)
+                    }
                   />
                 </Box>
                 <Box className="flex-auto">{g.title}</Box>

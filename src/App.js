@@ -62,7 +62,6 @@ TopInput.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
-  ...space.propTypes,
 }
 
 const FCol = styled(Flex)`

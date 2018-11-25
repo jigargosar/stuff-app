@@ -49,6 +49,38 @@ function hotKeys(...mappings) {
   }
 }
 
+// InputComponents
+
+export function CheckBox({ value, onChange }) {
+  return (
+    <input
+      type="checkbox"
+      value={value}
+      onChange={ev => onChange(ev.target.checked, ev)}
+    />
+  )
+}
+
+CheckBox.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.bool.isRequired,
+}
+
+export function InputText({ value, onChange }) {
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={ev => onChange(ev.target.value, ev)}
+    />
+  )
+}
+
+InputText.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.bool.isRequired,
+}
+
 // APP Components
 
 const TopInput = styled.input`
@@ -191,15 +223,6 @@ function mapOverGrainsWithSelection(fn, state) {
   return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
 }
 
-function CheckBox({ value, onChange }) {
-  return <input type="checkbox" value={value} onChange={onChange} />
-}
-
-CheckBox.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.bool.isRequired,
-}
-
 function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
@@ -235,8 +258,8 @@ function App() {
                   <Box p={2}>
                     <CheckBox
                       value={grain.done}
-                      onChange={ev =>
-                        grainSetDoneProp(ev.target.checked, grain, immerState)
+                      onChange={bool =>
+                        grainSetDoneProp(bool, grain, immerState)
                       }
                     />
                   </Box>

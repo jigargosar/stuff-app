@@ -247,10 +247,10 @@ function onWindowKeydown(state, immerState) {
     } else {
     }
 
-    hotKeys(
-      ['ArrowUp', () => rollSelectionBy(-1, immerState)],
-      ['ArrowDown', () => rollSelectionBy(1, immerState)],
-    )(ev)
+    // hotKeys(
+    //   ['ArrowUp', () => rollSelectionBy(-1, immerState)],
+    //   ['ArrowDown', () => rollSelectionBy(1, immerState)],
+    // )(ev)
   }
 }
 
@@ -340,14 +340,32 @@ function renderGrainItem(immerState) {
           {...commonProps}
           py={2}
           className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
-          onKeyDown={hotKeys([
-            'Enter',
-            ev => {
-              if (ev.target.id === grainDomId(grain)) {
-                startEditingSelectedGrain(immerState)
-              }
-            },
-          ])}
+          onKeyDown={hotKeys(
+            [
+              'Enter',
+              ev => {
+                if (ev.target.id === grainDomId(grain)) {
+                  startEditingSelectedGrain(immerState)
+                }
+              },
+            ],
+            [
+              'ArrowDown',
+              ev => {
+                if (ev.target.id === grainDomId(grain)) {
+                  rollSelectionBy(1, immerState)
+                }
+              },
+            ],
+            [
+              'ArrowUp',
+              ev => {
+                if (ev.target.id === grainDomId(grain)) {
+                  rollSelectionBy(-1, immerState)
+                }
+              },
+            ],
+          )}
         >
           <Box p={2}>
             <CheckBox

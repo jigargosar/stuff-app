@@ -101,6 +101,18 @@ function setInputValue(iv, immerState) {
   })
 }
 
+function resetInputValue(immerState) {
+  immerState(state => {
+    state.inputValue = ''
+  })
+}
+
+function insertGrain(grain, immerState) {
+  immerState(state => {
+    state.lookup[grain.id] = grain
+  })
+}
+
 function getInputValue(state) {
   return state.inputValue
 }
@@ -111,8 +123,8 @@ function onInputSubmit(immerState) {
     if (title) {
       const grain = createGrainWithTitle(title)
 
-      state.inputValue = ''
-      state.lookup[grain.id] = grain
+      resetInputValue(immerState)
+      insertGrain(grain, immerState)
     }
   })
 }

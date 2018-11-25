@@ -247,6 +247,17 @@ function mapOverGrainsWithSelection(fn, state) {
   return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
 }
 
+function startEditingGrain(grain, immerState) {
+  return immerState(state => {
+    const edit = state.edit
+    if (edit) {
+      console.warn('Handle start editing when already in edit mode')
+    } else {
+      state.edit = { grainId: grain.id, title: grain.title }
+    }
+  })
+}
+
 function renderGrainItem(immerState) {
   return ({ grain, isSelected }) => (
     <FRowCY
@@ -255,6 +266,14 @@ function renderGrainItem(immerState) {
       key={grain.id}
       py={2}
       className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
+      onKeyDown={hotKeys([
+        'Enter',
+        ev => {
+          if (ev.target.id === grainDomId(grain)) {
+            startEditingGrain(grain, immerState)
+          }
+        },
+      ])}
     >
       <Box p={2}>
         <CheckBox

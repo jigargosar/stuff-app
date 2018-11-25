@@ -191,6 +191,15 @@ function mapOverGrainsWithSelection(fn, state) {
   return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
 }
 
+function CheckBox({ value, onChange }) {
+  return <input type="checkbox" value={value} onChange={onChange} />
+}
+
+CheckBox.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.bool.isRequired,
+}
+
 function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
@@ -224,9 +233,8 @@ function App() {
                   }`}
                 >
                   <Box p={2}>
-                    <input
-                      type="checkbox"
-                      value={Boolean(grain.done)}
+                    <CheckBox
+                      value={grain.done}
                       onChange={ev =>
                         grainSetDoneProp(ev.target.checked, grain, immerState)
                       }

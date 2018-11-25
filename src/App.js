@@ -142,7 +142,7 @@ function onInputSubmit(immerState) {
 }
 
 function currentGrains(state) {
-  return R.values(state.lookup())
+  return R.values(state.lookup)
 }
 
 function App() {

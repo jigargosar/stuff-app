@@ -275,32 +275,63 @@ function startEditingSelectedGrain(immerState) {
 }
 
 function renderGrainItem(immerState) {
-  return ({ grain, isSelected }) => (
-    <FRowCY
-      id={grainDomId(grain)}
-      tabIndex={isSelected ? 0 : -1}
-      key={grain.id}
-      py={2}
-      className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
-      onKeyDown={hotKeys([
-        'Enter',
-        ev => {
-          if (ev.target.id === grainDomId(grain)) {
-            startEditingSelectedGrain(immerState)
-          }
-        },
-      ])}
-    >
-      <Box p={2}>
-        <CheckBox
-          value={grain.done}
-          onChange={bool => grainSetDoneProp(bool, grain, immerState)}
-        />
-      </Box>
-      <Box className="flex-auto">{grain.title}</Box>
-      <button onClick={() => deleteGrain(grain, immerState)}>X</button>
-    </FRowCY>
-  )
+  return ({ grain, isSelected }) => {
+    if (false) {
+      return (
+        <FRowCY
+          id={grainDomId(grain)}
+          tabIndex={isSelected ? 0 : -1}
+          key={grain.id}
+          py={2}
+          className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
+          onKeyDown={hotKeys([
+            'Enter',
+            ev => {
+              if (ev.target.id === grainDomId(grain)) {
+                startEditingSelectedGrain(immerState)
+              }
+            },
+          ])}
+        >
+          <Box p={2}>
+            <CheckBox
+              value={grain.done}
+              onChange={bool => grainSetDoneProp(bool, grain, immerState)}
+            />
+          </Box>
+          <Box className="flex-auto">{grain.title}</Box>
+          <button onClick={() => deleteGrain(grain, immerState)}>X</button>
+        </FRowCY>
+      )
+    } else {
+      return (
+        <FRowCY
+          id={grainDomId(grain)}
+          tabIndex={isSelected ? 0 : -1}
+          key={grain.id}
+          py={2}
+          className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
+          onKeyDown={hotKeys([
+            'Enter',
+            ev => {
+              if (ev.target.id === grainDomId(grain)) {
+                startEditingSelectedGrain(immerState)
+              }
+            },
+          ])}
+        >
+          <Box p={2}>
+            <CheckBox
+              value={grain.done}
+              onChange={bool => grainSetDoneProp(bool, grain, immerState)}
+            />
+          </Box>
+          <Box className="flex-auto">{grain.title}</Box>
+          <button onClick={() => deleteGrain(grain, immerState)}>X</button>
+        </FRowCY>
+      )
+    }
+  }
 }
 
 function renderTopInput(state, immerState) {

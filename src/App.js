@@ -21,8 +21,12 @@ const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
 
 // Basic Styled Components
 
-const FCol = styled(Flex)`
+export const FCol = styled(Flex)`
   flex-direction: column;
+`
+
+export const FRow = styled(Flex)`
+  flex-direction: row;
 `
 
 // HOTKEY HELPERS
@@ -117,9 +121,9 @@ function App() {
           />
           <Box pt={3} className="">
             {currentGrains.map(g => (
-              <Box key={g.id} py={2} className="bb b--light-gray">
+              <FRow key={g.id} py={2} className="bb b--light-gray">
                 {g.title}
-              </Box>
+              </FRow>
             ))}
           </Box>
         </FCol>

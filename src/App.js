@@ -36,9 +36,26 @@ function hotKeys(...mappings) {
   }
 }
 
+// APP Components
+
+const TopInput = styled.input`
+  padding: ${props => props.theme.space[3] + 'px'};
+`
+TopInput.propTypes = {
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  onKeyDown: PropTypes.func,
+}
+
+// APP
+
 // APP STORAGE
 
 const appStateStorageKey = () => 'app-state'
+
+export function cacheAppState(state) {
+  storageSet(appStateStorageKey(), state)
+}
 
 export function loadAppState() {
   const defaultState = {
@@ -51,21 +68,6 @@ export function loadAppState() {
   return compose(mergeDeepRight(defaultState))(
     storageGetOr({}, appStateStorageKey()),
   )
-}
-
-export function cacheAppState(state) {
-  storageSet(appStateStorageKey(), state)
-}
-
-// APP
-
-const TopInput = styled.input`
-  padding: ${props => props.theme.space[3] + 'px'};
-`
-TopInput.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-  onKeyDown: PropTypes.func,
 }
 
 function App() {

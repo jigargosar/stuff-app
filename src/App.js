@@ -57,7 +57,7 @@ export function cacheAppState(state) {
   storageSet(appStateStorageKey(), state)
 }
 
-export function loadAppState() {
+export function restoreAppState() {
   const defaultState = {
     inputValue: '',
     lookup: {},
@@ -71,7 +71,7 @@ export function loadAppState() {
 }
 
 function App() {
-  const [state, setState] = useState(loadAppState)
+  const [state, setState] = useState(restoreAppState)
   const deepMergeState = partialState => setState(mergeDeepLeft(partialState))
 
   useEffect(() => cacheAppState(state))

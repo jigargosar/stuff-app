@@ -185,7 +185,7 @@ function onTopInputSubmit(immerState) {
       resetInputValue(immerState)
       insertGrain(grain, immerState)
       setSidxToGrain(grain, immerState)
-      debounceFocusId(grainDomId(grain))
+      debounceFocusId(getGrainDomId(grain))
     }
   })
 }
@@ -209,7 +209,7 @@ const wrapPD = fn =>
     R.tap(pd),
   )
 
-function grainDomId(grain) {
+function getGrainDomId(grain) {
   return 'grain-li--' + grain.id
 }
 
@@ -230,7 +230,7 @@ function rollSelectionBy(offset, immerState) {
     if (grainsLength > 1) {
       const clampedSidx = R.clamp(0, grains.length - 1, state.sidx)
       state.sidx = R.mathMod(clampedSidx + offset, grainsLength)
-      debounceFocusId(grainDomId(grains[state.sidx]))
+      debounceFocusId(getGrainDomId(grains[state.sidx]))
     }
   })
 }
@@ -317,7 +317,7 @@ function onEditGrainTitleChange(title, immerState) {
 
 function renderGrainItem(immerState) {
   return ({ grain, isSelected, edit }) => {
-    const grainDomId = grainDomId(grain)
+    const grainDomId = getGrainDomId(grain)
     const commonProps = {
       id: grainDomId,
       tabIndex: isSelected ? 0 : null,
@@ -355,8 +355,6 @@ function renderGrainItem(immerState) {
               ev => {
                 if (ev.target.id === grainDomId) {
                   rollSelectionBy(1, immerState)
-                } else {
-                  debounceFocusId(grainDomId)
                 }
               },
             ],
@@ -365,8 +363,6 @@ function renderGrainItem(immerState) {
               ev => {
                 if (ev.target.id === grainDomId) {
                   rollSelectionBy(-1, immerState)
-                } else {
-                  debounceFocusId(grainDomId)
                 }
               },
             ],

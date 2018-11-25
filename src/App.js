@@ -120,8 +120,8 @@ function App() {
     g => immerState(s => void delete s.lookup[g.id]),
     g =>
       immerState(s => {
-        const done = s.lookup[g.id].done
-        s.lookup[g.id].done = !Boolean(done)
+        const grain = s.lookup[g.id]
+        grain.done = !Boolean(grain.done)
       }),
   ]
 

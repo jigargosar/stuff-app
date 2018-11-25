@@ -161,7 +161,7 @@ function rollSelectionBy(offset, immerState) {
     const grainsLength = grains.length
     if (grainsLength > 1) {
       const sidx = R.mathMod(state.sidx, grainsLength - 1)
-      state.sidx = R.clamp(0, grainsLength - 1)
+      state.sidx = R.clamp(0, grainsLength - 1)(sidx)
     }
   })
 }

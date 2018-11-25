@@ -224,6 +224,25 @@ function mapOverGrainsWithSelection(fn, state) {
   return grains.map((grain, idx) => fn({ grain, isSelected: sidx === idx }))
 }
 
+function renderGrainItem(immerState) {
+  return ({ grain, isSelected }) => (
+    <FRowCY
+      key={grain.id}
+      py={2}
+      className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
+    >
+      <Box p={2}>
+        <CheckBox
+          value={grain.done}
+          onChange={bool => grainSetDoneProp(bool, grain, immerState)}
+        />
+      </Box>
+      <Box className="flex-auto">{grain.title}</Box>
+      <button onClick={() => deleteGrain(grain, immerState)}>X</button>
+    </FRowCY>
+  )
+}
+
 function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
@@ -247,31 +266,7 @@ function App() {
             onKeyDown={hotKeys(['Enter', () => onInputSubmit(immerState)])}
           />
           <Box pt={3} className="">
-            {mapOverGrainsWithSelection(
-              ({ grain, isSelected }) => (
-                <FRowCY
-                  key={grain.id}
-                  py={2}
-                  className={`bb b--light-gray ${
-                    isSelected ? 'bg-light-blue' : ''
-                  }`}
-                >
-                  <Box p={2}>
-                    <CheckBox
-                      value={grain.done}
-                      onChange={bool =>
-                        grainSetDoneProp(bool, grain, immerState)
-                      }
-                    />
-                  </Box>
-                  <Box className="flex-auto">{grain.title}</Box>
-                  <button onClick={() => deleteGrain(grain, immerState)}>
-                    X
-                  </button>
-                </FRowCY>
-              ),
-              state,
-            )}
+            {mapOverGrainsWithSelection(renderGrainItem(immerState), state)}
           </Box>
         </FCol>
       </FCol>

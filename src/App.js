@@ -145,25 +145,16 @@ function currentGrains(state) {
   return R.values(state.lookup)
 }
 
+const pd = ev => {
+  ev.preventDefault()
+}
+
 function onWindowKeydown(state, immerState) {
   return ev => {
     const tagName = ev.target.tagName
     console.debug(ev, tagName)
-    if (tagName !== 'INPUT') {
-      hotKeys(
-        [
-          'ArrowUp',
-          ev => {
-            ev.preventDefault()
-          },
-        ],
-        [
-          'ArrowDown',
-          ev => {
-            ev.preventDefault()
-          },
-        ],
-      )(ev)
+    if (tagName === 'INPUT' || tagName === 'BODY') {
+      hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
     } else {
     }
 

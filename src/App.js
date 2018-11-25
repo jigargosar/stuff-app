@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
+import * as R from 'ramda'
 import {
   compose,
   defaultTo,
@@ -108,7 +109,12 @@ function App() {
     },
   ]
 
-  const currentGrains = values(state.lookup)
+  const [currentGrains, deleteGrain] = [
+    values(state.lookup),
+    g => {
+      setState({ lookup: R.dissoc(g.id)(state.lookup) })
+    },
+  ]
 
   return (
     <ThemeProvider theme={styledComponentsTheme}>
@@ -123,7 +129,7 @@ function App() {
             {currentGrains.map(g => (
               <FRow key={g.id} py={2} className="bb b--light-gray">
                 <Box className="flex-auto">{g.title}</Box>
-                <Box>{g.title}</Box>
+                <button onClick={() => deleteGrain(g)}>X</button>
               </FRow>
             ))}
           </Box>

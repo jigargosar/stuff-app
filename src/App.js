@@ -89,20 +89,17 @@ function createGrainWithTitle(title) {
 
 function App() {
   const [state, setState] = useState(restoreAppState)
-
+  const immerState = fn => setState(produce(fn))
   useEffect(() => cacheAppState(state))
 
   const [getInputValue, setInputValue, onInputSubmit] = [
     () => state.inputValue,
-    iv => setState(produce(s => void (s.inputValue = iv))),
+    iv => immerState(s => void (s.inputValue = iv)),
     () => {
       const title = state.inputValue.trim()
       if (title) {
-        const grain = createGrainWithTitle(title)
-
-        setState(
-          produce(s => {
-            console.log(`s`, s)
+        const grain = createGrainWithTitle(title)(
+          immerState(s => {
             s.inputValue = ''
             s.lookup[grain.id] = grain
           }),

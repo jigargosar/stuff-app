@@ -171,6 +171,7 @@ function onTopInputSubmit(immerState) {
 
       resetInputValue(immerState)
       insertGrain(grain, immerState)
+      debounceFocusId(grainDomId(grain))
     }
   })
 }

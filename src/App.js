@@ -97,12 +97,11 @@ function App() {
     () => {
       const title = state.inputValue.trim()
       if (title) {
-        const grain = createGrainWithTitle(title)(
-          immerState(s => {
-            s.inputValue = ''
-            s.lookup[grain.id] = grain
-          }),
-        )
+        const grain = createGrainWithTitle(title)
+        immerState(s => {
+          s.inputValue = ''
+          s.lookup[grain.id] = grain
+        })
       }
     },
   ]

@@ -17,6 +17,7 @@ import { Box, Flex } from 'rebass'
 import * as invariant from 'invariant'
 import { produce } from 'immer'
 import debounce from 'lodash.debounce'
+import { space, width } from 'styled-system'
 
 const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
 
@@ -67,9 +68,18 @@ CheckBox.propTypes = {
   value: PropTypes.bool.isRequired,
 }
 
+export const StyledInput = styled.input`
+  ${space} ${width};
+`
+
+StyledInput.propTypes = {
+  ...space.propTypes,
+  ...width.propTypes,
+}
+
 export function InputText({ value, onChange, ...otherProps }) {
   return (
-    <input
+    <StyledInput
       type="text"
       value={value}
       onChange={ev => onChange(ev.target.value, ev)}
@@ -81,17 +91,20 @@ export function InputText({ value, onChange, ...otherProps }) {
 InputText.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
+  ...StyledInput.propTypes,
 }
 
 // APP Components
 
-const TopInput = styled(InputText)`
-  padding: ${props => props.theme.space[3] + 'px'};
-`
+const TopInput = styled(InputText)``
 TopInput.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func.isRequired,
+}
+
+TopInput.defaultProps = {
+  p: 3,
 }
 
 // APP
@@ -278,32 +291,25 @@ function startEditingSelectedGrain(immerState) {
 
 function renderGrainItem(immerState) {
   return ({ grain, isSelected, edit }) => {
-    if (edit) {
+    if (edit && edit.grainId === grain.id) {
       return (
-        <FRowCY
+        <InputText
           id={grainDomId(grain)}
           tabIndex={isSelected ? 0 : -1}
           key={grain.id}
-          py={2}
-          className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
-          onKeyDown={hotKeys([
+          // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
+          value={edit.title}
+          onChange={() => {}}
+          p={3}
+          /*onKeyDown={hotKeys([
             'Enter',
             ev => {
               if (ev.target.id === grainDomId(grain)) {
                 startEditingSelectedGrain(immerState)
               }
             },
-          ])}
-        >
-          <Box p={2}>
-            <CheckBox
-              value={grain.done}
-              onChange={bool => grainSetDoneProp(bool, grain, immerState)}
-            />
-          </Box>
-          <Box className="flex-auto">{grain.title}</Box>
-          <button onClick={() => deleteGrain(grain, immerState)}>X</button>
-        </FRowCY>
+          ])}*/
+        />
       )
     } else {
       return (

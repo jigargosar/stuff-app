@@ -15,6 +15,7 @@ import nanoid from 'nanoid'
 import * as PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
 import { Box, Flex } from 'rebass'
+import * as invariant from 'invariant'
 
 const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
 
@@ -70,6 +71,17 @@ export function restoreAppState() {
   )
 }
 
+function createGrainWithTitle(title) {
+  invariant(!isNil(title), `null arg title:${title}`)
+  return {
+    id: 'grain--' + nanoid(),
+    ca: Date.now(),
+    ma: Date.now(),
+    title,
+    desc: '',
+  }
+}
+
 function App() {
   const [state, setState] = useState(restoreAppState)
   const deepMergeState = partialState => setState(mergeDeepLeft(partialState))
@@ -82,13 +94,7 @@ function App() {
     () => {
       const title = state.inputValue.trim()
       if (title) {
-        const grain = {
-          id: 'grain--' + nanoid(),
-          ca: Date.now(),
-          ma: Date.now(),
-          title,
-          desc: '',
-        }
+        const grain = createGrainWithTitle(title)
 
         deepMergeState({
           inputValue: '',

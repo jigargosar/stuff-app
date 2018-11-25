@@ -122,7 +122,7 @@ function App() {
           <Box pt={3} className="">
             {currentGrains.map(g => (
               <FRow key={g.id} py={2} className="bb b--light-gray">
-                {g.title}
+                <Box className="flex-auto">{g.title}</Box>
                 <Box>{g.title}</Box>
               </FRow>
             ))}

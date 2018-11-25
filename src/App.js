@@ -95,7 +95,7 @@ function App() {
 
   const [getInputValue, setInputValue, onInputSubmit] = [
     () => state.inputValue,
-    inputValue => deepMergeState({ inputValue }),
+    inputValue => setState({ inputValue }),
     () => {
       const title = state.inputValue.trim()
       if (title) {

@@ -331,6 +331,7 @@ function renderGrainItem(immerState) {
           onChange={title => onEditGrainTitleChange(title, immerState)}
           p={3}
           onKeyDown={hotKeys(['Enter', () => endEditMode(immerState)])}
+          onFocus={() => setSidxToGrain(grain, immerState)}
         />
       )
     } else {

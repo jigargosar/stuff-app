@@ -247,10 +247,12 @@ function onWindowKeydown(state, immerState) {
     } else {
     }
 
-    // hotKeys(
-    //   ['ArrowUp', () => rollSelectionBy(-1, immerState)],
-    //   ['ArrowDown', () => rollSelectionBy(1, immerState)],
-    // )(ev)
+    const sidxGrain = getMaybeGrainAtSidx(state)
+    if (sidxGrain && ev.target.id !== getGrainDomId(sidxGrain))
+      hotKeys(
+        ['ArrowUp', () => debounceFocusId(getGrainDomId(sidxGrain))],
+        ['ArrowDown', () => debounceFocusId(getGrainDomId(sidxGrain))],
+      )(ev)
   }
 }
 
@@ -354,6 +356,7 @@ function renderGrainItem(immerState) {
               'ArrowDown',
               ev => {
                 if (ev.target.id === grainDomId) {
+                  ev.stopPropagation()
                   rollSelectionBy(1, immerState)
                 }
               },
@@ -362,6 +365,7 @@ function renderGrainItem(immerState) {
               'ArrowUp',
               ev => {
                 if (ev.target.id === grainDomId) {
+                  ev.stopPropagation()
                   rollSelectionBy(-1, immerState)
                 }
               },

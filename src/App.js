@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
+import * as R from 'ramda'
 import {
   compose,
   defaultTo,
@@ -7,7 +8,6 @@ import {
   identity,
   isNil,
   mergeDeepRight,
-  values,
 } from 'ramda'
 import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
@@ -141,19 +141,14 @@ function onInputSubmit(immerState) {
   })
 }
 
+function currentGrains(state) {
+  return R.values(state.lookup())
+}
+
 function App() {
   const [state, setState] = useState(restoreAppState)
   const immerState = fn => setState(produce(fn))
   useEffect(() => cacheAppState(state))
-  const [currentGrains] = [
-    values(state.lookup),
-    g => immerState(s => void delete s.lookup[g.id]),
-    g =>
-      immerState(s => {
-        const grain = s.lookup[g.id]
-        grain.done = !Boolean(grain.done)
-      }),
-  ]
 
   return (
     <ThemeProvider theme={styledComponentsTheme}>
@@ -165,7 +160,7 @@ function App() {
             onKeyDown={hotKeys(['Enter', () => onInputSubmit(immerState)])}
           />
           <Box pt={3} className="">
-            {currentGrains.map(g => (
+            {currentGrains(state).map(g => (
               <FRowCY key={g.id} py={2} className="bb b--light-gray">
                 <Box p={2}>
                   <input

@@ -25,6 +25,10 @@ export const FCol = styled(Flex)`
   flex-direction: column;
 `
 
+export const FColCX = styled(FCol)`
+  align-items: center;
+`
+
 export const FRow = styled(Flex)`
   flex-direction: row;
 `

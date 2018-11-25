@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import * as R from 'ramda'
 import {
   compose,
   defaultTo,
@@ -111,7 +110,9 @@ function App() {
   const [currentGrains, deleteGrain] = [
     values(state.lookup),
     g => {
-      setState({ lookup: R.dissoc(g.id)(state.lookup) })
+      immerState(s => {
+        delete s.lookup[g.id]
+      })
     },
   ]
 

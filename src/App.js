@@ -195,8 +195,14 @@ function App() {
           />
           <Box pt={3} className="">
             {mapOverGrainsWithSelection(
-              ({ grain }) => (
-                <FRowCY key={grain.id} py={2} className="bb b--light-gray">
+              ({ grain, isSelected }) => (
+                <FRowCY
+                  key={grain.id}
+                  py={2}
+                  className={`bb b--light-gray ${
+                    isSelected ? 'bg-light-blue' : ''
+                  }`}
+                >
                   <Box p={2}>
                     <input
                       type="checkbox"

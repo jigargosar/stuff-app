@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import logo from './logo.svg'
 import './App.css'
 import {
   compose,
@@ -15,10 +14,15 @@ import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
 import * as PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
-import { space, width } from 'styled-system'
 import { Box, Flex } from 'rebass'
 
-console.debug(`system`, width, space)
+const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
+
+// Basic Styled Components
+
+const FCol = styled(Flex)`
+  flex-direction: column;
+`
 
 // HOTKEY HELPERS
 
@@ -64,10 +68,6 @@ TopInput.propTypes = {
   onKeyDown: PropTypes.func,
 }
 
-const FCol = styled(Flex)`
-  flex-direction: column;
-`
-
 function App() {
   const [state, setState] = useState(loadAppState)
   const deepMergeState = partialState => setState(mergeDeepLeft(partialState))
@@ -97,28 +97,23 @@ function App() {
   ]
 
   return (
-    <ThemeProvider theme={{ space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }}>
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-        </header>
-        <FCol as={'main'} className="items-center">
-          <FCol p={3} width={'20em'}>
-            <TopInput
-              value={getInputValue()}
-              onChange={ev => setInputValue(ev.target.value)}
-              onKeyDown={hotKeys(['Enter', onInputSubmit])}
-            />
-            <Box className="pt3">
-              {values(state.lookup).map(g => (
-                <Box key={g.id} className="pv2 bb b--light-gray">
-                  {g.title}
-                </Box>
-              ))}
-            </Box>
-          </FCol>
+    <ThemeProvider theme={styledComponentsTheme}>
+      <FCol className="items-center">
+        <FCol p={3} width={'30em'}>
+          <TopInput
+            value={getInputValue()}
+            onChange={ev => setInputValue(ev.target.value)}
+            onKeyDown={hotKeys(['Enter', onInputSubmit])}
+          />
+          <Box pt={3} className="">
+            {values(state.lookup).map(g => (
+              <Box key={g.id} py={2} className="bb b--light-gray">
+                {g.title}
+              </Box>
+            ))}
+          </Box>
         </FCol>
-      </div>
+      </FCol>
     </ThemeProvider>
   )
 }

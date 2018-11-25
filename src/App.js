@@ -155,6 +155,17 @@ const wrapPD = fn =>
     R.tap(pd),
   )
 
+function rollSelectionBy(offset, immerState) {
+  return immerState(state => {
+    const grains = currentGrains(state)
+    const grainsLength = grains.length
+    if (grainsLength > 1) {
+      const sidx = R.mathMod(state.sidx, grainsLength - 1)
+      state.sidx = R.clamp(0, grainsLength - 1)
+    }
+  })
+}
+
 function onWindowKeydown(state, immerState) {
   return ev => {
     const tagName = ev.target.tagName
@@ -167,10 +178,10 @@ function onWindowKeydown(state, immerState) {
     } else {
     }
 
-    // hotKeys(
-    //   ['ArrowUp', ev => console.log(ev)],
-    //   ['ArrowDown', ev => console.log(ev)],
-    // )(ev)
+    hotKeys(
+      ['ArrowUp', () => rollSelectionBy(-1, immerState)],
+      ['ArrowDown', ev => console.log(ev)],
+    )(ev)
   }
 }
 

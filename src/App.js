@@ -7,7 +7,6 @@ import {
   find,
   identity,
   isNil,
-  mergeDeepLeft,
   mergeDeepRight,
   values,
 } from 'ramda'
@@ -17,6 +16,7 @@ import * as PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
 import { Box, Flex } from 'rebass'
 import * as invariant from 'invariant'
+import { produce } from 'immer'
 
 const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
 
@@ -89,7 +89,6 @@ function createGrainWithTitle(title) {
 
 function App() {
   const [state, setState] = useState(restoreAppState)
-  const deepMergeState = partialState => setState(mergeDeepLeft(partialState))
 
   useEffect(() => cacheAppState(state))
 
@@ -101,10 +100,13 @@ function App() {
       if (title) {
         const grain = createGrainWithTitle(title)
 
-        deepMergeState({
-          inputValue: '',
-          lookup: { [grain.id]: grain },
-        })
+        setState(
+          produce(s => {
+            console.log(`s`, s)
+            s.inputValue = ''
+            s.lookup[grain.id] = grain
+          }),
+        )
       }
     },
   ]

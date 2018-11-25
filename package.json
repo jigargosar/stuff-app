@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "emotion": "^9.2.12",
+    "immer": "^1.8.0",
     "invariant": "^2.2.4",
     "is-hotkey": "^0.1.4",
     "nanoid": "^2.0.0",

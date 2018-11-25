@@ -162,7 +162,7 @@ function getInputValue(state) {
   return state.inputValue
 }
 
-function onInputSubmit(immerState) {
+function onTopInputSubmit(immerState) {
   immerState(state => {
     const title = getInputValue(state).trim()
     if (title) {
@@ -248,7 +248,7 @@ function renderTopInput(state, immerState) {
     <TopInput
       value={getInputValue(state)}
       onChange={iv => setInputValue(iv, immerState)}
-      onKeyDown={hotKeys(['Enter', () => onInputSubmit(immerState)])}
+      onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(immerState)])}
     />
   )
 }

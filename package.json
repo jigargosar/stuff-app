@@ -8,6 +8,7 @@
     "immer": "^1.8.0",
     "invariant": "^2.2.4",
     "is-hotkey": "^0.1.4",
+    "lodash.debounce": "^4.0.8",
     "nanoid": "^2.0.0",
     "prettier": "^1.15.2",
     "prop-types": "^15.6.2",

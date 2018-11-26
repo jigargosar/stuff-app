@@ -5,12 +5,14 @@
 import PropTypes from 'prop-types'
 // noinspection all
 import R from 'ramda'
-import {hotKeys} from '../hotKeys'
+// noinspection all
+import * as immer from 'immer'
 /* eslint-enable no-unused-vars */
 // @formatter:on
 //</editor-fold>
 import React from 'react'
 import InputText from './InputText'
+import {hotKeys} from '../hotKeys'
 import {
   createGrainWithTitle,
   debounceFocusId,
@@ -22,7 +24,18 @@ import {
   setSidxToGrain,
 } from '../state'
 
-export function onTopInputSubmit(immerState) {
+export const onTopInputSubmit = (setState, immerState) => {
+  // setState(immer(state=>{
+  //   const title = getInputValue(state).trim()
+  //   if (title) {
+  //     const grain = createGrainWithTitle(title)
+  //
+  //     resetInputValue(immerState)
+  //     insertGrain(grain, immerState)
+  //     setSidxToGrain(grain, immerState)
+  //     debounceFocusId(getGrainDomId(grain))
+  //   }
+  // }))
   immerState(state => {
     const title = getInputValue(state).trim()
     if (title) {
@@ -40,7 +53,7 @@ const TopInput = ({ state, immerState, setState }) => (
   <InputText
     value={getInputValue(state)}
     onChange={iv => setInputValue(iv, immerState)}
-    onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(immerState)])}
+    onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(setState,immerState)])}
   />
 )
 

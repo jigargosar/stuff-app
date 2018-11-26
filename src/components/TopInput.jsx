@@ -6,27 +6,32 @@ import PropTypes from 'prop-types'
 // noinspection all
 import * as R from 'ramda'
 // noinspection all
-import * as immer from 'immer'
+import immer, {produce} from 'immer'
 /* eslint-enable no-unused-vars */
 // @formatter:on
 //</editor-fold>
 import React from 'react'
 import InputText from './InputText'
-import {hotKeys} from '../hotKeys'
+import { hotKeys } from '../hotKeys'
 import {
   createGrainWithTitle,
-  debounceFocusId,
-  getGrainDomId,
   getInputValue,
   insertGrain,
   resetInputValue,
   setInputValue,
   setSidxToGrain,
 } from '../state'
+import { debounceFocusGrain } from '../store'
 
-export const onTopInputSubmit = (setState, immerState) => {
-  const immer2 = R.curryN(2,immer)
-  setState(immer2(state=>{
+const toImmer = setter =>
+  R.compose(
+    setter,
+    produce,
+  )
+
+function onTopInputSubmit__(setState) {
+  return immer(state => {
+    const immerState = toImmer(setState)
     const title = getInputValue(state).trim()
     if (title) {
       const grain = createGrainWithTitle(title)
@@ -34,27 +39,20 @@ export const onTopInputSubmit = (setState, immerState) => {
       resetInputValue(immerState)
       insertGrain(grain, immerState)
       setSidxToGrain(grain, immerState)
-      debounceFocusId(getGrainDomId(grain))
+      debounceFocusGrain(grain)
     }
-  }))
-  // immerState(state => {
-  //   const title = getInputValue(state).trim()
-  //   if (title) {
-  //     const grain = createGrainWithTitle(title)
-  //
-  //     resetInputValue(immerState)
-  //     insertGrain(grain, immerState)
-  //     setSidxToGrain(grain, immerState)
-  //     debounceFocusId(getGrainDomId(grain))
-  //   }
-  // })
+  })
+}
+
+export const onTopInputSubmit = setState => {
+  setState(onTopInputSubmit__(setState))
 }
 
 const TopInput = ({ state, immerState, setState }) => (
   <InputText
     value={getInputValue(state)}
-    onChange={iv => setInputValue(iv, immerState)}
-    onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(setState,immerState)])}
+    onChange={iv => setInputValue(iv)}
+    onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(setState, immerState)])}
   />
 )
 

@@ -180,6 +180,7 @@ export const endEditMode = update(state => () => {
 })
 export const onEndEditModeTrigger = update(state => () => {
   endEditMode(state)
+  // debounceFocusGrain(getMaybeGrainAtSidx(state))
 })
 
 export const grainSetDoneProp = update(state => (bool, g) => {

@@ -35,11 +35,9 @@ export const setInputValue = wrapSet(iv => state => {
   state.inputValue = iv
 })
 
-export function resetInputValue(immerState) {
-  immerState(state => {
-    state.inputValue = ''
-  })
-}
+export const resetInputValue = wrapSet(() => state => {
+  state.inputValue = ''
+})
 
 export function insertGrain(grain, immerState) {
   immerState(state => {

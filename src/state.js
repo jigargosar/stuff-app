@@ -185,3 +185,15 @@ export function endEditMode(immerState) {
     }
   })
 }
+
+export function grainSetDoneProp(bool, g, immerState) {
+  immerState(state => {
+    state.lookup[g.id].done = bool
+  })
+}
+
+export function deleteGrain(grain, immerState) {
+  immerState(state => {
+    delete state.lookup[grain.id]
+  })
+}

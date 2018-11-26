@@ -8,8 +8,10 @@ import CheckBox from './components/CheckBox'
 import { AppThemeProvider, FCol, FRowCY } from './components/styled'
 import { hotKeys } from './hotKeys'
 import {
+  deleteGrain,
   getGrainDomId,
   getInputValue,
+  grainSetDoneProp,
   mapGrains,
   onTopInputSubmit,
   onWindowKeydown,
@@ -43,18 +45,6 @@ export function restoreAppState() {
   return compose(mergeDeepRight(defaultState))(
     storageGetOr({}, appStateStorageKey()),
   )
-}
-
-function deleteGrain(grain, immerState) {
-  immerState(state => {
-    delete state.lookup[grain.id]
-  })
-}
-
-function grainSetDoneProp(bool, g, immerState) {
-  immerState(state => {
-    state.lookup[g.id].done = bool
-  })
 }
 
 function GrainItem({ grain, isSelected, edit, immerState }) {

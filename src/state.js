@@ -39,11 +39,9 @@ export const resetInputValue = wrapSet(() => state => {
   state.inputValue = ''
 })
 
-export function insertGrain(grain, immerState) {
-  immerState(state => {
-    state.lookup[grain.id] = grain
-  })
-}
+export const insertGrain = wrapSet(grain => state => {
+  state.lookup[grain.id] = grain
+})
 
 export function getInputValue(state) {
   return state.inputValue

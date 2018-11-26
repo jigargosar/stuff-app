@@ -6,7 +6,6 @@ import { AppThemeProvider, FCol } from './components/styled'
 import { hotKeys } from './hotKeys'
 import {
   cacheAppState,
-  getGrainDomId,
   getInputValue,
   mapGrains,
   onTopInputSubmit,
@@ -14,8 +13,6 @@ import {
   restoreAppState,
   setInputValue,
 } from './state'
-import GrainEditItem from './components/GrainEditItem'
-import GrainDisplayItem from './components/GrainDisplayItem'
 import GrainItem from './components/GrainItem'
 
 // APP STORAGE

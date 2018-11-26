@@ -16,36 +16,9 @@ import {
 } from './state'
 import GrainEditItem from './components/GrainEditItem'
 import GrainDisplayItem from './components/GrainDisplayItem'
+import GrainItem from './components/GrainItem'
 
 // APP STORAGE
-
-function GrainItem({ grain, isSelected, edit, immerState }) {
-  const grainDomId = getGrainDomId(grain)
-  const commonProps = {
-    id: grainDomId,
-    tabIndex: isSelected ? 0 : null,
-    key: grain.id,
-  }
-  if (edit && edit.grainId === grain.id) {
-    const title = edit.title
-    return (
-      <GrainEditItem
-        {...commonProps}
-        // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
-        title={title}
-        grain={grain}
-        immerState={immerState}
-      />
-    )
-  } else {
-    return (
-      <GrainDisplayItem
-        {...commonProps}
-        {...{ grain, isSelected, immerState }}
-      />
-    )
-  }
-}
 
 function renderTopInput(state, immerState) {
   return (

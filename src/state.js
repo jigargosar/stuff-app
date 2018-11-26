@@ -17,6 +17,16 @@ function focusId(domId) {
   }
 }
 
+const pd = ev => {
+  ev.preventDefault()
+}
+
+const wrapPD = fn =>
+  compose(
+    fn,
+    R.tap(pd),
+  )
+
 // STORAGE
 
 const appStateStorageKey = () => 'app-state'
@@ -103,16 +113,6 @@ function currentGrains(state) {
     R.values,
   )(state.lookup)
 }
-
-const pd = ev => {
-  ev.preventDefault()
-}
-
-const wrapPD = fn =>
-  compose(
-    fn,
-    R.tap(pd),
-  )
 
 export function getGrainDomId(grain) {
   return 'grain-li--' + grain.id

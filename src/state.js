@@ -29,7 +29,8 @@ export function createGrainWithTitle(title) {
   }
 }
 
-export const wrapSet = fn => immerState => (...args) => {
+export const wrapSet = fn => (...args) => {
+  const immerState = R.last(args)
   const isFunc = R.is(Function, immerState)
   if (isFunc) {
     return immerState(state => {
@@ -46,7 +47,6 @@ export const setInputValue = wrapSet(iv => state => {
 })
 
 export const resetInputValue = wrapSet(() => state => {
-  debugger
   state.inputValue = ''
 })
 
@@ -215,12 +215,11 @@ export function debounceFocusGrain(grain) {
 export const onTopInputSubmit = immerState =>
   immerState(state => {
     const title = getInputValue(state).trim()
-    debugger
     if (title) {
       const grain = createGrainWithTitle(title)
 
-      resetInputValue(immerState)()
-      insertGrain(immerState)(grain)
+      resetInputValue(immerState)
+      insertGrain(grain, immerState)
       setSidxToGrain(grain, immerState)
       debounceFocusGrain(grain)
     }

@@ -6,19 +6,28 @@ import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
 import { storageGetOr, storageSet } from './storage'
 import { isDraft } from 'immer'
+// STORAGE
 
-export function createGrainWithTitle(title) {
-  invariant(!isNil(title), `null arg title:${title}`)
-  return {
-    id: 'grain--' + nanoid(),
-    ca: Date.now(),
-    ma: Date.now(),
-    title,
-    desc: '',
-    done: false,
-  }
+const appStateStorageKey = () => 'app-state'
+
+export function cacheAppState(state) {
+  storageSet(appStateStorageKey(), state)
 }
 
+export function restoreAppState() {
+  const defaultState = {
+    inputValue: '',
+    lookup: {},
+    sidx: -1,
+    edit: null,
+  }
+
+  return compose(mergeDeepRight(defaultState))(
+    storageGetOr({}, appStateStorageKey()),
+  )
+}
+
+//UPDATE
 export const update = fn => (...args) => {
   const immerState = R.last(args)
   const isFunc = R.is(Function, immerState)
@@ -32,6 +41,19 @@ export const update = fn => (...args) => {
     })
   } else {
     return fn(immerState)(...args)
+  }
+}
+
+// STATE GET/SET
+export function createGrainWithTitle(title) {
+  invariant(!isNil(title), `null arg title:${title}`)
+  return {
+    id: 'grain--' + nanoid(),
+    ca: Date.now(),
+    ma: Date.now(),
+    title,
+    desc: '',
+    done: false,
   }
 }
 
@@ -202,25 +224,6 @@ export const grainSetDoneProp = update(state => (bool, g) => {
 export const deleteGrain = update(state => grain => {
   delete state.lookup[grain.id]
 })
-
-const appStateStorageKey = () => 'app-state'
-
-export function cacheAppState(state) {
-  storageSet(appStateStorageKey(), state)
-}
-
-export function restoreAppState() {
-  const defaultState = {
-    inputValue: '',
-    lookup: {},
-    sidx: -1,
-    edit: null,
-  }
-
-  return compose(mergeDeepRight(defaultState))(
-    storageGetOr({}, appStateStorageKey()),
-  )
-}
 
 export const onTopInputSubmit = update(draft => () => {
   const title = getInputValue(draft).trim()

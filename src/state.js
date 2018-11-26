@@ -6,6 +6,17 @@ import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
 import { storageGetOr, storageSet } from './storage'
 import { isDraft } from 'immer'
+
+// DOM
+
+function focusId(domId) {
+  try {
+    document.getElementById(domId).focus()
+  } catch (e) {
+    console.error('Focus Failed:', domId)
+  }
+}
+
 // STORAGE
 
 const appStateStorageKey = () => 'app-state'
@@ -102,14 +113,6 @@ const wrapPD = fn =>
 
 export function getGrainDomId(grain) {
   return 'grain-li--' + grain.id
-}
-
-function focusId(domId) {
-  try {
-    document.getElementById(domId).focus()
-  } catch (e) {
-    console.error('Focus Failed:', domId)
-  }
 }
 
 const debounceFocusId = debounce(focusId)

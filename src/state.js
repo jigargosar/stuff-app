@@ -180,7 +180,9 @@ export const endEditMode = update(state => () => {
 })
 
 function focusGrainAtSidx(state) {
-  focusGrain(getMaybeGrainAtSidx(state))
+  const grain = getMaybeGrainAtSidx(state)
+  invariant(!isNil(grain), 'Cannot focus nil grain')
+  focusGrain(grain)
 }
 
 export const onEndEditModeTrigger = update(state => () => {

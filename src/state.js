@@ -29,7 +29,7 @@ export function createGrainWithTitle(title) {
   }
 }
 
-export function setInputValue(iv, immerState) {
+export const setInputValue = (iv, immerState) => {
   immerState(state => {
     state.inputValue = iv
   })

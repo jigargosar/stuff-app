@@ -80,17 +80,15 @@ function focusId(domId) {
 
 export const debounceFocusId = debounce(focusId)
 
-function rollSelectionBy(offset, immerState) {
-  return immerState(state => {
-    const grains = currentGrains(state)
-    const grainsLength = grains.length
-    if (grainsLength > 1) {
-      const clampedSidx = R.clamp(0, grains.length - 1, state.sidx)
-      state.sidx = R.mathMod(clampedSidx + offset, grainsLength)
-      debounceFocusId(getGrainDomId(grains[state.sidx]))
-    }
-  })
-}
+const rollSelectionBy = wrapSet(offset => state => {
+  const grains = currentGrains(state)
+  const grainsLength = grains.length
+  if (grainsLength > 1) {
+    const clampedSidx = R.clamp(0, grains.length - 1, state.sidx)
+    state.sidx = R.mathMod(clampedSidx + offset, grainsLength)
+    debounceFocusId(getGrainDomId(grains[state.sidx]))
+  }
+})
 
 export function onWindowKeydown(state, immerState) {
   return ev => {

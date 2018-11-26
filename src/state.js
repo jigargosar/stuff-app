@@ -30,7 +30,7 @@ export function createGrainWithTitle(title) {
   }
 }
 
-export const wrapSet = fn => (...args) => {
+export const update = fn => (...args) => {
   const immerState = R.last(args)
   const isFunc = R.is(Function, immerState)
   invariant(
@@ -46,15 +46,15 @@ export const wrapSet = fn => (...args) => {
   }
 }
 
-export const setInputValue = wrapSet(state => iv => {
+export const setInputValue = update(state => iv => {
   state.inputValue = iv
 })
 
-export const resetInputValue = wrapSet(state => () => {
+export const resetInputValue = update(state => () => {
   state.inputValue = ''
 })
 
-export const insertGrain = wrapSet(state => grain => {
+export const insertGrain = update(state => grain => {
   state.lookup[grain.id] = grain
 })
 
@@ -62,7 +62,7 @@ export function getInputValue(state) {
   return state.inputValue
 }
 
-export const setSidxToGrain = wrapSet(state => grain => {
+export const setSidxToGrain = update(state => grain => {
   state.sidx = currentGrains(state).findIndex(g => g.id === grain.id)
 })
 
@@ -94,7 +94,7 @@ function focusId(domId) {
 
 export const debounceFocusId = debounce(focusId)
 
-const rollSelectionBy = wrapSet(state => offset => {
+const rollSelectionBy = update(state => offset => {
   const grains = currentGrains(state)
   const grainsLength = grains.length
   if (grainsLength > 1) {

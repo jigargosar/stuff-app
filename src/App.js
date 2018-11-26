@@ -10,10 +10,15 @@ import {
 } from './state'
 import GrainItem from './components/GrainItem'
 import TopInput from './components/TopInput'
+// noinspection ES6UnusedImports
+import * as R from 'ramda'
 
 function App() {
   const [state, setState] = useState(restoreAppState)
-  const immerState = fn => setState(produce(fn))
+  const immerState = R.compose(
+    setState,
+    produce,
+  )
   useEffect(() => cacheAppState(state))
 
   useEffect(() => {
@@ -28,7 +33,7 @@ function App() {
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          <TopInput {...{ state, immerState }} />
+          <TopInput {...{ state, immerState, setState }} />
           <FCol pt={3} className="">
             {mapGrains(
               ({ grain, isSelected, edit }) => (

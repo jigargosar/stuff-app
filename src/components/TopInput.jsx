@@ -14,7 +14,7 @@ import InputText from './InputText'
 import { getInputValue, onTopInputSubmit, setInputValue } from '../state'
 import { hotKeys } from '../hotKeys'
 
-const TopInput = ({state, immerState}) => (
+const TopInput = ({state, immerState, setState}) => (
   <InputText
     value={getInputValue(state)}
     onChange={iv => setInputValue(iv, immerState)}

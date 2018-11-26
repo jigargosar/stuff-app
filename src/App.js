@@ -18,7 +18,6 @@ import * as invariant from 'invariant'
 import { produce } from 'immer'
 import debounce from 'lodash.debounce'
 import { space, width } from 'styled-system'
-import './components/Input'
 
 const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
 

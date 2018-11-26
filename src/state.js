@@ -156,19 +156,17 @@ function getMaybeGrainAtSidx(state) {
   }
 }
 
-export function startEditingSelectedGrain(immerState) {
-  return immerState(state => {
-    const edit = state.edit
-    if (edit) {
-      console.warn('Handle start editing when already in edit mode')
-    } else {
-      const grain = getMaybeGrainAtSidx(state)
-      if (grain) {
-        state.edit = { grainId: grain.id, title: grain.title }
-      }
+export const startEditingSelectedGrain = update(state => () => {
+  const edit = state.edit
+  if (edit) {
+    console.warn('Handle start editing when already in edit mode')
+  } else {
+    const grain = getMaybeGrainAtSidx(state)
+    if (grain) {
+      state.edit = { grainId: grain.id, title: grain.title }
     }
-  })
-}
+  }
+})
 
 export function endEditMode(immerState) {
   return immerState(state => {

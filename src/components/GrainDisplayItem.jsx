@@ -4,7 +4,7 @@
 // noinspection all
 import PropTypes from 'prop-types'
 // noinspection all
-import R from 'ramda'
+import * as R from 'ramda'
 /* eslint-enable no-unused-vars */
 // @formatter:on
 //</editor-fold>

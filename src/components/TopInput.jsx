@@ -4,7 +4,7 @@
 // noinspection all
 import PropTypes from 'prop-types'
 // noinspection all
-import R from 'ramda'
+import * as R from 'ramda'
 // noinspection all
 import * as immer from 'immer'
 /* eslint-enable no-unused-vars */
@@ -25,18 +25,8 @@ import {
 } from '../state'
 
 export const onTopInputSubmit = (setState, immerState) => {
-  // setState(immer(state=>{
-  //   const title = getInputValue(state).trim()
-  //   if (title) {
-  //     const grain = createGrainWithTitle(title)
-  //
-  //     resetInputValue(immerState)
-  //     insertGrain(grain, immerState)
-  //     setSidxToGrain(grain, immerState)
-  //     debounceFocusId(getGrainDomId(grain))
-  //   }
-  // }))
-  immerState(state => {
+  const immer2 = R.curryN(2,immer)
+  setState(immer2(state=>{
     const title = getInputValue(state).trim()
     if (title) {
       const grain = createGrainWithTitle(title)
@@ -46,7 +36,18 @@ export const onTopInputSubmit = (setState, immerState) => {
       setSidxToGrain(grain, immerState)
       debounceFocusId(getGrainDomId(grain))
     }
-  })
+  }))
+  // immerState(state => {
+  //   const title = getInputValue(state).trim()
+  //   if (title) {
+  //     const grain = createGrainWithTitle(title)
+  //
+  //     resetInputValue(immerState)
+  //     insertGrain(grain, immerState)
+  //     setSidxToGrain(grain, immerState)
+  //     debounceFocusId(getGrainDomId(grain))
+  //   }
+  // })
 }
 
 const TopInput = ({ state, immerState, setState }) => (

@@ -98,7 +98,10 @@ export const setSidxToGrain = update(state => grain => {
 })
 
 function currentGrains(state) {
-  return R.values(state.lookup)
+  return R.compose(
+    R.sortWith([R.descend(R.prop('ca'))]),
+    R.values,
+  )(state.lookup)
 }
 
 const pd = ev => {

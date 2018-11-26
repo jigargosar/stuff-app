@@ -208,15 +208,14 @@ export function restoreAppState() {
   )
 }
 
-export const onTopInputSubmit = immerState =>
-  immerState(state => {
-    const title = getInputValue(state).trim()
-    if (title) {
-      const grain = createGrainWithTitle(title)
+export const onTopInputSubmit = update(draft => () => {
+  const title = getInputValue(draft).trim()
+  if (title) {
+    const grain = createGrainWithTitle(title)
 
-      resetInputValue(state)
-      insertGrain(grain, immerState)
-      setSidxToGrain(grain, immerState)
-      debounceFocusGrain(grain)
-    }
-  })
+    resetInputValue(draft)
+    insertGrain(grain, draft)
+    setSidxToGrain(grain, draft)
+    debounceFocusGrain(grain)
+  }
+})

@@ -92,7 +92,7 @@ function focusId(domId) {
 
 const debounceFocusId = debounce(focusId)
 
-function debounceFocusGrain(grain) {
+function focusGrain(grain) {
   debounceFocusId(getGrainDomId(grain))
 }
 
@@ -178,9 +178,14 @@ export const endEditMode = update(state => () => {
     console.error('Trying to end edit mode, while not editing')
   }
 })
+
+function focusGrainAtSidx(state) {
+  focusGrain(getMaybeGrainAtSidx(state))
+}
+
 export const onEndEditModeTrigger = update(state => () => {
   endEditMode(state)
-  debounceFocusGrain(getMaybeGrainAtSidx(state))
+  focusGrainAtSidx(state)
 })
 
 export const grainSetDoneProp = update(state => (bool, g) => {
@@ -218,6 +223,6 @@ export const onTopInputSubmit = update(draft => () => {
     resetInputValue(draft)
     insertGrain(grain, draft)
     setSidxToGrain(grain, draft)
-    debounceFocusGrain(grain)
+    focusGrain(grain)
   }
 })

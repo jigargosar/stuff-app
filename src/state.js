@@ -17,7 +17,7 @@ export function onEditGrainTitleChange(title, immerState) {
   })
 }
 
-function createGrainWithTitle(title) {
+export function createGrainWithTitle(title) {
   invariant(!isNil(title), `null arg title:${title}`)
   return {
     id: 'grain--' + nanoid(),
@@ -35,13 +35,13 @@ export function setInputValue(iv, immerState) {
   })
 }
 
-function resetInputValue(immerState) {
+export function resetInputValue(immerState) {
   immerState(state => {
     state.inputValue = ''
   })
 }
 
-function insertGrain(grain, immerState) {
+export function insertGrain(grain, immerState) {
   immerState(state => {
     state.lookup[grain.id] = grain
   })
@@ -49,20 +49,6 @@ function insertGrain(grain, immerState) {
 
 export function getInputValue(state) {
   return state.inputValue
-}
-
-export function onTopInputSubmit(immerState) {
-  immerState(state => {
-    const title = getInputValue(state).trim()
-    if (title) {
-      const grain = createGrainWithTitle(title)
-
-      resetInputValue(immerState)
-      insertGrain(grain, immerState)
-      setSidxToGrain(grain, immerState)
-      debounceFocusId(getGrainDomId(grain))
-    }
-  })
 }
 
 export function setSidxToGrain(grain, immerState) {
@@ -96,7 +82,7 @@ function focusId(domId) {
   }
 }
 
-const debounceFocusId = debounce(focusId)
+export const debounceFocusId = debounce(focusId)
 
 function rollSelectionBy(offset, immerState) {
   return immerState(state => {

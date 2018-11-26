@@ -5,16 +5,38 @@
 import PropTypes from 'prop-types'
 // noinspection all
 import R from 'ramda'
+import {hotKeys} from '../hotKeys'
 /* eslint-enable no-unused-vars */
 // @formatter:on
 //</editor-fold>
-
 import React from 'react'
 import InputText from './InputText'
-import { getInputValue, onTopInputSubmit, setInputValue } from '../state'
-import { hotKeys } from '../hotKeys'
+import {
+  createGrainWithTitle,
+  debounceFocusId,
+  getGrainDomId,
+  getInputValue,
+  insertGrain,
+  resetInputValue,
+  setInputValue,
+  setSidxToGrain,
+} from '../state'
 
-const TopInput = ({state, immerState, setState}) => (
+export function onTopInputSubmit(immerState) {
+  immerState(state => {
+    const title = getInputValue(state).trim()
+    if (title) {
+      const grain = createGrainWithTitle(title)
+
+      resetInputValue(immerState)
+      insertGrain(grain, immerState)
+      setSidxToGrain(grain, immerState)
+      debounceFocusId(getGrainDomId(grain))
+    }
+  })
+}
+
+const TopInput = ({ state, immerState, setState }) => (
   <InputText
     value={getInputValue(state)}
     onChange={iv => setInputValue(iv, immerState)}

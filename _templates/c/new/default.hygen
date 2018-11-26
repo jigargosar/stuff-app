@@ -3,16 +3,16 @@ to: src/components/<%=name%>.jsx
 ---
 
 // @formatter:off
-/_ eslint-disable no-unused-vars, no-empty-pattern _/
+/* eslint-disable no-unused-vars, no-empty-pattern */
 // noinspection all
 import PropTypes from 'prop-types'
 // noinspection all
 import R from 'ramda'
-/_ eslint-enable no-unused-vars _/
+/* eslint-enable no-unused-vars */
 // @formatter:on
 
 const Input = ({}) => {
-return <div />
+  return <div />
 }
 
 <%=name%>.propTypes = {}

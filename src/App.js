@@ -52,8 +52,6 @@ function hotKeys(...mappings) {
   }
 }
 
-// InputComponents
-
 // APP Components
 
 const TopInput = styled(InputText)``

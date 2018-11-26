@@ -1,8 +1,6 @@
 ---
 to: src/components/<%=name%>.jsx
 ---
-import React from 'react'
-
 //<editor-fold desc="Default Imports">
 // @formatter:off
 /* eslint-disable no-unused-vars, no-empty-pattern */
@@ -13,6 +11,8 @@ import R from 'ramda'
 /* eslint-enable no-unused-vars */
 // @formatter:on
 //</editor-fold>
+
+import React from 'react'
 
 const <%=name%> = ({ name, ...otherProps }) => {
   return <div>{name || 'Hello'}</div>

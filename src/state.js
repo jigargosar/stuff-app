@@ -154,6 +154,11 @@ function getMaybeGrainAtSidx(state) {
   }
 }
 
+export const startEditingSelectedGrainTrigger = update(state => () => {
+  startEditingSelectedGrain(state)
+  focusGrainAtSidx(state)
+})
+
 export const startEditingSelectedGrain = update(state => () => {
   const edit = state.edit
   if (edit) {

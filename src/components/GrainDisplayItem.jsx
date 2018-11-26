@@ -11,7 +11,7 @@ import * as R from 'ramda'
 
 import React from 'react'
 import { hotKeys } from '../hotKeys'
-import { deleteGrain, getGrainDomId, grainSetDoneProp, startEditingSelectedGrain } from '../state'
+import { deleteGrain, getGrainDomId, grainSetDoneProp, startEditingSelectedGrainTrigger } from '../state'
 import { Box } from 'rebass'
 import CheckBox from './CheckBox'
 import { FRowCY } from './styled'
@@ -24,7 +24,7 @@ const GrainDisplayItem = ({ isSelected, grain, immerState, ...otherProps }) => {
       'Enter',
       ev => {
         if (ev.target.id === getGrainDomId(grain)) {
-          startEditingSelectedGrain(immerState)
+          startEditingSelectedGrainTrigger(immerState)
         }
       },
     ])}

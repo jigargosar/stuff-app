@@ -35,19 +35,6 @@ function hotKeys(...mappings) {
   }
 }
 
-// APP Components
-
-const TopInput = styled(InputText)``
-TopInput.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func.isRequired,
-}
-
-TopInput.defaultProps = {
-  p: 3,
-}
-
 // APP
 
 // APP STORAGE
@@ -315,7 +302,7 @@ function renderGrainItem(immerState) {
 
 function renderTopInput(state, immerState) {
   return (
-    <TopInput
+    <InputText
       value={getInputValue(state)}
       onChange={iv => setInputValue(iv, immerState)}
       onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(immerState)])}

@@ -7,17 +7,6 @@ import { hotKeys } from './hotKeys'
 import { storageGetOr, storageSet } from './storage'
 import { isDraft } from 'immer'
 
-export function onEditGrainTitleChange(title, immerState) {
-  return immerState(state => {
-    const edit = state.edit
-    if (edit) {
-      edit.title = title
-    } else {
-      console.error('Trying to update edit mode, while not editing')
-    }
-  })
-}
-
 export function createGrainWithTitle(title) {
   invariant(!isNil(title), `null arg title:${title}`)
   return {
@@ -45,6 +34,15 @@ export const update = fn => (...args) => {
     return fn(immerState)(...args)
   }
 }
+
+export const onEditGrainTitleChange = update(state => title => {
+  const edit = state.edit
+  if (edit) {
+    edit.title = title
+  } else {
+    console.error('Trying to update edit mode, while not editing')
+  }
+})
 
 export const setInputValue = update(state => iv => {
   state.inputValue = iv

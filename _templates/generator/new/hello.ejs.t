@@ -1,5 +1,5 @@
 ---
-to: _templates/<%= name %>/<%= action || 'new' %>/hello.ejs.t
+to: _templates/<%= name %>/<%= action || 'new' %>/default.md
 ---
 ---
 to: app/hello.js

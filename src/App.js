@@ -1,47 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import { compose, isNil, mergeDeepRight } from 'ramda'
 import { produce } from 'immer'
 import InputText from './components/InputText'
 import { AppThemeProvider, FCol } from './components/styled'
 import { hotKeys } from './hotKeys'
 import {
+  cacheAppState,
   getGrainDomId,
   getInputValue,
   mapGrains,
   onTopInputSubmit,
   onWindowKeydown,
+  restoreAppState,
   setInputValue,
 } from './state'
 import GrainEditItem from './components/GrainEditItem'
 import GrainDisplayItem from './components/GrainDisplayItem'
 
-// Basic Styled Components
-
-// HOTKEY HELPERS
-
-// APP
-
 // APP STORAGE
-
-const appStateStorageKey = () => 'app-state'
-
-export function cacheAppState(state) {
-  storageSet(appStateStorageKey(), state)
-}
-
-export function restoreAppState() {
-  const defaultState = {
-    inputValue: '',
-    lookup: {},
-    sidx: -1,
-    edit: null,
-  }
-
-  return compose(mergeDeepRight(defaultState))(
-    storageGetOr({}, appStateStorageKey()),
-  )
-}
 
 function GrainItem({ grain, isSelected, edit, immerState }) {
   const grainDomId = getGrainDomId(grain)
@@ -119,21 +95,3 @@ function App() {
 export default App
 
 // HELPERS
-
-export function storageGetOr(defaultValue, key) {
-  try {
-    let item = localStorage.getItem(key)
-    if (isNil(item)) return defaultValue
-    return JSON.parse(item)
-  } catch (e) {
-    return defaultValue
-  }
-}
-
-export function storageSet(key, value) {
-  if (isNil(value) || isNil(key)) {
-    console.warn('Invalid Args', 'storageSet', key, value)
-    return
-  }
-  localStorage.setItem(key, JSON.stringify(value))
-}

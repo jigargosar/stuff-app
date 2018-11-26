@@ -1,9 +1,10 @@
 import * as R from 'ramda'
-import { compose, isNil } from 'ramda'
+import { compose, isNil, mergeDeepRight } from 'ramda'
 import debounce from 'lodash.debounce'
 import * as invariant from 'invariant'
 import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
+import { storageGetOr, storageSet } from './store'
 
 export function onEditGrainTitleChange(title, immerState) {
   return immerState(state => {
@@ -196,4 +197,23 @@ export function deleteGrain(grain, immerState) {
   immerState(state => {
     delete state.lookup[grain.id]
   })
+}
+
+const appStateStorageKey = () => 'app-state'
+
+export function cacheAppState(state) {
+  storageSet(appStateStorageKey(), state)
+}
+
+export function restoreAppState() {
+  const defaultState = {
+    inputValue: '',
+    lookup: {},
+    sidx: -1,
+    edit: null,
+  }
+
+  return compose(mergeDeepRight(defaultState))(
+    storageGetOr({}, appStateStorageKey()),
+  )
 }

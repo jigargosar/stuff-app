@@ -30,7 +30,9 @@ export function createGrainWithTitle(title) {
 }
 
 export const wrapSet = fn => immerState => (...args) =>
-  immerState(state => fn(...args, state))
+  R.type(Function, immerState)
+    ? immerState(state => fn(...args, state))
+    : fn(...args, immerState)
 
 export const setInputValue = wrapSet(iv => state => {
   state.inputValue = iv

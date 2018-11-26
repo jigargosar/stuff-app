@@ -1,31 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import { produce } from 'immer'
-import InputText from './components/InputText'
 import { AppThemeProvider, FCol } from './components/styled'
-import { hotKeys } from './hotKeys'
 import {
   cacheAppState,
-  getInputValue,
   mapGrains,
-  onTopInputSubmit,
   onWindowKeydown,
   restoreAppState,
-  setInputValue,
 } from './state'
 import GrainItem from './components/GrainItem'
-
-// APP STORAGE
-
-function renderTopInput(state, immerState) {
-  return (
-    <InputText
-      value={getInputValue(state)}
-      onChange={iv => setInputValue(iv, immerState)}
-      onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(immerState)])}
-    />
-  )
-}
+import TopInput from './components/TopInput'
 
 function App() {
   const [state, setState] = useState(restoreAppState)
@@ -44,7 +28,7 @@ function App() {
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          {renderTopInput(state, immerState)}
+          <TopInput {...{ state, immerState }} />
           <FCol pt={3} className="">
             {mapGrains(
               ({ grain, isSelected, edit }) => (

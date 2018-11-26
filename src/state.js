@@ -181,17 +181,13 @@ export const endEditMode = update(state => () => {
   }
 })
 
-export function grainSetDoneProp(bool, g, immerState) {
-  immerState(state => {
-    state.lookup[g.id].done = bool
-  })
-}
+export const grainSetDoneProp = update(state => (bool, g) => {
+  state.lookup[g.id].done = bool
+})
 
-export function deleteGrain(grain, immerState) {
-  immerState(state => {
-    delete state.lookup[grain.id]
-  })
-}
+export const deleteGrain = update(state => grain => {
+  delete state.lookup[grain.id]
+})
 
 const appStateStorageKey = () => 'app-state'
 

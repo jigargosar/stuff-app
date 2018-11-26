@@ -47,11 +47,9 @@ export function getInputValue(state) {
   return state.inputValue
 }
 
-export function setSidxToGrain(grain, immerState) {
-  immerState(state => {
-    state.sidx = currentGrains(state).findIndex(g => g.id === grain.id)
-  })
-}
+export const setSidxToGrain = wrapSet(grain => state => {
+  state.sidx = currentGrains(state).findIndex(g => g.id === grain.id)
+})
 
 function currentGrains(state) {
   return R.values(state.lookup)

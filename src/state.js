@@ -146,7 +146,7 @@ export function onWindowKeydown(state, immerState) {
     } else {
     }
 
-    const sidxGrain = getMaybeGrainAtSidx(state)
+    const sidxGrain = getMaybeSidxGrain(state)
     if (sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)) {
       const focusSidxGrain = () => focusGrain(sidxGrain)
       hotKeys(['ArrowUp', focusSidxGrain], ['ArrowDown', focusSidxGrain])(ev)
@@ -171,7 +171,7 @@ export function mapGrains(fn, state) {
   }
 }
 
-function getMaybeGrainAtSidx(state) {
+function getMaybeSidxGrain(state) {
   const grains = currentGrains(state)
   const grainsLength = grains.length
   if (grainsLength > 0) {
@@ -190,7 +190,7 @@ export const startEditingSelectedGrain = update(state => () => {
   if (edit) {
     console.warn('Handle start editing when already in edit mode')
   } else {
-    const grain = getMaybeGrainAtSidx(state)
+    const grain = getMaybeSidxGrain(state)
     if (grain) {
       state.edit = { grainId: grain.id, title: grain.title }
     }
@@ -211,7 +211,7 @@ export const endEditMode = update(state => () => {
 })
 
 function focusGrainAtSidx(state) {
-  const grain = getMaybeGrainAtSidx(state)
+  const grain = getMaybeSidxGrain(state)
   invariant(!isNil(grain), 'Cannot focus nil grain')
   focusGrain(grain)
 }

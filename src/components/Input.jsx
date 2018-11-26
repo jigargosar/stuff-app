@@ -11,8 +11,8 @@ import R from 'ramda'
 // @formatter:on
 //</editor-fold>
 
-const Input = ({}) => {
-  return <div />
+const Input = ({ name, ...otherProps }) => {
+  return <div>{name || 'Hello'}</div>
 }
 
 Input.propTypes = {}

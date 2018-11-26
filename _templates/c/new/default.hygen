@@ -14,8 +14,8 @@ import R from 'ramda'
 // @formatter:on
 //</editor-fold>
 
-const <%=name%> = ({}) => {
-  return <div />
+const <%=name%> = ({ name, ...otherProps }) => {
+  return <div>{name || 'Hello'}</div>
 }
 
 <%=name%>.propTypes = {}

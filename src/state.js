@@ -29,12 +29,11 @@ export function createGrainWithTitle(title) {
   }
 }
 
-export const setInputValue = (iv, immerState) => {
+export const setInputValue = R.curry((immerState, iv) => {
   immerState(state => {
     state.inputValue = iv
   })
-}
-
+})
 export function resetInputValue(immerState) {
   immerState(state => {
     state.inputValue = ''

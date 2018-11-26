@@ -29,9 +29,8 @@ const toImmer = setter =>
     produce,
   )
 
-function onTopInputSubmit__(setState) {
-  return immer(state => {
-    const immerState = toImmer(setState)
+function onTopInputSubmit(immerState) {
+  return immerState(state => {
     const title = getInputValue(state).trim()
     if (title) {
       const grain = createGrainWithTitle(title)
@@ -44,15 +43,12 @@ function onTopInputSubmit__(setState) {
   })
 }
 
-export const onTopInputSubmit = setState => {
-  setState(onTopInputSubmit__(setState))
-}
 
-const TopInput = ({ state, immerState, setState }) => (
+const TopInput = ({ state, immerState }) => (
   <InputText
     value={getInputValue(state)}
     onChange={iv => setInputValue(iv)}
-    onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(setState, immerState)])}
+    onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(immerState)])}
   />
 )
 

@@ -28,12 +28,12 @@ export function createGrainWithTitle(title) {
     done: false,
   }
 }
+export const wrapImmerFn = fn => immerState => (...args) =>
+  immerState(state => fn(state, ...args))
 
-export const setInputValue = immerState => iv => {
-  immerState(state => {
-    state.inputValue = iv
-  })
-}
+export const setInputValue = wrapImmerFn((state, iv) => {
+  state.inputValue = iv
+})
 
 export function resetInputValue(immerState) {
   immerState(state => {

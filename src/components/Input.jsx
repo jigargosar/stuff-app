@@ -1,10 +1,11 @@
 import React from 'react'
+
+/* eslint-disable no-unused-vars */
+
 // noinspection all
 import PropTypes from 'prop-types'
 // noinspection all
 import R from 'ramda'
-
-/* eslint-disable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
 

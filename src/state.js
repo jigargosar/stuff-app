@@ -178,6 +178,9 @@ export const endEditMode = update(state => () => {
     console.error('Trying to end edit mode, while not editing')
   }
 })
+export const onEndEditModeTrigger = update(state => () => {
+  endEditMode(state)
+})
 
 export const grainSetDoneProp = update(state => (bool, g) => {
   state.lookup[g.id].done = bool

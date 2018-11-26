@@ -263,7 +263,6 @@ function GrainItem({ grain, isSelected, edit, immerState }) {
         // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
         value={edit.title}
         onChange={title => onEditGrainTitleChange(title, immerState)}
-        p={3}
         onKeyDown={hotKeys(['Enter', () => endEditMode(immerState)])}
         onFocus={() => setSidxToGrain(grain, immerState)}
       />

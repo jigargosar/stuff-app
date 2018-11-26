@@ -168,20 +168,18 @@ export const startEditingSelectedGrain = update(state => () => {
   }
 })
 
-export function endEditMode(immerState) {
-  return immerState(state => {
-    const edit = state.edit
-    if (edit) {
-      const title = edit.title.trim()
-      if (title) {
-        state.lookup[edit.grainId].title = title
-      }
-      state.edit = null
-    } else {
-      console.error('Trying to end edit mode, while not editing')
+export const endEditMode = update(state => () => {
+  const edit = state.edit
+  if (edit) {
+    const title = edit.title.trim()
+    if (title) {
+      state.lookup[edit.grainId].title = title
     }
-  })
-}
+    state.edit = null
+  } else {
+    console.error('Trying to end edit mode, while not editing')
+  }
+})
 
 export function grainSetDoneProp(bool, g, immerState) {
   immerState(state => {

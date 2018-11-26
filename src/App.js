@@ -12,33 +12,16 @@ import {
 import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
 import * as PropTypes from 'prop-types'
-import styled, { ThemeProvider } from 'styled-components'
-import { Box, Flex } from 'rebass'
+import styled from 'styled-components'
+import { Box } from 'rebass'
 import * as invariant from 'invariant'
 import { produce } from 'immer'
 import debounce from 'lodash.debounce'
 import InputText from './components/InputText'
 import CheckBox from './components/CheckBox'
-
-const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
+import { AppThemeProvider, FCol, FRowCY } from './components/styled'
 
 // Basic Styled Components
-
-export const FCol = styled(Flex)`
-  flex-direction: column;
-`
-
-export const FColCX = styled(FCol)`
-  align-items: center;
-`
-
-export const FRow = styled(Flex)`
-  flex-direction: row;
-`
-
-export const FRowCY = styled(FRow)`
-  align-items: center;
-`
 
 // HOTKEY HELPERS
 
@@ -354,7 +337,7 @@ function App() {
   })
 
   return (
-    <ThemeProvider theme={styledComponentsTheme}>
+    <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
           {renderTopInput(state, immerState)}
@@ -363,7 +346,7 @@ function App() {
           </FCol>
         </FCol>
       </FCol>
-    </ThemeProvider>
+    </AppThemeProvider>
   )
 }
 

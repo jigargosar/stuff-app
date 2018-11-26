@@ -203,7 +203,7 @@ function onWindowKeydown(state, immerState) {
   }
 }
 
-function mapOverGrainsWithSelection(fn, state) {
+function mapGrains(fn, state) {
   const grains = currentGrains(state)
   if (grains.length > 0) {
     const sidx = R.clamp(0, grains.length - 1, state.sidx)
@@ -342,7 +342,7 @@ function App() {
         <FCol p={3} width={'30em'}>
           {renderTopInput(state, immerState)}
           <FCol pt={3} className="">
-            {mapOverGrainsWithSelection(renderGrainItem(immerState), state)}
+            {mapGrains(renderGrainItem(immerState), state)}
           </FCol>
         </FCol>
       </FCol>

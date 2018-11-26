@@ -18,6 +18,7 @@ import * as invariant from 'invariant'
 import { produce } from 'immer'
 import debounce from 'lodash.debounce'
 import InputText from './components/InputText'
+import CheckBox from './components/CheckBox'
 
 const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
 
@@ -52,21 +53,6 @@ function hotKeys(...mappings) {
 }
 
 // InputComponents
-
-export function CheckBox({ value, onChange }) {
-  return (
-    <input
-      type="checkbox"
-      value={value}
-      onChange={ev => onChange(ev.target.checked, ev)}
-    />
-  )
-}
-
-CheckBox.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.bool.isRequired,
-}
 
 // APP Components
 

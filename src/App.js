@@ -11,8 +11,6 @@ import {
 } from 'ramda'
 import isHotkey from 'is-hotkey/src'
 import nanoid from 'nanoid'
-import * as PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { Box } from 'rebass'
 import * as invariant from 'invariant'
 import { produce } from 'immer'
@@ -251,52 +249,50 @@ function onEditGrainTitleChange(title, immerState) {
   })
 }
 
-function renderGrainItem(immerState) {
-  return ({ grain, isSelected, edit }) => {
-    const grainDomId = getGrainDomId(grain)
-    const commonProps = {
-      id: grainDomId,
-      tabIndex: isSelected ? 0 : null,
-      key: grain.id,
-    }
-    if (edit && edit.grainId === grain.id) {
-      return (
-        <InputText
-          {...commonProps}
-          // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
-          value={edit.title}
-          onChange={title => onEditGrainTitleChange(title, immerState)}
-          p={3}
-          onKeyDown={hotKeys(['Enter', () => endEditMode(immerState)])}
-          onFocus={() => setSidxToGrain(grain, immerState)}
-        />
-      )
-    } else {
-      return (
-        <FRowCY
-          {...commonProps}
-          py={2}
-          className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
-          onKeyDown={hotKeys([
-            'Enter',
-            ev => {
-              if (ev.target.id === grainDomId) {
-                startEditingSelectedGrain(immerState)
-              }
-            },
-          ])}
-        >
-          <Box p={2}>
-            <CheckBox
-              value={grain.done}
-              onChange={bool => grainSetDoneProp(bool, grain, immerState)}
-            />
-          </Box>
-          <Box className="flex-auto">{grain.title}</Box>
-          <button onClick={() => deleteGrain(grain, immerState)}>X</button>
-        </FRowCY>
-      )
-    }
+function GrainItem({ grain, isSelected, edit, immerState }) {
+  const grainDomId = getGrainDomId(grain)
+  const commonProps = {
+    id: grainDomId,
+    tabIndex: isSelected ? 0 : null,
+    key: grain.id,
+  }
+  if (edit && edit.grainId === grain.id) {
+    return (
+      <InputText
+        {...commonProps}
+        // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
+        value={edit.title}
+        onChange={title => onEditGrainTitleChange(title, immerState)}
+        p={3}
+        onKeyDown={hotKeys(['Enter', () => endEditMode(immerState)])}
+        onFocus={() => setSidxToGrain(grain, immerState)}
+      />
+    )
+  } else {
+    return (
+      <FRowCY
+        {...commonProps}
+        py={2}
+        className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
+        onKeyDown={hotKeys([
+          'Enter',
+          ev => {
+            if (ev.target.id === grainDomId) {
+              startEditingSelectedGrain(immerState)
+            }
+          },
+        ])}
+      >
+        <Box p={2}>
+          <CheckBox
+            value={grain.done}
+            onChange={bool => grainSetDoneProp(bool, grain, immerState)}
+          />
+        </Box>
+        <Box className="flex-auto">{grain.title}</Box>
+        <button onClick={() => deleteGrain(grain, immerState)}>X</button>
+      </FRowCY>
+    )
   }
 }
 
@@ -329,7 +325,15 @@ function App() {
         <FCol p={3} width={'30em'}>
           {renderTopInput(state, immerState)}
           <FCol pt={3} className="">
-            {mapGrains(renderGrainItem(immerState), state)}
+            {mapGrains(
+              ({ grain, isSelected, edit }) => (
+                <GrainItem
+                  key={grain.id}
+                  {...{ immerState, grain, isSelected, edit }}
+                />
+              ),
+              state,
+            )}
           </FCol>
         </FCol>
       </FCol>

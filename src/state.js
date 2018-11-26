@@ -5,6 +5,7 @@ import * as invariant from 'invariant'
 import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
 import { storageGetOr, storageSet } from './storage'
+import { isDraft } from 'immer'
 
 export function onEditGrainTitleChange(title, immerState) {
   return immerState(state => {
@@ -32,25 +33,28 @@ export function createGrainWithTitle(title) {
 export const wrapSet = fn => (...args) => {
   const immerState = R.last(args)
   const isFunc = R.is(Function, immerState)
+  invariant(
+    isDraft(immerState) || isFunc,
+    'ImmerState should either be a function or draft',
+  )
   if (isFunc) {
     return immerState(state => {
-      fn(...args)(state)
+      fn(state)(...args)
     })
   } else {
-    debugger
-    return fn(...args)(immerState)
+    return fn(immerState)(...args)
   }
 }
 
-export const setInputValue = wrapSet(iv => state => {
+export const setInputValue = wrapSet(state => iv => {
   state.inputValue = iv
 })
 
-export const resetInputValue = wrapSet(() => state => {
+export const resetInputValue = wrapSet(state => () => {
   state.inputValue = ''
 })
 
-export const insertGrain = wrapSet(grain => state => {
+export const insertGrain = wrapSet(state => grain => {
   state.lookup[grain.id] = grain
 })
 
@@ -58,7 +62,7 @@ export function getInputValue(state) {
   return state.inputValue
 }
 
-export const setSidxToGrain = wrapSet(grain => state => {
+export const setSidxToGrain = wrapSet(state => grain => {
   state.sidx = currentGrains(state).findIndex(g => g.id === grain.id)
 })
 
@@ -90,7 +94,7 @@ function focusId(domId) {
 
 export const debounceFocusId = debounce(focusId)
 
-const rollSelectionBy = wrapSet(offset => state => {
+const rollSelectionBy = wrapSet(state => offset => {
   const grains = currentGrains(state)
   const grainsLength = grains.length
   if (grainsLength > 1) {
@@ -218,7 +222,7 @@ export const onTopInputSubmit = immerState =>
     if (title) {
       const grain = createGrainWithTitle(title)
 
-      resetInputValue(immerState)
+      resetInputValue(state)
       insertGrain(grain, immerState)
       setSidxToGrain(grain, immerState)
       debounceFocusGrain(grain)

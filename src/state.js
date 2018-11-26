@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce'
 import * as invariant from 'invariant'
 import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
-import { storageGetOr, storageSet } from './store'
+import { storageGetOr, storageSet } from './storage'
 
 export function onEditGrainTitleChange(title, immerState) {
   return immerState(state => {
@@ -203,3 +203,20 @@ export function restoreAppState() {
     storageGetOr({}, appStateStorageKey()),
   )
 }
+
+export function debounceFocusGrain(grain) {
+  debounceFocusId(getGrainDomId(grain))
+}
+
+export const onTopInputSubmit = immerState =>
+  immerState(state => {
+    const title = getInputValue(state).trim()
+    if (title) {
+      const grain = createGrainWithTitle(title)
+
+      resetInputValue(immerState)
+      insertGrain(grain, immerState)
+      setSidxToGrain(grain, immerState)
+      debounceFocusGrain(grain)
+    }
+  })

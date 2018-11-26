@@ -13,36 +13,7 @@ import immer, {produce} from 'immer'
 import React from 'react'
 import InputText from './InputText'
 import { hotKeys } from '../hotKeys'
-import {
-  createGrainWithTitle,
-  getInputValue,
-  insertGrain,
-  resetInputValue,
-  setInputValue,
-  setSidxToGrain,
-} from '../state'
-import { debounceFocusGrain } from '../store'
-
-const toImmer = setter =>
-  R.compose(
-    setter,
-    produce,
-  )
-
-function onTopInputSubmit(immerState) {
-  return immerState(state => {
-    const title = getInputValue(state).trim()
-    if (title) {
-      const grain = createGrainWithTitle(title)
-
-      resetInputValue(immerState)
-      insertGrain(grain, immerState)
-      setSidxToGrain(grain, immerState)
-      debounceFocusGrain(grain)
-    }
-  })
-}
-
+import { getInputValue, onTopInputSubmit, setInputValue } from '../state'
 
 const TopInput = ({ state, immerState }) => (
   <InputText

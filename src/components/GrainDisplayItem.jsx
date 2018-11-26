@@ -41,7 +41,11 @@ const GrainDisplayItem = ({ isSelected, grain, immerState, ...otherProps }) => {
   </FRowCY>
 }
 
-GrainDisplayItem.propTypes = {}
+GrainDisplayItem.propTypes = {
+  grain: PropTypes.object.isRequired,
+  immerState: PropTypes.func.isRequired,
+  isSelected: PropTypes.bool.isRequired
+}
 
 GrainDisplayItem.defaultProps = {}
 

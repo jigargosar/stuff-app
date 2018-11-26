@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import { compose, isNil, mergeDeepRight } from 'ramda'
-import { Box } from 'rebass'
 import { produce } from 'immer'
 import InputText from './components/InputText'
-import CheckBox from './components/CheckBox'
-import { AppThemeProvider, FCol, FRowCY } from './components/styled'
+import { AppThemeProvider, FCol } from './components/styled'
 import { hotKeys } from './hotKeys'
 import {
-  deleteGrain,
   getGrainDomId,
   getInputValue,
-  grainSetDoneProp,
   mapGrains,
   onTopInputSubmit,
   onWindowKeydown,
   setInputValue,
-  startEditingSelectedGrain,
 } from './state'
 import GrainEditItem from './components/GrainEditItem'
+import GrainDisplayItem from './components/GrainDisplayItem'
 
 // Basic Styled Components
 
@@ -67,28 +63,10 @@ function GrainItem({ grain, isSelected, edit, immerState }) {
     )
   } else {
     return (
-      <FRowCY
+      <GrainDisplayItem
         {...commonProps}
-        py={2}
-        className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
-        onKeyDown={hotKeys([
-          'Enter',
-          ev => {
-            if (ev.target.id === grainDomId) {
-              startEditingSelectedGrain(immerState)
-            }
-          },
-        ])}
-      >
-        <Box p={2}>
-          <CheckBox
-            value={grain.done}
-            onChange={bool => grainSetDoneProp(bool, grain, immerState)}
-          />
-        </Box>
-        <Box className="flex-auto">{grain.title}</Box>
-        <button onClick={() => deleteGrain(grain, immerState)}>X</button>
-      </FRowCY>
+        {...{ grain, isSelected, immerState }}
+      />
     )
   }
 }

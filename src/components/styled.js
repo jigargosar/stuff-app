@@ -15,9 +15,9 @@ export const FRowCY = styled(FRow)`
   align-items: center;
 `
 
-export const AppThemeProvider = props => {
-  return <ThemeProvider theme={styledComponentsTheme} {...props} />
-}
-export const styledComponentsTheme = {
+export const theme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+}
+export const AppThemeProvider = props => {
+  return <ThemeProvider theme={theme} {...props} />
 }

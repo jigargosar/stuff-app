@@ -1,5 +1,6 @@
 import React from 'react'
 
+// @formatter:off
 /* eslint-disable no-unused-vars */
 
 // noinspection all
@@ -8,7 +9,7 @@ import PropTypes from 'prop-types'
 import R from 'ramda'
 
 /* eslint-disable no-unused-vars */
-
+// @formatter:on
 const Input = props => {
   return (
     <div>

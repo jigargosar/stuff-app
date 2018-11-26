@@ -50,11 +50,11 @@ export const setInputValue = update(state => iv => {
   state.inputValue = iv
 })
 
-export const resetInputValue = update(state => () => {
+const resetInputValue = update(state => () => {
   state.inputValue = ''
 })
 
-export const insertGrain = update(state => grain => {
+const insertGrain = update(state => grain => {
   state.lookup[grain.id] = grain
 })
 
@@ -92,7 +92,11 @@ function focusId(domId) {
   }
 }
 
-export const debounceFocusId = debounce(focusId)
+const debounceFocusId = debounce(focusId)
+
+function debounceFocusGrain(grain) {
+  debounceFocusId(getGrainDomId(grain))
+}
 
 const rollSelectionBy = update(state => offset => {
   const grains = currentGrains(state)
@@ -210,10 +214,6 @@ export function restoreAppState() {
   return compose(mergeDeepRight(defaultState))(
     storageGetOr({}, appStateStorageKey()),
   )
-}
-
-export function debounceFocusGrain(grain) {
-  debounceFocusId(getGrainDomId(grain))
 }
 
 export const onTopInputSubmit = immerState =>

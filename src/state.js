@@ -29,9 +29,9 @@ export function createGrainWithTitle(title) {
   }
 }
 export const wrapSet = fn => immerState => (...args) =>
-  immerState(state => fn(...args)(state))
+  immerState(state => fn(...args, state))
 
-export const setInputValue = wrapSet(iv => state => {
+export const setInputValue = wrapSet((iv, ev, state) => {
   state.inputValue = iv
 })
 

@@ -17,7 +17,7 @@ import { Box, Flex } from 'rebass'
 import * as invariant from 'invariant'
 import { produce } from 'immer'
 import debounce from 'lodash.debounce'
-import { space, width } from 'styled-system'
+import InputText from './components/InputText'
 
 const styledComponentsTheme = { space: [0, 4, 8, 16, 32, 64, 128, 256, 512] }
 
@@ -66,32 +66,6 @@ export function CheckBox({ value, onChange }) {
 CheckBox.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.bool.isRequired,
-}
-
-export const StyledInput = styled.input`
-  ${space} ${width};
-`
-
-StyledInput.propTypes = {
-  ...space.propTypes,
-  ...width.propTypes,
-}
-
-export function InputText({ value, onChange, ...otherProps }) {
-  return (
-    <StyledInput
-      type="text"
-      value={value}
-      onChange={ev => onChange(ev.target.value, ev)}
-      {...otherProps}
-    />
-  )
-}
-
-InputText.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  ...StyledInput.propTypes,
 }
 
 // APP Components

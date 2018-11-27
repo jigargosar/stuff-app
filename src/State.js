@@ -5,6 +5,7 @@ import nanoid from 'nanoid'
 import { hotKeys } from './HotKeys'
 import { storageGetOr, storageSet } from './local-cache'
 import { debounceFocusDomId, pd } from './Dom'
+import validate from 'aproba'
 
 // STORAGE
 
@@ -29,7 +30,7 @@ export function restoreAppState() {
 
 // STATE GET/SET
 function createGrainWithTitle(title) {
-  invariant(!isNil(title), `null arg title:${title}`)
+  validate('S', [title])
   return {
     id: 'grain--' + nanoid(),
     ca: Date.now(),

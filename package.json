@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aproba": "^2.0.0",
     "classnames": "^2.2.6",
     "emotion": "^9.2.12",
     "hygen": "^1.6.2",

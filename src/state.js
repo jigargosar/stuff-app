@@ -99,11 +99,14 @@ const insertGrain = update(state => grain => {
   state.lookup[grain.id] = grain
 })
 
-export const setSidxToGrain = update(draft => grain => {
-  draft.sidx = R.compose(
+const indexOfGrain = grain =>
+  R.compose(
     R.findIndex(g => g.id === grain.id),
     currentGrains,
-  )(draft)
+  )
+
+export const setSidxToGrain = update(draft => grain => {
+  draft.sidx = indexOfGrain(grain)(draft)
 })
 
 function currentGrains(state) {

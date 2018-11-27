@@ -22,7 +22,7 @@ function App() {
   useEffect(() => cacheAppState(state))
 
   useEffect(() => {
-    const listener = onWindowKeydown(state, immerState)
+    const listener = onWindowKeydown(state, setState)
     window.addEventListener('keydown', listener)
     return () => {
       window.removeEventListener('keydown', listener)

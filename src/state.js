@@ -130,17 +130,19 @@ function focusGrainEffect(grain) {
   debounceFocusDomId(getGrainDomId(grain))
 }
 
-const rollSelectionBy = update(state => offset => {
+const rollSelectionBy = R.curry((offset, state) => {
   const grains = currentGrains(state)
   const grainsLength = grains.length
   if (grainsLength > 1) {
     const clampedSidx = R.clamp(0, grains.length - 1, state.sidx)
-    state.sidx = R.mathMod(clampedSidx + offset, grainsLength)
-    debounceFocusDomId(getGrainDomId(grains[state.sidx]))
+    return R.compose(
+      focusGrainAtSidxEffect,
+      R.set(sidxLens)(R.mathMod(clampedSidx + offset, grainsLength)),
+    )(state)
   }
 })
 
-export function onWindowKeydown(state, immerState) {
+export function onWindowKeydown(state, setState) {
   return ev => {
     const tagName = ev.target.tagName
     console.debug(ev, tagName)
@@ -158,8 +160,8 @@ export function onWindowKeydown(state, immerState) {
       hotKeys(['ArrowUp', focusSidxGrain], ['ArrowDown', focusSidxGrain])(ev)
     } else {
       hotKeys(
-        ['ArrowUp', () => rollSelectionBy(-1, immerState)],
-        ['ArrowDown', () => rollSelectionBy(1, immerState)],
+        ['ArrowUp', () => setState(rollSelectionBy(-1))],
+        ['ArrowDown', () => setState(rollSelectionBy(1))],
       )(ev)
     }
   }
@@ -188,7 +190,7 @@ function getMaybeSidxGrain(state) {
 
 export const startEditingSelectedGrainTrigger = update(state => () => {
   startEditingSelectedGrain(state)
-  focusGrainAtSidx(state)
+  focusGrainAtSidxEffect(state)
 })
 
 export const startEditingSelectedGrain = update(state => () => {
@@ -226,14 +228,15 @@ export const endEditMode = state => {
   }
 }
 
-function focusGrainAtSidx(state) {
+function focusGrainAtSidxEffect(state) {
   const grain = getMaybeSidxGrain(state)
   invariant(!isNil(grain), 'Cannot focus nil grain')
   focusGrainEffect(grain)
+  return state
 }
 
 export const onEndEditModeTrigger = R.compose(
-  R.tap(focusGrainAtSidx),
+  R.tap(focusGrainAtSidxEffect),
   endEditMode,
 )
 

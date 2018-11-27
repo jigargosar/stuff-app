@@ -233,10 +233,8 @@ const grainDoneLens = grain =>
 
 export const setGrainDone = (bool, grain) => R.set(grainDoneLens(grain), bool)
 
-export const deleteGrain = update(state => grain => {
-  delete state.lookup[grain.id]
-})
-
+const lookupLens = R.prop('lookup')
+export const deleteGrain = grain => R.over(lookupLens)(R.omit(['grain.id']))
 export const onTopInputSubmit = state => {
   const title = getInputValue(state).trim()
   if (title) {

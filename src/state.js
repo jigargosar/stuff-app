@@ -116,7 +116,7 @@ export function getGrainDomId(grain) {
 
 const debounceFocusId = debounce(focusId)
 
-function focusGrain(grain) {
+function focusGrainEffect(grain) {
   debounceFocusId(getGrainDomId(grain))
 }
 
@@ -144,7 +144,7 @@ export function onWindowKeydown(state, immerState) {
 
     const sidxGrain = getMaybeSidxGrain(state)
     if (sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)) {
-      const focusSidxGrain = () => focusGrain(sidxGrain)
+      const focusSidxGrain = () => focusGrainEffect(sidxGrain)
       hotKeys(['ArrowUp', focusSidxGrain], ['ArrowDown', focusSidxGrain])(ev)
     } else {
       hotKeys(
@@ -209,7 +209,7 @@ export const endEditMode = update(state => () => {
 function focusGrainAtSidx(state) {
   const grain = getMaybeSidxGrain(state)
   invariant(!isNil(grain), 'Cannot focus nil grain')
-  focusGrain(grain)
+  focusGrainEffect(grain)
 }
 
 export const onEndEditModeTrigger = update(state => () => {
@@ -235,7 +235,7 @@ export const onTopInputSubmit = setState =>
         resetInputValue(draft)
         insertGrain(grain, draft)
         setSidxToGrain(grain, draft)
-        focusGrain(grain)
+        focusGrainEffect(grain)
       }
     }),
   )

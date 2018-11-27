@@ -36,9 +36,10 @@ function App() {
   React.useEffect(() => {
     const listener = onWindowKeydown(state, setState)
     window.addEventListener('keydown', listener)
-    return () => {
+    const disposer = () => {
       window.removeEventListener('keydown', listener)
     }
+    return disposer
   })
 
   return (

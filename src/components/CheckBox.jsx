@@ -5,11 +5,10 @@
 import PropTypes from 'prop-types'
 // noinspection all
 import * as R from 'ramda'
+import React from 'react'
 /* eslint-enable no-unused-vars */
 // @formatter:on
 //</editor-fold>
-
-import React from 'react'
 
 export function CheckBox({ checked, onChange }) {
   return (

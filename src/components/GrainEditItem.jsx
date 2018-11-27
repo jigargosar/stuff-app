@@ -11,9 +11,9 @@ import * as R from 'ramda'
 import React from 'react'
 import InputText from './InputText'
 import {
-  onEditGrainTitleChange, onEditGrainTitleFocus,
+  onEditGrainTitleChange,
+  onEditGrainTitleFocus,
   onEndEditModeTrigger,
-  setSidxToGrain,
 } from '../state'
 
 const GrainEditItem = ({

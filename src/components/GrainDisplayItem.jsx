@@ -5,10 +5,6 @@
 import PropTypes from 'prop-types'
 // noinspection all
 import * as R from 'ramda'
-/* eslint-enable no-unused-vars */
-// @formatter:on
-//</editor-fold>
-
 import React from 'react'
 import { hotKeys } from '../hotKeys'
 import {
@@ -20,6 +16,9 @@ import {
 import { Box } from 'rebass'
 import CheckBox from './CheckBox'
 import { FRowCY } from './styled'
+/* eslint-enable no-unused-vars */
+// @formatter:on
+//</editor-fold>
 
 const GrainDisplayItem = ({
   isSelected,

@@ -5,22 +5,21 @@
 import PropTypes from 'prop-types'
 // noinspection all
 import * as R from 'ramda'
-/* eslint-enable no-unused-vars */
-// @formatter:on
-//</editor-fold>
-
 import React from 'react'
 import { getGrainDomId } from '../state'
 import GrainEditItem from './GrainEditItem'
 import GrainDisplayItem from './GrainDisplayItem'
+/* eslint-enable no-unused-vars */
+// @formatter:on
+//</editor-fold>
 
-const GrainItem = ({ grain, isSelected, edit, immerState , setState}) =>  {
+const GrainItem = ({ grain, isSelected, edit, immerState, setState }) => {
   const grainDomId = getGrainDomId(grain)
   const commonProps = {
     id: grainDomId,
     tabIndex: isSelected ? 0 : null,
     key: grain.id,
-    setState
+    setState,
   }
   if (edit && edit.grainId === grain.id) {
     const title = edit.title

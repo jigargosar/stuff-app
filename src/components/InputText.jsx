@@ -23,7 +23,6 @@ StyledInput.propTypes = {
 }
 
 export function InputText({ value, onChange, onEnter, ...otherProps }) {
-
   return (
     <StyledInput
       type="text"
@@ -39,11 +38,11 @@ InputText.propTypes = {
   onChange: PropTypes.func.isRequired,
   onEnter: PropTypes.func,
   p: PropTypes.number,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
 }
 
 InputText.defaultProps = {
-  p: 3
+  p: 3,
 }
 
 export default InputText

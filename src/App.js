@@ -14,6 +14,15 @@ import {
 import GrainItem from './components/GrainItem'
 import TopInput from './components/TopInput'
 
+function GrainList({ state, setState }) {
+  return mapGrains(
+    ({ grain, isSelected, edit }) => (
+      <GrainItem key={grain.id} {...{ grain, isSelected, edit, setState }} />
+    ),
+    state,
+  )
+}
+
 function App() {
   const [state, setState] = React.useState(restoreAppState)
   React.useEffect(() => cacheAppState(state))
@@ -26,21 +35,14 @@ function App() {
     }
   })
 
+  const renderGrains = GrainList({ state, setState })
   return (
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
           <TopInput {...{ state, setState }} />
           <FCol pt={3} className="">
-            {mapGrains(
-              ({ grain, isSelected, edit }) => (
-                <GrainItem
-                  key={grain.id}
-                  {...{ grain, isSelected, edit, setState }}
-                />
-              ),
-              state,
-            )}
+            {renderGrains}
           </FCol>
         </FCol>
       </FCol>

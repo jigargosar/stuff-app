@@ -16,7 +16,7 @@ const TopInput = ({ state, setState }) => {
   const [value, setValue] = React.useState('')
   return (
     <InputText
-      onEnter={() => setState(onTopInputSubmit(value))}
+      onEnter={() => setState(onTopInputSubmit([value,setValue]))}
       value={value}
       onChange={setValue}
     />

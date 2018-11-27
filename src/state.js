@@ -5,7 +5,7 @@ import * as invariant from 'invariant'
 import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
 import { storageGetOr, storageSet } from './local-cache'
-import { isDraft } from 'immer'
+import { isDraft, produce } from 'immer'
 
 // DOM
 
@@ -229,20 +229,24 @@ export const deleteGrain = update(state => grain => {
   delete state.lookup[grain.id]
 })
 
-export const onTopInputSubmit = update(draft => () => {
-  const title = getInputValue(draft).trim()
-  if (title) {
-    const grain = createGrainWithTitle(title)
+export const onTopInputSubmit = setState =>
+  setState(
+    produce(draft => {
+      const title = getInputValue(draft).trim()
+      if (title) {
+        const grain = createGrainWithTitle(title)
 
-    resetInputValue(draft)
-    insertGrain(grain, draft)
-    setSidxToGrain(grain, draft)
-    focusGrain(grain)
-  }
-})
+        resetInputValue(draft)
+        insertGrain(grain, draft)
+        setSidxToGrain(grain, draft)
+        focusGrain(grain)
+      }
+    }),
+  )
 
 export const bindInputText = R.curry((propName, [state, setState]) => ({
   value: R.prop(propName)(state),
   onChange: value => setState(R.assoc(propName)(value)),
 }))
+
 export const bindInputValue = bindInputText('inputValue')

@@ -12,10 +12,10 @@ import React from 'react'
 import InputText from './InputText'
 import { bindInputValue, onTopInputSubmit } from '../state'
 
-const TopInput = ({ state, immerState, setState }) => {
+const TopInput = ({ state, setState }) => {
   return (
     <InputText
-      onEnter={() => onTopInputSubmit(immerState)}
+      onEnter={() => onTopInputSubmit(setState)}
       {...bindInputValue([state, setState])}
     />
   )

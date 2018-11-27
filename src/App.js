@@ -39,7 +39,7 @@ function App() {
               ({ grain, isSelected, edit }) => (
                 <GrainItem
                   key={grain.id}
-                  {...{ immerState, grain, isSelected, edit }}
+                  {...{ immerState, grain, isSelected, edit, setState }}
                 />
               ),
               state,

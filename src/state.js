@@ -5,7 +5,7 @@ import * as invariant from 'invariant'
 import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
 import { storageGetOr, storageSet } from './local-cache'
-import { isDraft, produce } from 'immer'
+import { isDraft } from 'immer'
 
 // DOM
 
@@ -88,16 +88,16 @@ export const onEditGrainTitleChange = update(state => title => {
     console.error('Trying to update edit mode, while not editing')
   }
 })
+const sidxLens = R.lensProp('sidx')
 
-export const getInputValue = R.prop('inputValue')
+const inputValueLens = R.lensProp('inputValue')
+export const getInputValue = R.view(inputValueLens)
+const resetInputValue = R.set(inputValueLens)('')
 
-const resetInputValue = update(state => () => {
-  state.inputValue = ''
-})
+const lookupLens = R.lensProp('lookup')
 
-const insertGrain = update(state => grain => {
-  state.lookup[grain.id] = grain
-})
+const upsertGrain = grain =>
+  R.over(lookupLens)(R.mergeLeft({ [grain.id]: grain }))
 
 const idxOfGrain = grain =>
   R.compose(
@@ -105,11 +105,8 @@ const idxOfGrain = grain =>
     currentGrains,
   )
 
-export const setSidxToGrain = R.curryN(
-  2,
-  update(draft => grain => {
-    draft.sidx = idxOfGrain(grain)(draft)
-  }),
+export const setSidxToGrain = R.curry((grain, state) =>
+  R.set(sidxLens)(idxOfGrain(grain)(state))(state),
 )
 
 function currentGrains(state) {
@@ -232,31 +229,34 @@ export const deleteGrain = update(state => grain => {
   delete state.lookup[grain.id]
 })
 
-const producer = fn => {
-  const fnLength = fn.length
-  invariant(
-    R.gte(fnLength, 1),
-    'producer should accept at least one draft argument',
-  )
-  return R.curryN(fnLength, (...args) => {
-    invariant(args.length === fnLength, 'Invalid no of arguments passed')
-    const setState = R.last(args)
-    const otherArgs = R.init(args)
-    return setState(produce(draft => void fn(...otherArgs, draft)))
-  })
-}
+// const producer = fn => {
+//   const fnLength = fn.length
+//   invariant(
+//     R.gte(fnLength, 1),
+//     'producer should accept at least one draft argument',
+//   )
+//   return R.curryN(fnLength, (...args) => {
+//     invariant(args.length === fnLength, 'Invalid no of arguments passed')
+//     const setState = R.last(args)
+//     const otherArgs = R.init(args)
+//     return setState(produce(draft => void fn(...otherArgs, draft)))
+//   })
+// }
 
-export const onTopInputSubmit = producer(draft => {
-  const title = getInputValue(draft).trim()
+export const onTopInputSubmit = state => {
+  const title = getInputValue(state).trim()
   if (title) {
     const grain = createGrainWithTitle(title)
 
-    resetInputValue(draft)
-    insertGrain(grain, draft)
-    setSidxToGrain(grain)(draft)
-    focusGrainEffect(grain)
+    return R.compose(
+      R.tap(() => focusGrainEffect(grain)),
+      setSidxToGrain(grain),
+      upsertGrain(grain),
+      resetInputValue,
+    )(state)
   }
-})
+  return state
+}
 
 export const bindInputText = R.curry((propName, [state, setState]) => ({
   value: R.prop(propName)(state),

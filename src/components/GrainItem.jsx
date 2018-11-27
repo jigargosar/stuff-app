@@ -14,12 +14,13 @@ import { getGrainDomId } from '../state'
 import GrainEditItem from './GrainEditItem'
 import GrainDisplayItem from './GrainDisplayItem'
 
-const GrainItem = ({ grain, isSelected, edit, immerState }) =>  {
+const GrainItem = ({ grain, isSelected, edit, immerState , setState}) =>  {
   const grainDomId = getGrainDomId(grain)
   const commonProps = {
     id: grainDomId,
     tabIndex: isSelected ? 0 : null,
     key: grain.id,
+    setState
   }
   if (edit && edit.grainId === grain.id) {
     const title = edit.title

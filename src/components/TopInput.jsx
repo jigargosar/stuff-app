@@ -15,7 +15,7 @@ import { bindInputValue, onTopInputSubmit } from '../state'
 const TopInput = ({ state, setState }) => {
   return (
     <InputText
-      onEnter={() => onTopInputSubmit(setState)}
+      onEnter={() => setState(onTopInputSubmit)}
       {...bindInputValue([state, setState])}
     />
   )

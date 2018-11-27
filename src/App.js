@@ -24,9 +24,14 @@ function GrainList({ state, setState }) {
   )
 }
 
-function App() {
+function useAppState() {
   const [state, setState] = React.useState(restoreAppState)
   React.useEffect(() => cacheAppState(state))
+  return [state, setState]
+}
+
+function App() {
+  const [state, setState] = useAppState()
 
   React.useEffect(() => {
     const listener = onWindowKeydown(state, setState)

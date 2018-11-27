@@ -9,7 +9,6 @@ import {
 } from './State'
 import GrainItem from './components/GrainItem'
 import TopInput from './components/TopInput'
-
 // noinspection ES6UnusedImports
 import * as R from 'ramda' // eslint-disable-line no-unused-vars
 

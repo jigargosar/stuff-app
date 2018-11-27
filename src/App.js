@@ -8,6 +8,7 @@ import { AppThemeProvider, FCol } from './components/styled'
 import {
   cacheAppState,
   mapGrains,
+  onTopInputSubmit,
   onWindowKeydown,
   restoreAppState,
 } from './State'
@@ -39,7 +40,9 @@ function App() {
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          <TopInput {...{ setState }} />
+          <TopInput
+            onSubmit={inputState => setState(onTopInputSubmit(inputState))}
+          />
           <FCol pt={3} className="">
             <GrainList state={state} setState={setState} />
           </FCol>

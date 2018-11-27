@@ -10,15 +10,14 @@ import * as R from 'ramda'
 //</editor-fold>
 import React from 'react'
 import InputText from './InputText'
-import { onTopInputSubmit } from '../State'
 import { useCacheState } from './hooks'
 
-const TopInput = ({ setState }) => {
+const TopInput = ({ onSubmit }) => {
   const [value, setValue] = useCacheState('inputValue', '')
   return (
     <InputText
       autoFocus
-      onEnter={() => setState(onTopInputSubmit([value, setValue]))}
+      onEnter={() => onSubmit([value, setValue])}
       value={value}
       onChange={setValue}
     />

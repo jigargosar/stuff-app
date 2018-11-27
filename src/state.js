@@ -91,13 +91,13 @@ export const setInputValue = update(state => iv => {
   state.inputValue = iv
 })
 
-const resetInputValue = update(state => () => {
-  state.inputValue = ''
-})
-
 export function getInputValue(state) {
   return state.inputValue
 }
+
+const resetInputValue = update(state => () => {
+  state.inputValue = ''
+})
 
 const insertGrain = update(state => grain => {
   state.lookup[grain.id] = grain

@@ -94,20 +94,24 @@ const inputValueLens = R.lensProp('inputValue')
 export const getInputValue = R.view(inputValueLens)
 const resetInputValue = R.set(inputValueLens)('')
 
-const lookupLens = R.lensProp('lookup')
+const grainLens = grain => R.lensPath(['lookup', grain.id])
 
-const upsertGrain = grain =>
-  R.over(lookupLens)(R.mergeLeft({ [grain.id]: grain }))
+const upsertGrain = grain => R.set(grainLens(grain))(grain)
+
+const grainSidxLens = grain =>
+  R.lens(idxOfGrain(grain), (grain, state) =>
+    R.set(sidxLens)(idxOfGrain(grain)(state))(state),
+  )
+
+const findIndexByIdProp = ({ id }) => R.findIndex(R.propEq('id', id))
 
 const idxOfGrain = grain =>
   R.compose(
-    R.findIndex(g => g.id === grain.id),
+    findIndexByIdProp(grain),
     currentGrains,
   )
 
-export const setSidxToGrain = R.curry((grain, state) =>
-  R.set(sidxLens)(idxOfGrain(grain)(state))(state),
-)
+export const setSidxToGrain = grain => R.set(grainSidxLens(grain), grain)
 
 function currentGrains(state) {
   return R.compose(

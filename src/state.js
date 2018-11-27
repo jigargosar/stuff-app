@@ -9,13 +9,15 @@ import { isDraft, produce } from 'immer'
 
 // DOM
 
-function focusId(domId) {
+function focusDomIdEffect(domId) {
   try {
     document.getElementById(domId).focus()
   } catch (e) {
     console.error('Focus Failed:', domId)
   }
 }
+
+const debounceFocusDomId = debounce(focusDomIdEffect)
 
 const pd = ev => {
   ev.preventDefault()
@@ -114,10 +116,8 @@ export function getGrainDomId(grain) {
   return 'grain-li--' + grain.id
 }
 
-const debounceFocusId = debounce(focusId)
-
 function focusGrainEffect(grain) {
-  debounceFocusId(getGrainDomId(grain))
+  debounceFocusDomId(getGrainDomId(grain))
 }
 
 const rollSelectionBy = update(state => offset => {
@@ -126,7 +126,7 @@ const rollSelectionBy = update(state => offset => {
   if (grainsLength > 1) {
     const clampedSidx = R.clamp(0, grains.length - 1, state.sidx)
     state.sidx = R.mathMod(clampedSidx + offset, grainsLength)
-    debounceFocusId(getGrainDomId(grains[state.sidx]))
+    debounceFocusDomId(getGrainDomId(grains[state.sidx]))
   }
 })
 

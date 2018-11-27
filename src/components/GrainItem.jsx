@@ -13,7 +13,7 @@ import GrainDisplayItem from './GrainDisplayItem'
 // @formatter:on
 //</editor-fold>
 
-const GrainItem = ({ grain, isSelected, edit, immerState, setState }) => {
+const GrainItem = ({ grain, isSelected, edit, setState }) => {
   const grainDomId = getGrainDomId(grain)
   const commonProps = {
     id: grainDomId,
@@ -29,14 +29,13 @@ const GrainItem = ({ grain, isSelected, edit, immerState, setState }) => {
         // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
         title={title}
         grain={grain}
-        immerState={immerState}
       />
     )
   } else {
     return (
       <GrainDisplayItem
         {...commonProps}
-        {...{ grain, isSelected, immerState }}
+        {...{ grain, isSelected}}
       />
     )
   }

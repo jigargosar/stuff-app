@@ -23,7 +23,6 @@ import { FRowCY } from './styled'
 const GrainDisplayItem = ({
   isSelected,
   grain,
-  immerState,
   setState,
   ...otherProps
 }) => {
@@ -35,7 +34,7 @@ const GrainDisplayItem = ({
         'Enter',
         ev => {
           if (ev.target.id === getGrainDomId(grain)) {
-            startEditingSelectedGrainTrigger(immerState)
+            setState(startEditingSelectedGrainTrigger)
           }
         },
       ])}
@@ -55,7 +54,7 @@ const GrainDisplayItem = ({
 
 GrainDisplayItem.propTypes = {
   grain: PropTypes.object.isRequired,
-  immerState: PropTypes.func.isRequired,
+  setState: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
 }
 

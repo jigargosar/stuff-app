@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import { produce } from 'immer'
 import { AppThemeProvider, FCol } from './components/styled'
 import {
   cacheAppState,
@@ -10,15 +9,12 @@ import {
 } from './state'
 import GrainItem from './components/GrainItem'
 import TopInput from './components/TopInput'
+
 // noinspection ES6UnusedImports
-import * as R from 'ramda'
+import * as R from 'ramda' // eslint-disable-line no-unused-vars
 
 function App() {
   const [state, setState] = useState(restoreAppState)
-  const immerState = R.compose(
-    setState,
-    produce,
-  )
   useEffect(() => cacheAppState(state))
 
   useEffect(() => {
@@ -39,7 +35,7 @@ function App() {
               ({ grain, isSelected, edit }) => (
                 <GrainItem
                   key={grain.id}
-                  {...{ immerState, grain, isSelected, edit, setState }}
+                  {...{ grain, isSelected, edit, setState }}
                 />
               ),
               state,

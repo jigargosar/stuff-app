@@ -14,7 +14,7 @@ import { hotKeys } from '../hotKeys'
 import {
   deleteGrain,
   getGrainDomId,
-  setGrainDone,
+  onGrainDoneChange,
   startEditingSelectedGrainTrigger,
 } from '../state'
 import { Box } from 'rebass'
@@ -45,7 +45,7 @@ const GrainDisplayItem = ({
       <Box p={2}>
         <CheckBox
           checked={grain.done}
-          onChange={bool => setState(setGrainDone(bool, grain))}
+          onChange={bool => setState(onGrainDoneChange(bool, grain))}
         />
       </Box>
       <Box className="flex-auto">{grain.title}</Box>

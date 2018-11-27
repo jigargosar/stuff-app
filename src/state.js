@@ -51,7 +51,7 @@ export function restoreAppState() {
 }
 
 //UPDATE
-export const update = fn => (...args) => {
+const update = fn => (...args) => {
   const immerState = R.last(args)
   const isFunc = R.is(Function, immerState)
   invariant(
@@ -68,7 +68,7 @@ export const update = fn => (...args) => {
 }
 
 // STATE GET/SET
-export function createGrainWithTitle(title) {
+function createGrainWithTitle(title) {
   invariant(!isNil(title), `null arg title:${title}`)
   return {
     id: 'grain--' + nanoid(),
@@ -91,7 +91,7 @@ export const onEditGrainTitleChange = update(state => title => {
 const sidxLens = R.lensProp('sidx')
 
 const inputValueLens = R.lensProp('inputValue')
-export const getInputValue = R.view(inputValueLens)
+const getInputValue = R.view(inputValueLens)
 const resetInputValue = R.set(inputValueLens)('')
 
 const grainLens = grain => grainLensWithId(grain.id)
@@ -112,7 +112,8 @@ const idxOfGrain = grain =>
     currentGrains,
   )
 
-export const setSidxToGrain = grain => R.set(grainSidxLens(grain), grain)
+const setSidxToGrain = grain => R.set(grainSidxLens(grain), grain)
+export const onEditGrainTitleFocus = setSidxToGrain
 
 function currentGrains(state) {
   return R.compose(
@@ -248,7 +249,8 @@ const grainIdTitleLens = grainId =>
     R.lensProp('title'),
   )
 
-export const setGrainDone = (bool, grain) => R.set(grainDoneLens(grain), bool)
+export const onGrainDoneChange = (bool, grain) =>
+  R.set(grainDoneLens(grain), bool)
 
 const lookupLens = R.lensProp('lookup')
 

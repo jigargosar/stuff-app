@@ -11,7 +11,7 @@ import * as R from 'ramda'
 import React from 'react'
 import InputText from './InputText'
 import {
-  onEditGrainTitleChange,
+  onEditGrainTitleChange, onEditGrainTitleFocus,
   onEndEditModeTrigger,
   setSidxToGrain,
 } from '../state'
@@ -29,7 +29,7 @@ const GrainEditItem = ({
       value={title}
       onChange={title => onEditGrainTitleChange(title, immerState)}
       onEnter={() => setState(onEndEditModeTrigger)}
-      onFocus={() => setState(setSidxToGrain(grain))}
+      onFocus={() => setState(onEditGrainTitleFocus(grain))}
       {...otherProps}
     />
   )

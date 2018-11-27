@@ -111,13 +111,15 @@ export function onWindowKeydown(state, setState) {
     if (tagName === 'INPUT' || tagName === 'BODY') {
       hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
     }
+    // console.log(`ev`, ev)
 
     const keymap = isTargetSidxGrain(ev, state)
-      ? [['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)]
-      : (['ArrowUp', () => setState(rollSelectionBy(-1))],
-        ['ArrowDown', () => setState(rollSelectionBy(1))])
-
-    hotKeys(keymap)(ev)
+      ? [[['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)]]
+      : [
+          ['ArrowUp', () => setState(rollSelectionBy(-1))],
+          ['ArrowDown', () => setState(rollSelectionBy(1))],
+        ]
+    hotKeys(...keymap)(ev)
   }
 }
 

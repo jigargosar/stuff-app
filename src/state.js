@@ -94,7 +94,8 @@ const inputValueLens = R.lensProp('inputValue')
 export const getInputValue = R.view(inputValueLens)
 const resetInputValue = R.set(inputValueLens)('')
 
-const grainLens = grain => R.lensPath(['lookup', grain.id])
+const grainLens = grain => grainLensWithId(grain.id)
+const grainLensWithId = id => R.lensPath(['lookup', id])
 
 const upsertGrain = grain => R.set(grainLens(grain))(grain)
 
@@ -201,18 +202,28 @@ export const startEditingSelectedGrain = update(state => () => {
   }
 })
 
-export const endEditMode = update(state => () => {
+const setGrainTitleIfNotEmpty = R.curry((title, grainId, state) => {
+  if (title) {
+    return R.set(grainIdTitleLens(grainId), title, state)
+  }
+  return state
+})
+
+const editProp = R.lensProp('edit')
+
+export const endEditMode = state => {
   const edit = state.edit
   if (edit) {
     const title = edit.title.trim()
-    if (title) {
-      state.lookup[edit.grainId].title = title
-    }
-    state.edit = null
+    const grainId = edit.grainId
+    return compose(
+      R.set(editProp)(null),
+      setGrainTitleIfNotEmpty(title, grainId),
+    )(state)
   } else {
     console.error('Trying to end edit mode, while not editing')
   }
-})
+}
 
 function focusGrainAtSidx(state) {
   const grain = getMaybeSidxGrain(state)
@@ -220,15 +231,23 @@ function focusGrainAtSidx(state) {
   focusGrainEffect(grain)
 }
 
-export const onEndEditModeTrigger = update(state => () => {
-  endEditMode(state)
-  focusGrainAtSidx(state)
-})
+export const onEndEditModeTrigger = state => {
+  R.compose(
+    R.tap(focusGrainAtSidx),
+    endEditMode,
+  )(state)
+}
 
 const grainDoneLens = grain =>
   R.compose(
     grainLens(grain),
     R.lensProp('done'),
+  )
+
+const grainIdTitleLens = grainId =>
+  R.compose(
+    grainLensWithId(grainId),
+    R.lensProp('title'),
   )
 
 export const setGrainDone = (bool, grain) => R.set(grainDoneLens(grain), bool)

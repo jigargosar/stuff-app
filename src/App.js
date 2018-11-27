@@ -35,14 +35,13 @@ function App() {
     }
   })
 
-  const renderGrains = GrainList({ state, setState })
   return (
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
           <TopInput {...{ state, setState }} />
           <FCol pt={3} className="">
-            {renderGrains}
+            <GrainList state={state} setState={setState} />
           </FCol>
         </FCol>
       </FCol>

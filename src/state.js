@@ -57,15 +57,15 @@ function createGrainWithTitle(title) {
     done: false,
   }
 }
+const editLens = R.lensProp('edit')
+const titleLens = R.lensProp('title')
 
-export const onEditGrainTitleChange = update(state => title => {
-  const edit = state.edit
-  if (edit) {
-    edit.title = title
-  } else {
-    console.error('Trying to update edit mode, while not editing')
-  }
-})
+const editTitleLens = R.compose(
+  editLens,
+  titleLens,
+)
+
+export const onEditGrainTitleChange = title => R.set(editTitleLens)(title)
 const sidxLens = R.lensProp('sidx')
 
 const inputValueLens = R.lensProp('inputValue')
@@ -187,15 +187,13 @@ const setGrainTitleIfNotEmpty = R.curry((title, grainId, state) => {
   return state
 })
 
-const editProp = R.lensProp('edit')
-
 export const endEditMode = state => {
   const edit = state.edit
   if (edit) {
     const title = edit.title.trim()
     const grainId = edit.grainId
     return compose(
-      R.set(editProp)(null),
+      R.set(editLens)(null),
       setGrainTitleIfNotEmpty(title, grainId),
     )(state)
   } else {
@@ -224,7 +222,7 @@ const grainDoneLens = grain =>
 const grainIdTitleLens = grainId =>
   R.compose(
     grainLensWithId(grainId),
-    R.lensProp('title'),
+    titleLens,
   )
 
 export const onGrainDoneChange = (bool, grain) =>

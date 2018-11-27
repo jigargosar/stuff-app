@@ -19,7 +19,6 @@ import {
 const GrainEditItem = ({
   title,
   grain,
-  immerState,
   setState,
   ...otherProps
 }) => {
@@ -27,7 +26,7 @@ const GrainEditItem = ({
     <InputText
       // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
       value={title}
-      onChange={title => onEditGrainTitleChange(title, immerState)}
+      onChange={title => setState(onEditGrainTitleChange(title))}
       onEnter={() => setState(onEndEditModeTrigger)}
       onFocus={() => setState(onEditGrainTitleFocus(grain))}
       {...otherProps}

@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'react'
+// noinspection ES6UnusedImports
+import PropTypes from 'prop-types' // eslint-disable-line no-unused-vars
+// noinspection ES6UnusedImports
+import * as R from 'ramda' // eslint-disable-line no-unused-vars
+import React from 'react'
 import './App.css'
 import { AppThemeProvider, FCol } from './components/styled'
 import {
@@ -9,14 +13,12 @@ import {
 } from './State'
 import GrainItem from './components/GrainItem'
 import TopInput from './components/TopInput'
-// noinspection ES6UnusedImports
-import * as R from 'ramda' // eslint-disable-line no-unused-vars
 
 function App() {
-  const [state, setState] = useState(restoreAppState)
-  useEffect(() => cacheAppState(state))
+  const [state, setState] = React.useState(restoreAppState)
+  React.useEffect(() => cacheAppState(state))
 
-  useEffect(() => {
+  React.useEffect(() => {
     const listener = onWindowKeydown(state, setState)
     window.addEventListener('keydown', listener)
     return () => {

@@ -156,8 +156,9 @@ export function onWindowKeydown(state, setState) {
 
     const sidxGrain = getMaybeSidxGrain(state)
     if (sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)) {
-      const focusSidxGrain = () => focusGrainEffect(sidxGrain)
-      hotKeys(['ArrowUp', focusSidxGrain], ['ArrowDown', focusSidxGrain])(ev)
+      hotKeys([['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)])(
+        ev,
+      )
     } else {
       hotKeys(
         ['ArrowUp', () => setState(rollSelectionBy(-1))],

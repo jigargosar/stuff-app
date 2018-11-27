@@ -89,9 +89,7 @@ export const onEditGrainTitleChange = update(state => title => {
   }
 })
 
-export function getInputValue(state) {
-  return state.inputValue
-}
+export const getInputValue = R.prop('inputValue')
 
 const resetInputValue = update(state => () => {
   state.inputValue = ''

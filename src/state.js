@@ -225,9 +225,13 @@ export const onEndEditModeTrigger = update(state => () => {
   focusGrainAtSidx(state)
 })
 
-export const grainSetDoneProp = update(state => (bool, g) => {
-  state.lookup[g.id].done = bool
-})
+const grainDoneLens = grain =>
+  R.compose(
+    grainLens(grain),
+    R.lensProp('done'),
+  )
+
+export const grainSetDoneTo = (bool, grain) => R.set(grainDoneLens(grain), bool)
 
 export const deleteGrain = update(state => grain => {
   delete state.lookup[grain.id]

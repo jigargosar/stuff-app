@@ -33,7 +33,7 @@ function App() {
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          <TopInput {...{ state, immerState, setState }} />
+          <TopInput {...{ state, setState }} />
           <FCol pt={3} className="">
             {mapGrains(
               ({ grain, isSelected, edit }) => (

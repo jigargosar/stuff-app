@@ -10,13 +10,15 @@ import * as R from 'ramda'
 //</editor-fold>
 import React from 'react'
 import InputText from './InputText'
-import { bindInputValue, onTopInputSubmit } from '../State'
+import { onTopInputSubmit } from '../State'
 
 const TopInput = ({ state, setState }) => {
+  const [value, setValue] = React.useState('')
   return (
     <InputText
-      onEnter={() => setState(onTopInputSubmit)}
-      {...bindInputValue([state, setState])}
+      onEnter={() => setState(onTopInputSubmit(value))}
+      value={value}
+      onChange={setValue}
     />
   )
 }

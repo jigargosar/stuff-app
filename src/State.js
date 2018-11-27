@@ -51,10 +51,6 @@ const editTitleLens = R.compose(
 export const onEditGrainTitleChange = title => R.set(editTitleLens)(title)
 const sidxLens = R.lensProp('sidx')
 
-const inputValueLens = R.lensProp('inputValue')
-const getInputValue = R.view(inputValueLens)
-const resetInputValue = R.set(inputValueLens)('')
-
 const grainLens = grain => grainLensWithId(grain.id)
 const grainLensWithId = id => R.lensPath(['lookup', id])
 
@@ -216,24 +212,16 @@ const lookupLens = R.lensProp('lookup')
 
 export const deleteGrain = grain => R.over(lookupLens)(R.omit([grain.id]))
 
-export const onTopInputSubmit = state => {
-  const title = getInputValue(state).trim()
+export const onTopInputSubmit = ([value, setValue]) => state => {
+  const title = value.trim()
   if (title) {
     const grain = createGrainWithTitle(title)
-
+    setValue('')
     return R.compose(
       R.tap(() => focusGrainEffect(grain)),
       setSidxToGrain(grain),
       upsertGrain(grain),
-      resetInputValue,
     )(state)
   }
   return state
 }
-
-export const bindInputText = R.curry((propName, [state, setState]) => ({
-  value: R.prop(propName)(state),
-  onChange: value => setState(R.assoc(propName)(value)),
-}))
-
-export const bindInputValue = bindInputText('inputValue')

@@ -1,33 +1,13 @@
 import * as R from 'ramda'
 import { compose, isNil, mergeDeepRight } from 'ramda'
-import debounce from 'lodash.debounce'
 import * as invariant from 'invariant'
 import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
 import { storageGetOr, storageSet } from './local-cache'
 import { isDraft } from 'immer'
+import { debounceFocusDomId, pd } from './Dom'
 
 // DOM
-
-function focusDomIdEffect(domId) {
-  try {
-    document.getElementById(domId).focus()
-  } catch (e) {
-    console.error('Focus Failed:', domId)
-  }
-}
-
-const debounceFocusDomId = debounce(focusDomIdEffect)
-
-const pd = ev => {
-  ev.preventDefault()
-}
-
-const wrapPD = fn =>
-  compose(
-    fn,
-    R.tap(pd),
-  )
 
 // STORAGE
 
@@ -152,17 +132,14 @@ export function onWindowKeydown(state, setState) {
     const tagName = ev.target.tagName
     console.debug(ev, tagName)
     if (tagName === 'INPUT' || tagName === 'BODY') {
-      hotKeys(
-        ['ArrowUp', wrapPD(() => console.debug('ev tapped', ev))],
-        ['ArrowDown', pd],
-      )(ev)
-    } else {
+      hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
     }
 
     const keymap = isTargetSidxGrain(ev, state)
       ? [['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)]
       : (['ArrowUp', () => setState(rollSelectionBy(-1))],
         ['ArrowDown', () => setState(rollSelectionBy(1))])
+
     hotKeys(keymap)(ev)
   }
 }

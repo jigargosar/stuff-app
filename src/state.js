@@ -142,6 +142,11 @@ const rollSelectionBy = R.curry((offset, state) => {
   }
 })
 
+function isTargetSidxGrain(ev, state) {
+  const sidxGrain = getMaybeSidxGrain(state)
+  return sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)
+}
+
 export function onWindowKeydown(state, setState) {
   return ev => {
     const tagName = ev.target.tagName
@@ -154,17 +159,11 @@ export function onWindowKeydown(state, setState) {
     } else {
     }
 
-    const sidxGrain = getMaybeSidxGrain(state)
-    if (sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)) {
-      hotKeys([['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)])(
-        ev,
-      )
-    } else {
-      hotKeys(
-        ['ArrowUp', () => setState(rollSelectionBy(-1))],
-        ['ArrowDown', () => setState(rollSelectionBy(1))],
-      )(ev)
-    }
+    const keymap = isTargetSidxGrain(ev, state)
+      ? [['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)]
+      : (['ArrowUp', () => setState(rollSelectionBy(-1))],
+        ['ArrowDown', () => setState(rollSelectionBy(1))])
+    hotKeys(keymap)(ev)
   }
 }
 

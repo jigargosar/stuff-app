@@ -13,7 +13,7 @@ import InputText from './InputText'
 import { onTopInputSubmit } from '../State'
 import { useCacheState } from './hooks'
 
-const TopInput = ({ state, setState }) => {
+const TopInput = ({ setState }) => {
   const [value, setValue] = useCacheState('inputValue', '')
   return (
     <InputText

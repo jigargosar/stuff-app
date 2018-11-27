@@ -39,7 +39,7 @@ function App() {
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          <TopInput {...{ state, setState }} />
+          <TopInput {...{ setState }} />
           <FCol pt={3} className="">
             <GrainList state={state} setState={setState} />
           </FCol>

@@ -7,8 +7,6 @@ import { storageGetOr, storageSet } from './local-cache'
 import { isDraft } from 'immer'
 import { debounceFocusDomId, pd } from './Dom'
 
-// DOM
-
 // STORAGE
 
 const appStateStorageKey = () => 'app-state'

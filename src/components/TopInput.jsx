@@ -10,7 +10,7 @@ import * as R from 'ramda'
 //</editor-fold>
 import React from 'react'
 import InputText from './InputText'
-import { bindInputValue, onTopInputSubmit } from '../state'
+import { bindInputValue, onTopInputSubmit } from '../State'
 
 const TopInput = ({ state, setState }) => {
   return (

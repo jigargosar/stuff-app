@@ -6,13 +6,13 @@ import PropTypes from 'prop-types'
 // noinspection all
 import * as R from 'ramda'
 import React from 'react'
-import { hotKeys } from '../hotKeys'
+import { hotKeys } from '../HotKeys'
 import {
   deleteGrain,
   getGrainDomId,
   onGrainDoneChange,
   startEditingSelectedGrainTrigger,
-} from '../state'
+} from '../State'
 import { Box } from 'rebass'
 import CheckBox from './CheckBox'
 import { FRowCY } from './styled'

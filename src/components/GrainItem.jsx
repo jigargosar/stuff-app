@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 // noinspection all
 import * as R from 'ramda'
 import React from 'react'
-import { getGrainDomId } from '../state'
+import { getGrainDomId } from '../State'
 import GrainEditItem from './GrainEditItem'
 import GrainDisplayItem from './GrainDisplayItem'
 /* eslint-enable no-unused-vars */

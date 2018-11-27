@@ -11,7 +11,7 @@ import * as R from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 import { space, width } from 'styled-system'
-import { hotKeys } from '../hotKeys'
+import { hotKeys } from '../HotKeys'
 
 export const StyledInput = styled.input`
   ${space} ${width};

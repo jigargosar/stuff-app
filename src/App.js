@@ -6,7 +6,7 @@ import {
   mapGrains,
   onWindowKeydown,
   restoreAppState,
-} from './state'
+} from './State'
 import GrainItem from './components/GrainItem'
 import TopInput from './components/TopInput'
 

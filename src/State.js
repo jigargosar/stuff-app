@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import { compose, isNil, mergeDeepRight } from 'ramda'
 import * as invariant from 'invariant'
 import nanoid from 'nanoid'
-import { hotKeys } from './hotKeys'
+import { hotKeys } from './HotKeys'
 import { storageGetOr, storageSet } from './local-cache'
 import { debounceFocusDomId, pd } from './Dom'
 

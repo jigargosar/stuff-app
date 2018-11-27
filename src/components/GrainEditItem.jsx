@@ -14,7 +14,7 @@ import {
   onEditGrainTitleChange,
   onEditGrainTitleFocus,
   onEndEditModeTrigger,
-} from '../state'
+} from '../State'
 
 const GrainEditItem = ({
   title,

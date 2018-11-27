@@ -225,9 +225,21 @@ export const deleteGrain = update(state => grain => {
   delete state.lookup[grain.id]
 })
 
-const produceWith = fn => ss => ss(produce(fn))
+const producer = fn => {
+  const fnLength = fn.length
+  invariant(
+    R.gte(fnLength, 1),
+    'producer should accept at least one draft argument',
+  )
+  return R.curryN(fnLength, (...args) => {
+    invariant(args.length === fnLength, 'Invalid no of arguments passed')
+    const setState = R.last(args)
+    const otherArgs = R.init(args)
+    return setState(produce(draft => void fn(...otherArgs, draft)))
+  })
+}
 
-export const onTopInputSubmit = produceWith(draft => {
+export const onTopInputSubmit = producer(draft => {
   const title = getInputValue(draft).trim()
   if (title) {
     const grain = createGrainWithTitle(title)

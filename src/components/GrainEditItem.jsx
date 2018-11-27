@@ -10,20 +10,25 @@ import * as R from 'ramda'
 //</editor-fold>
 import React from 'react'
 import InputText from './InputText'
-import { hotKeys } from '../hotKeys'
 import {
   onEditGrainTitleChange,
   onEndEditModeTrigger,
   setSidxToGrain,
 } from '../state'
 
-const GrainEditItem = ({ title, grain, immerState, setState, ...otherProps }) => {
+const GrainEditItem = ({
+  title,
+  grain,
+  immerState,
+  setState,
+  ...otherProps
+}) => {
   return (
     <InputText
       // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
       value={title}
       onChange={title => onEditGrainTitleChange(title, immerState)}
-      onKeyDown={hotKeys(['Enter', () => setState(onEndEditModeTrigger)])}
+      onEnter={() => setState(onEndEditModeTrigger)}
       onFocus={() => setState(setSidxToGrain(grain))}
       {...otherProps}
     />

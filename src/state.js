@@ -231,12 +231,10 @@ function focusGrainAtSidx(state) {
   focusGrainEffect(grain)
 }
 
-export const onEndEditModeTrigger = state => {
-  R.compose(
-    R.tap(focusGrainAtSidx),
-    endEditMode,
-  )(state)
-}
+export const onEndEditModeTrigger = R.compose(
+  R.tap(focusGrainAtSidx),
+  endEditMode,
+)
 
 const grainDoneLens = grain =>
   R.compose(

@@ -23,7 +23,7 @@ const GrainEditItem = ({ title, grain, immerState, setState, ...otherProps }) =>
       // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
       value={title}
       onChange={title => onEditGrainTitleChange(title, immerState)}
-      onKeyDown={hotKeys(['Enter', () => onEndEditModeTrigger(immerState)])}
+      onKeyDown={hotKeys(['Enter', () => setState(onEndEditModeTrigger)])}
       onFocus={() => setState(setSidxToGrain(grain))}
       {...otherProps}
     />

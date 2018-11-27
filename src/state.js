@@ -231,7 +231,7 @@ const grainDoneLens = grain =>
     R.lensProp('done'),
   )
 
-export const grainSetDoneTo = (bool, grain) => R.set(grainDoneLens(grain), bool)
+export const setGrainDone = (bool, grain) => R.set(grainDoneLens(grain), bool)
 
 export const deleteGrain = update(state => grain => {
   delete state.lookup[grain.id]

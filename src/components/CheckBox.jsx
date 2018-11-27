@@ -11,11 +11,11 @@ import * as R from 'ramda'
 
 import React from 'react'
 
-export function CheckBox({ value, onChange }) {
+export function CheckBox({ checked, onChange }) {
   return (
     <input
       type="checkbox"
-      value={value}
+      checked={checked}
       onChange={ev => onChange(ev.target.checked, ev)}
     />
   )
@@ -23,7 +23,7 @@ export function CheckBox({ value, onChange }) {
 
 CheckBox.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.bool.isRequired,
+  checked: PropTypes.bool.isRequired,
 }
 
 CheckBox.defaultProps = {}

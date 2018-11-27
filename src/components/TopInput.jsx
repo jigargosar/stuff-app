@@ -5,8 +5,6 @@
 import PropTypes from 'prop-types'
 // noinspection all
 import * as R from 'ramda'
-// noinspection all
-import immer, {produce} from 'immer'
 /* eslint-enable no-unused-vars */
 // @formatter:on
 //</editor-fold>

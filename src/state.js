@@ -4,7 +4,6 @@ import * as invariant from 'invariant'
 import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
 import { storageGetOr, storageSet } from './local-cache'
-import { isDraft } from 'immer'
 import { debounceFocusDomId, pd } from './Dom'
 
 // STORAGE
@@ -26,23 +25,6 @@ export function restoreAppState() {
   return compose(mergeDeepRight(defaultState))(
     storageGetOr({}, appStateStorageKey()),
   )
-}
-
-//UPDATE
-const update = fn => (...args) => {
-  const immerState = R.last(args)
-  const isFunc = R.is(Function, immerState)
-  invariant(
-    isDraft(immerState) || isFunc,
-    'ImmerState should either be a function or draft',
-  )
-  if (isFunc) {
-    return immerState(state => {
-      fn(state)(...args)
-    })
-  } else {
-    return fn(immerState)(...args)
-  }
 }
 
 // STATE GET/SET

@@ -240,3 +240,9 @@ export const onTopInputSubmit = update(draft => () => {
     focusGrain(grain)
   }
 })
+
+export const bindInputText = R.curry((propName, [state, setState]) => ({
+  value: R.prop(propName)(state),
+  onChange: value => setState(R.assoc(propName)(value)),
+}))
+export const bindInputValue = bindInputText('inputValue')

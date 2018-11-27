@@ -163,22 +163,23 @@ function getMaybeSidxGrain(state) {
   }
 }
 
-export const startEditingSelectedGrainTrigger = update(state => () => {
-  startEditingSelectedGrain(state)
-  focusGrainAtSidxEffect(state)
-})
+export const startEditingSelectedGrainTrigger = R.compose(
+  focusGrainAtSidxEffect,
+  startEditingSelectedGrain,
+)
 
-export const startEditingSelectedGrain = update(state => () => {
+export function startEditingSelectedGrain(state) {
   const edit = state.edit
   if (edit) {
     console.warn('Handle start editing when already in edit mode')
   } else {
     const grain = getMaybeSidxGrain(state)
     if (grain) {
-      state.edit = { grainId: grain.id, title: grain.title }
+      return R.set(editLens)({ grainId: grain.id, title: grain.title })(state)
     }
   }
-})
+  return state
+}
 
 const setGrainTitleIfNotEmpty = R.curry((title, grainId, state) => {
   if (title) {

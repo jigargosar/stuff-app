@@ -10,13 +10,12 @@ import * as R from 'ramda'
 //</editor-fold>
 import React from 'react'
 import InputText from './InputText'
-import { hotKeys } from '../hotKeys'
 import { bindInputValue, onTopInputSubmit } from '../state'
 
 const TopInput = ({ state, immerState, setState }) => {
   return (
     <InputText
-      onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(immerState)])}
+      onEnter={() => onTopInputSubmit(immerState)}
       {...bindInputValue([state, setState])}
     />
   )

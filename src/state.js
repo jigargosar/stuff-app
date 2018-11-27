@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce'
 import * as invariant from 'invariant'
 import nanoid from 'nanoid'
 import { hotKeys } from './hotKeys'
-import { storageGetOr, storageSet } from './storage'
+import { storageGetOr, storageSet } from './local-cache'
 import { isDraft } from 'immer'
 
 // DOM

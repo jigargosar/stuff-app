@@ -45,12 +45,7 @@ const GrainDisplayItem = ({
       <Box p={2}>
         <CheckBox
           checked={grain.done}
-          onChange={bool =>
-            setState(s => {
-              console.log(s)
-              return setGrainDone(bool, grain)(s)
-            })
-          }
+          onChange={bool => setState(setGrainDone(bool, grain))}
         />
       </Box>
       <Box className="flex-auto">{grain.title}</Box>

@@ -17,7 +17,6 @@ export function cacheAppState(state) {
 
 export function restoreAppState() {
   const defaultState = {
-    inputValue: '',
     lookup: {},
     sidx: -1,
     edit: null,

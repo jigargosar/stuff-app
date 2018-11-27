@@ -95,13 +95,13 @@ const resetInputValue = update(state => () => {
   state.inputValue = ''
 })
 
-const insertGrain = update(state => grain => {
-  state.lookup[grain.id] = grain
-})
-
 export function getInputValue(state) {
   return state.inputValue
 }
+
+const insertGrain = update(state => grain => {
+  state.lookup[grain.id] = grain
+})
 
 export const setSidxToGrain = update(state => grain => {
   state.sidx = currentGrains(state).findIndex(g => g.id === grain.id)

@@ -11,13 +11,7 @@ import * as R from 'ramda'
 import React from 'react'
 import InputText from './InputText'
 import { onTopInputSubmit } from '../State'
-import { storageGetOr, storageSet } from '../local-cache'
-
-function useCacheState(key, initialValue) {
-  const [state, setState] = React.useState(storageGetOr(initialValue, key))
-  React.useEffect(() => storageSet(key, state))
-  return [state, setState]
-}
+import { useCacheState } from './hooks'
 
 const TopInput = ({ state, setState }) => {
   const [value, setValue] = useCacheState('inputValue', '')

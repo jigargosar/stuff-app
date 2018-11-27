@@ -87,10 +87,6 @@ export const onEditGrainTitleChange = update(state => title => {
   }
 })
 
-export const setInputValue = update(state => iv => {
-  state.inputValue = iv
-})
-
 export function getInputValue(state) {
   return state.inputValue
 }

@@ -11,6 +11,7 @@ import * as R from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 import { space, width } from 'styled-system'
+import { hotKeys } from '../hotKeys'
 
 export const StyledInput = styled.input`
   ${space} ${width};
@@ -21,12 +22,14 @@ StyledInput.propTypes = {
   ...width.propTypes,
 }
 
-export function InputText({ value, onChange, ...otherProps }) {
+export function InputText({ value, onChange, onEnter, ...otherProps }) {
+
   return (
     <StyledInput
       type="text"
       value={value}
       onChange={ev => onChange(ev.target.value, ev)}
+      onKeyDown={onEnter ? hotKeys(['Enter', onEnter]) : null}
       {...otherProps}
     />
   )
@@ -34,10 +37,13 @@ export function InputText({ value, onChange, ...otherProps }) {
 
 InputText.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  ...StyledInput.propTypes,
+  onEnter: PropTypes.func,
+  p: PropTypes.number,
+  value: PropTypes.string.isRequired
 }
 
-InputText.defaultProps = { p: 3 }
+InputText.defaultProps = {
+  p: 3
+}
 
 export default InputText

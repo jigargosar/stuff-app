@@ -225,20 +225,19 @@ export const deleteGrain = update(state => grain => {
   delete state.lookup[grain.id]
 })
 
-export const onTopInputSubmit = setState =>
-  setState(
-    produce(draft => {
-      const title = getInputValue(draft).trim()
-      if (title) {
-        const grain = createGrainWithTitle(title)
+const produceWith = fn => ss => ss(produce(fn))
 
-        resetInputValue(draft)
-        insertGrain(grain, draft)
-        setSidxToGrain(grain, draft)
-        focusGrainEffect(grain)
-      }
-    }),
-  )
+export const onTopInputSubmit = produceWith(draft => {
+  const title = getInputValue(draft).trim()
+  if (title) {
+    const grain = createGrainWithTitle(title)
+
+    resetInputValue(draft)
+    insertGrain(grain, draft)
+    setSidxToGrain(grain, draft)
+    focusGrainEffect(grain)
+  }
+})
 
 export const bindInputText = R.curry((propName, [state, setState]) => ({
   value: R.prop(propName)(state),

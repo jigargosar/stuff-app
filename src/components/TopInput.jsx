@@ -13,14 +13,12 @@ import immer, {produce} from 'immer'
 import React from 'react'
 import InputText from './InputText'
 import { hotKeys } from '../hotKeys'
-import { bindInputValue, getInputValue, onTopInputSubmit, setInputValue } from '../state'
+import { bindInputValue, onTopInputSubmit } from '../state'
 
 const TopInput = ({ state, immerState, setState }) => {
 
   return (
     <InputText
-      value={getInputValue(state)}
-      onChange={value => setInputValue(value, immerState)}
       onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(immerState)])}
       {...bindInputValue([state, setState])}
     />

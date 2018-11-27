@@ -38,6 +38,6 @@ InputText.propTypes = {
   ...StyledInput.propTypes,
 }
 
-InputText.defaultProps = {p:3}
+InputText.defaultProps = { p: 3 }
 
 export default InputText

@@ -16,7 +16,6 @@ import { hotKeys } from '../hotKeys'
 import { bindInputValue, onTopInputSubmit } from '../state'
 
 const TopInput = ({ state, immerState, setState }) => {
-
   return (
     <InputText
       onKeyDown={hotKeys(['Enter', () => onTopInputSubmit(immerState)])}

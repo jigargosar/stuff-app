@@ -105,9 +105,12 @@ const idxOfGrain = grain =>
     currentGrains,
   )
 
-export const setSidxToGrain = update(draft => grain => {
-  draft.sidx = idxOfGrain(grain)(draft)
-})
+export const setSidxToGrain = R.curryN(
+  2,
+  update(draft => grain => {
+    draft.sidx = idxOfGrain(grain)(draft)
+  }),
+)
 
 function currentGrains(state) {
   return R.compose(
@@ -250,7 +253,7 @@ export const onTopInputSubmit = producer(draft => {
 
     resetInputValue(draft)
     insertGrain(grain, draft)
-    setSidxToGrain(grain, draft)
+    setSidxToGrain(grain)(draft)
     focusGrainEffect(grain)
   }
 })

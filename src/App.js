@@ -15,6 +15,7 @@ import {
 import GrainItem from './components/GrainItem'
 import { hotKeys } from './HotKeys'
 import TopInput from './components/TopInput'
+import { pd } from './Dom'
 
 const GrainList = React.memo(({ state, dispatch }) => (
   <FCol pt={3} className="">
@@ -54,6 +55,12 @@ function appReducer(state, action) {
 }
 
 function onWindowHotKeyDown(ev, dispatch) {
+  const tagName = ev.target.tagName
+  console.debug(ev, tagName)
+  if (tagName === 'INPUT' || tagName === 'BODY') {
+    hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
+  }
+
   const targetId = ev.target.id
   return hotKeys(
     ['ArrowUp', () => dispatch({ type: 'ArrowUp', targetId })],

@@ -99,9 +99,9 @@ export const rollSelectionBy = R.curry((offset, state) => {
   }
 })
 
-function isSidxGrainEventTarget(ev, state) {
+function isSidxGrainEventTarget(targetId, state) {
   const sidxGrain = getMaybeSidxGrain(state)
-  return sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)
+  return sidxGrain && targetId !== getGrainDomId(sidxGrain)
 }
 
 export function onWindowKeydown(state, dispatch) {
@@ -112,8 +112,8 @@ export function onWindowKeydown(state, dispatch) {
       hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
     }
     // console.log(`ev`, ev)
-
-    const onHotKey = isSidxGrainEventTarget(ev, state)
+    const targetId = ev.target.id
+    const onHotKey = isSidxGrainEventTarget(targetId, state)
       ? hotKeys([['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)])
       : hotKeys(
           ['ArrowUp', () => dispatch({ type: 'RollSelectionBy', offset: -1 })],

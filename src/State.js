@@ -104,23 +104,21 @@ function isSidxGrainEventTarget(targetId, state) {
   return sidxGrain && targetId !== getGrainDomId(sidxGrain)
 }
 
-export function onWindowKeydown(state, dispatch) {
-  return ev => {
-    const tagName = ev.target.tagName
-    console.debug(ev, tagName)
-    if (tagName === 'INPUT' || tagName === 'BODY') {
-      hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
-    }
-    // console.log(`ev`, ev)
-    const targetId = ev.target.id
-    const onHotKey = isSidxGrainEventTarget(targetId, state)
-      ? hotKeys([['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)])
-      : hotKeys(
-          ['ArrowUp', () => dispatch({ type: 'RollSelectionBy', offset: -1 })],
-          ['ArrowDown', () => dispatch({ type: 'RollSelectionBy', offset: 1 })],
-        )
-    onHotKey(ev)
+export function onWindowKeydown(ev, state, dispatch) {
+  const tagName = ev.target.tagName
+  console.debug(ev, tagName)
+  if (tagName === 'INPUT' || tagName === 'BODY') {
+    hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
   }
+  // console.log(`ev`, ev)
+  const targetId = ev.target.id
+  const onHotKey = isSidxGrainEventTarget(targetId, state)
+    ? hotKeys([['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)])
+    : hotKeys(
+        ['ArrowUp', () => dispatch({ type: 'RollSelectionBy', offset: -1 })],
+        ['ArrowDown', () => dispatch({ type: 'RollSelectionBy', offset: 1 })],
+      )
+  onHotKey(ev)
 }
 
 export function mapGrains(fn, state) {

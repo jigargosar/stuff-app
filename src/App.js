@@ -9,13 +9,12 @@ import {
   cacheAppState,
   mapGrains,
   onTopInputSubmit,
+  onWindowKeydown,
   restoreAppState,
   rollSelectionBy,
 } from './State'
 import GrainItem from './components/GrainItem'
-import { hotKeys } from './HotKeys'
 import TopInput from './components/TopInput'
-import { pd } from './Dom'
 
 const GrainList = React.memo(({ state, dispatch }) => (
   <FCol pt={3} className="">
@@ -40,32 +39,12 @@ function appReducer(state, action) {
     case 'RollSelectionBy':
       return rollSelectionBy(action.offset, state)
 
-    case 'ArrowUp':
-      return state
-
-    case 'ArrowDown':
-      return state
-
     default:
       // A reducer must always return a valid state.
       // Alternatively you can throw an error if an invalid action is dispatched.
       console.error('Invalid Action', action, state)
       return state
   }
-}
-
-function onWindowHotKeyDown(ev, dispatch) {
-  const tagName = ev.target.tagName
-  console.debug(ev, tagName)
-  if (tagName === 'INPUT' || tagName === 'BODY') {
-    hotKeys(['ArrowUp', pd], ['ArrowDown', pd])(ev)
-  }
-
-  const targetId = ev.target.id
-  return hotKeys(
-    ['ArrowUp', () => dispatch({ type: 'ArrowUp', targetId })],
-    ['ArrowDown', () => dispatch({ type: 'ArrowDown', targetId: targetId })],
-  )(ev)
 }
 
 function useWindowKeyDownEffect(effectFn, ...dependentInputArgs) {
@@ -83,7 +62,7 @@ function App() {
   const [state, dispatch] = React.useReducer(appReducer, restoreAppState())
   React.useEffect(() => cacheAppState(state))
 
-  useWindowKeyDownEffect(onWindowHotKeyDown, dispatch)
+  useWindowKeyDownEffect(onWindowKeydown, state, dispatch)
 
   return (
     <AppThemeProvider>

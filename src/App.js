@@ -80,11 +80,9 @@ function App() {
 
   return (
     <AppThemeProvider>
-      <FCol css={{ minHeight: '100vh' }} className="items-center">
-        <FCol p={3} width={'30em'}>
-          <TopInput value={state.inputValue} dispatch={dispatch} />
-          <GrainList state={state} dispatch={dispatch} />
-        </FCol>
+      <FCol p={3} width={'30em'}>
+        <TopInput value={state.inputValue} dispatch={dispatch} />
+        <GrainList state={state} dispatch={dispatch} />
       </FCol>
     </AppThemeProvider>
   )

@@ -10,21 +10,16 @@ import * as R from 'ramda'
 //</editor-fold>
 import React from 'react'
 import InputText from './InputText'
-import {
-  onEditGrainTitleChange,
-  onEditGrainTitleFocus,
-  onEndEditModeTrigger,
-} from '../State'
 
 const GrainEditItem = React.memo(
-  ({ title, grain, setState, ...otherProps }) => {
+  ({ title, grain, dispatch, ...otherProps }) => {
     return (
       <InputText
         // className={`bb b--light-gray ${isSelected ? 'bg-light-blue' : ''}`}
         value={title}
-        onChange={title => setState(onEditGrainTitleChange(title))}
-        onEnter={() => setState(onEndEditModeTrigger)}
-        onFocus={() => setState(onEditGrainTitleFocus(grain))}
+        onChange={title => dispatch({ type: 'OnEditGrainTitleChange', title })}
+        onEnter={() => dispatch({ type: 'OnEndEditModeTrigger' })}
+        onFocus={() => dispatch({ type: 'OnEditGrainTitleFocus', grain })}
         {...otherProps}
       />
     )

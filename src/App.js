@@ -35,8 +35,10 @@ function appReducer(state, action) {
   switch (action.type) {
     case 'reset':
       return restoreAppState()
+
     case 'TopInputChanged':
       return { ...state, inputValue: action.inputValue }
+
     case 'TopInputSubmit':
       return onTopInputSubmit(state)
 

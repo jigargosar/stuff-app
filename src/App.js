@@ -13,27 +13,38 @@ import {
   restoreAppState,
 } from './State'
 import GrainItem from './components/GrainItem'
-import TopInput from './components/TopInput'
+import InputText from './components/InputText'
 
-function GrainList({ state, setState }) {
+function GrainList({ state, dispatch }) {
   return mapGrains(
     ({ grain, isSelected, edit }) => (
-      <GrainItem key={grain.id} {...{ grain, isSelected, edit, setState }} />
+      <GrainItem key={grain.id} {...{ grain, isSelected, edit, dispatch }} />
     ),
     state,
   )
 }
 
-function useAppState() {
-  const [state, setState] = React.useState(restoreAppState)
-  React.useEffect(() => cacheAppState(state))
-  return [state, setState]
+function appReducer(state, action) {
+  switch (action.type) {
+    case 'reset':
+      return restoreAppState()
+    case 'TopInputChanged':
+      return { ...state, inputValue: action.inputValue }
+    case 'TopInputSubmit':
+      return onTopInputSubmit(state)
+    default:
+      // A reducer must always return a valid state.
+      // Alternatively you can throw an error if an invalid action is dispatched.
+      console.error('Invalid Action', action, state)
+      return state
+  }
 }
 
 function App() {
-  const [state, setState] = useAppState()
+  const [state, dispatch] = React.useReducer(appReducer, restoreAppState())
+  React.useEffect(() => cacheAppState(state))
 
-  const listener = onWindowKeydown(state, setState)
+  const listener = onWindowKeydown(state, dispatch)
 
   React.useEffect(() => {
     console.log(`'effectCalled'`, 'effectCalled')
@@ -47,11 +58,16 @@ function App() {
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          <TopInput
-            onSubmit={inputState => setState(onTopInputSubmit(inputState))}
+          <InputText
+            autoFocus
+            onEnter={() => dispatch({ type: 'TopInputSubmit' })}
+            value={state.inputValue}
+            onChange={inputValue =>
+              dispatch({ type: 'TopInputChanged', inputValue })
+            }
           />
           <FCol pt={3} className="">
-            <GrainList state={state} setState={setState} />
+            <GrainList state={state} dispatch={dispatch} />
           </FCol>
         </FCol>
       </FCol>

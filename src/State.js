@@ -17,6 +17,7 @@ export function cacheAppState(state) {
 
 export function restoreAppState() {
   const defaultState = {
+    inputValue: '',
     lookup: {},
     sidx: -1,
     edit: null,
@@ -212,13 +213,14 @@ export const onGrainDoneChange = (bool, grain) =>
 const lookupLens = R.lensProp('lookup')
 
 export const deleteGrain = grain => R.over(lookupLens)(R.omit([grain.id]))
+const ivLens = R.lensProp('inputValue')
 
-export const onTopInputSubmit = ([value, setValue]) => state => {
-  const title = value.trim()
+export const onTopInputSubmit = state => {
+  const title = R.view(ivLens)(state).trim()
   if (title) {
     const grain = createGrainWithTitle(title)
-    setValue('')
     return R.compose(
+      R.set(ivLens)(''),
       R.tap(() => focusGrainEffect(grain)),
       setSidxToGrain(grain),
       upsertGrain(grain),

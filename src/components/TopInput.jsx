@@ -17,7 +17,7 @@ const TopInput = ({ onSubmit }) => {
   return (
     <InputText
       autoFocus
-      onEnter={() => onSubmit([value, setValue])}
+      onEnter={() => onSubmit(value, setValue)}
       value={value}
       onChange={setValue}
     />

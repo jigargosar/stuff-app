@@ -23,7 +23,7 @@ import { FRowCY } from './styled'
 const GrainDisplayItem = ({
   isSelected,
   grain,
-  setState,
+  dispatch,
   ...otherProps
 }) => {
   return (
@@ -34,7 +34,7 @@ const GrainDisplayItem = ({
         'Enter',
         ev => {
           if (ev.target.id === getGrainDomId(grain)) {
-            setState(startEditingSelectedGrainTrigger)
+            dispatch({type:'StartEditingSelectedGrainTrigger'})
           }
         },
       ])}
@@ -43,18 +43,20 @@ const GrainDisplayItem = ({
       <Box p={2}>
         <CheckBox
           checked={grain.done}
-          onChange={bool => setState(onGrainDoneChange(bool, grain))}
+          onChange={
+            done =>dispatch({type:'OnGrainDoneChange',grain, done})
+          }
         />
       </Box>
       <Box className="flex-auto">{grain.title}</Box>
-      <button onClick={() => setState(deleteGrain(grain))}>X</button>
+      <button onClick={() => dispatch({type:'DeleteGrain',grain})}>X</button>
     </FRowCY>
   )
 }
 
 GrainDisplayItem.propTypes = {
   grain: PropTypes.object.isRequired,
-  setState: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
 }
 

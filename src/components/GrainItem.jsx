@@ -13,13 +13,13 @@ import GrainDisplayItem from './GrainDisplayItem'
 // @formatter:on
 //</editor-fold>
 
-const GrainItem = ({ grain, isSelected, edit, setState }) => {
+const GrainItem = ({ grain, isSelected, edit, dispatch }) => {
   const grainDomId = getGrainDomId(grain)
   const commonProps = {
     id: grainDomId,
     tabIndex: isSelected ? 0 : null,
     key: grain.id,
-    setState,
+    dispatch,
   }
   if (edit && edit.grainId === grain.id) {
     const title = edit.title

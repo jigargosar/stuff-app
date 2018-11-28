@@ -8,6 +8,7 @@ import { AppThemeProvider, FCol } from './components/styled'
 import {
   cacheAppState,
   mapGrains,
+  onEditGrainTitleFocus,
   onEndEditModeTrigger,
   onTopInputSubmit,
   onWindowKeydown,
@@ -47,6 +48,9 @@ function appReducer(state, action) {
 
     case 'OnEndEditModeTrigger':
       return onEndEditModeTrigger(state)
+
+    case 'OnEditGrainTitleFocus':
+      return onEditGrainTitleFocus(action.grain)(state)
 
     default:
       // A reducer must always return a valid state.

@@ -70,6 +70,7 @@ const idxOfGrain = grain =>
   )
 
 const setSidxToGrain = grain => R.set(grainSidxLens(grain), grain)
+
 export const onEditGrainTitleFocus = setSidxToGrain
 
 function currentGrains(state) {

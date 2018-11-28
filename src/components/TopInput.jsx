@@ -12,6 +12,7 @@ import React from 'react'
 import InputText from './InputText'
 
 const TopInput = ({ value, dispatch }) => {
+  console.log(`value`, value)
   return (
     <InputText
       autoFocus

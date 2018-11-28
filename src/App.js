@@ -81,7 +81,7 @@ function App() {
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          <TopInput autoFocus value={state.inputValue} dispatch={dispatch} />
+          <TopInput value={state.inputValue} dispatch={dispatch} />
           <FCol pt={3} className="">
             <GrainList state={state} dispatch={dispatch} />
           </FCol>

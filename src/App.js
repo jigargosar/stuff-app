@@ -63,10 +63,11 @@ function App() {
   const [state, dispatch] = React.useReducer(appReducer, restoreAppState())
   React.useEffect(() => cacheAppState(state))
 
+  const listener = onWindowHotKeyDown(dispatch)
+
   React.useEffect(
     () => {
       console.log('keydown effect triggered')
-      const listener = onWindowHotKeyDown(dispatch)
       window.addEventListener('keydown', listener)
       return () => {
         window.removeEventListener('keydown', listener)

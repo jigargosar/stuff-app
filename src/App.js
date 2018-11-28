@@ -9,12 +9,12 @@ import {
   cacheAppState,
   mapGrains,
   onTopInputSubmit,
-  onWindowKeydown,
   restoreAppState,
   rollSelectionBy,
 } from './State'
 import GrainItem from './components/GrainItem'
 import InputText from './components/InputText'
+import { hotKeys } from './HotKeys'
 
 function GrainList({ state, dispatch }) {
   return mapGrains(
@@ -26,6 +26,7 @@ function GrainList({ state, dispatch }) {
 }
 
 function appReducer(state, action) {
+  console.log(action.type)
   switch (action.type) {
     case 'reset':
       return restoreAppState()
@@ -37,6 +38,12 @@ function appReducer(state, action) {
     case 'RollSelectionBy':
       return rollSelectionBy(action.offset, state)
 
+    case 'ArrowUp':
+      return state
+
+    case 'ArrowDown':
+      return state
+
     default:
       // A reducer must always return a valid state.
       // Alternatively you can throw an error if an invalid action is dispatched.
@@ -45,19 +52,28 @@ function appReducer(state, action) {
   }
 }
 
+const onWindowHotKeyDown = R.curry((dispatch, ev) => {
+  const targetId = ev.target.id
+  return hotKeys(
+    ['ArrowUp', () => dispatch({ type: 'ArrowUp', targetId })],
+    ['ArrowDown', () => dispatch({ type: 'ArrowDown', targetId: targetId })],
+  )(ev)
+})
 function App() {
   const [state, dispatch] = React.useReducer(appReducer, restoreAppState())
   React.useEffect(() => cacheAppState(state))
 
-  const listener = onWindowKeydown(state, dispatch)
-
-  React.useEffect(() => {
-    console.log(`'effectCalled'`, 'effectCalled')
-    window.addEventListener('keydown', listener)
-    return () => {
-      window.removeEventListener('keydown', listener)
-    }
-  })
+  React.useEffect(
+    () => {
+      console.log('keydown effect triggered')
+      const listener = onWindowHotKeyDown(dispatch)
+      window.addEventListener('keydown', listener)
+      return () => {
+        window.removeEventListener('keydown', listener)
+      }
+    },
+    [dispatch],
+  )
 
   return (
     <AppThemeProvider>

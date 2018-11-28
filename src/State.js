@@ -104,7 +104,7 @@ function isSidxGrainEventTarget(ev, state) {
   return sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)
 }
 
-export function onWindowKeydown(state, dispatchEvent) {
+export function onWindowKeydown(state, dispatch) {
   return ev => {
     const tagName = ev.target.tagName
     console.debug(ev, tagName)
@@ -116,14 +116,8 @@ export function onWindowKeydown(state, dispatchEvent) {
     const onHotKey = isSidxGrainEventTarget(ev, state)
       ? hotKeys([['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)])
       : hotKeys(
-          [
-            'ArrowUp',
-            () => dispatchEvent({ type: 'RollSelectionBy', offset: -1 }),
-          ],
-          [
-            'ArrowDown',
-            () => dispatchEvent({ type: 'RollSelectionBy', offset: 1 }),
-          ],
+          ['ArrowUp', () => dispatch({ type: 'RollSelectionBy', offset: -1 })],
+          ['ArrowDown', () => dispatch({ type: 'RollSelectionBy', offset: 1 })],
         )
     onHotKey(ev)
   }

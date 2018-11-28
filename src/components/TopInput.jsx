@@ -17,16 +17,14 @@ const TopInput = React.memo(({ value, dispatch }) => {
       autoFocus
       onEnter={() => dispatch({ type: 'TopInputSubmit' })}
       value={value}
-      onChange={inputValue =>
-        dispatch({ type: 'TopInputChanged', inputValue })
-      }
+      onChange={inputValue => dispatch({ type: 'TopInputChanged', inputValue })}
     />
   )
 })
 
 TopInput.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
 }
 
 TopInput.defaultProps = {}

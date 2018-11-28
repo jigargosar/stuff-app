@@ -11,6 +11,7 @@ import {
   onTopInputSubmit,
   onWindowKeydown,
   restoreAppState,
+  rollSelectionBy,
 } from './State'
 import GrainItem from './components/GrainItem'
 import InputText from './components/InputText'
@@ -32,6 +33,10 @@ function appReducer(state, action) {
       return { ...state, inputValue: action.inputValue }
     case 'TopInputSubmit':
       return onTopInputSubmit(state)
+
+    case 'RollSelectionBy':
+      return rollSelectionBy(action.offset, state)
+
     default:
       // A reducer must always return a valid state.
       // Alternatively you can throw an error if an invalid action is dispatched.

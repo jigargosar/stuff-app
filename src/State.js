@@ -87,7 +87,7 @@ function focusGrainEffect(grain) {
   debounceFocusDomId(getGrainDomId(grain))
 }
 
-const rollSelectionBy = R.curry((offset, state) => {
+export const rollSelectionBy = R.curry((offset, state) => {
   const grains = currentGrains(state)
   const grainsLength = grains.length
   if (grainsLength > 1) {
@@ -104,7 +104,7 @@ function isSidxGrainEventTarget(ev, state) {
   return sidxGrain && ev.target.id !== getGrainDomId(sidxGrain)
 }
 
-export function onWindowKeydown(state, setState) {
+export function onWindowKeydown(state, dispatchEvent) {
   return ev => {
     const tagName = ev.target.tagName
     console.debug(ev, tagName)
@@ -116,8 +116,14 @@ export function onWindowKeydown(state, setState) {
     const onHotKey = isSidxGrainEventTarget(ev, state)
       ? hotKeys([['ArrowUp', 'ArrowDown'], () => focusGrainAtSidxEffect(state)])
       : hotKeys(
-          ['ArrowUp', () => setState(rollSelectionBy(-1))],
-          ['ArrowDown', () => setState(rollSelectionBy(1))],
+          [
+            'ArrowUp',
+            () => dispatchEvent({ type: 'RollSelectionBy', offset: -1 }),
+          ],
+          [
+            'ArrowDown',
+            () => dispatchEvent({ type: 'RollSelectionBy', offset: 1 }),
+          ],
         )
     onHotKey(ev)
   }

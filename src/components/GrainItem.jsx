@@ -6,12 +6,12 @@ import PropTypes from 'prop-types'
 // noinspection all
 import * as R from 'ramda'
 import React from 'react'
-import { getGrainDomId } from '../State'
-import GrainEditItem from './GrainEditItem'
-import GrainDisplayItem from './GrainDisplayItem'
 /* eslint-enable no-unused-vars */
 // @formatter:on
 //</editor-fold>
+import { getGrainDomId } from '../State'
+import GrainEditItem from './GrainEditItem'
+import GrainDisplayItem from './GrainDisplayItem'
 
 const GrainItem = React.memo(({ grain, isSelected, edit, dispatch }) => {
   const grainDomId = getGrainDomId(grain)
@@ -32,15 +32,9 @@ const GrainItem = React.memo(({ grain, isSelected, edit, dispatch }) => {
       />
     )
   } else {
-    return (
-      <GrainDisplayItem
-        {...commonProps}
-        {...{ grain, isSelected}}
-      />
-    )
+    return <GrainDisplayItem {...commonProps} {...{ grain, isSelected }} />
   }
-}
-)
+})
 GrainItem.propTypes = {}
 
 GrainItem.defaultProps = {}

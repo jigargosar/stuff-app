@@ -12,6 +12,8 @@ import {
   onWindowKeydown,
   restoreAppState,
   rollSelectionBy,
+  startEditingSelectedGrain,
+  startEditingSelectedGrainTrigger,
 } from './State'
 import GrainItem from './components/GrainItem'
 import TopInput from './components/TopInput'
@@ -38,6 +40,9 @@ function appReducer(state, action) {
 
     case 'RollSelectionBy':
       return rollSelectionBy(action.offset, state)
+
+    case 'StartEditingSelectedGrainTrigger':
+      return startEditingSelectedGrainTrigger(state)
 
     default:
       // A reducer must always return a valid state.

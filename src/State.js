@@ -147,7 +147,7 @@ export const startEditingSelectedGrainTrigger = R.compose(
   startEditingSelectedGrain,
 )
 
-export function startEditingSelectedGrain(state) {
+function startEditingSelectedGrain(state) {
   const edit = state.edit
   if (edit) {
     console.warn('Handle start editing when already in edit mode')

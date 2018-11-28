@@ -52,29 +52,30 @@ function appReducer(state, action) {
   }
 }
 
-const onWindowHotKeyDown = R.curry((dispatch, ev) => {
+function onWindowHotKeyDown(ev, dispatch) {
   const targetId = ev.target.id
   return hotKeys(
     ['ArrowUp', () => dispatch({ type: 'ArrowUp', targetId })],
     ['ArrowDown', () => dispatch({ type: 'ArrowDown', targetId: targetId })],
   )(ev)
-})
+}
+
+function useWindowKeyDownEffect(effectFn, ...dependentInputArgs) {
+  React.useEffect(() => {
+    console.log('useWindowKeyDownEffect Triggered')
+    const eventListener = R.partialRight(effectFn, dependentInputArgs)
+    window.addEventListener('keydown', eventListener)
+    return () => {
+      window.removeEventListener('keydown', eventListener)
+    }
+  }, dependentInputArgs)
+}
+
 function App() {
   const [state, dispatch] = React.useReducer(appReducer, restoreAppState())
   React.useEffect(() => cacheAppState(state))
 
-  const listener = onWindowHotKeyDown(dispatch)
-
-  React.useEffect(
-    () => {
-      console.log('keydown effect triggered')
-      window.addEventListener('keydown', listener)
-      return () => {
-        window.removeEventListener('keydown', listener)
-      }
-    },
-    [dispatch],
-  )
+  useWindowKeyDownEffect(onWindowHotKeyDown, dispatch)
 
   return (
     <AppThemeProvider>

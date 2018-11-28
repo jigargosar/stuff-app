@@ -227,3 +227,35 @@ export const onTopInputSubmit = state => {
   }
   return state
 }
+
+export function stateReducer(state, action) {
+  console.log(action.type)
+  switch (action.type) {
+    case 'reset':
+      return restoreAppState()
+
+    case 'TopInputChanged':
+      return { ...state, inputValue: action.inputValue }
+
+    case 'TopInputSubmit':
+      return onTopInputSubmit(state)
+
+    case 'RollSelectionBy':
+      return rollSelectionBy(action.offset, state)
+
+    case 'StartEditingSelectedGrainTrigger':
+      return startEditingSelectedGrainTrigger(state)
+
+    case 'OnEndEditModeTrigger':
+      return onEndEditModeTrigger(state)
+
+    case 'OnEditGrainTitleFocus':
+      return onEditGrainTitleFocus(action.grain)(state)
+
+    default:
+      // A reducer must always return a valid state.
+      // Alternatively you can throw an error if an invalid action is dispatched.
+      console.error('Invalid Action', action, state)
+      return state
+  }
+}

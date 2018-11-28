@@ -24,7 +24,10 @@ const TopInput = ({ value, dispatch }) => {
   )
 }
 
-TopInput.propTypes = {}
+TopInput.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired
+}
 
 TopInput.defaultProps = {}
 

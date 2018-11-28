@@ -13,8 +13,8 @@ import {
   rollSelectionBy,
 } from './State'
 import GrainItem from './components/GrainItem'
-import InputText from './components/InputText'
 import { hotKeys } from './HotKeys'
+import TopInput from './components/TopInput'
 
 function GrainList({ state, dispatch }) {
   return mapGrains(
@@ -81,14 +81,7 @@ function App() {
     <AppThemeProvider>
       <FCol className="items-center">
         <FCol p={3} width={'30em'}>
-          <InputText
-            autoFocus
-            onEnter={() => dispatch({ type: 'TopInputSubmit' })}
-            value={state.inputValue}
-            onChange={inputValue =>
-              dispatch({ type: 'TopInputChanged', inputValue })
-            }
-          />
+          <TopInput autoFocus value={state.inputValue} dispatch={dispatch} />
           <FCol pt={3} className="">
             <GrainList state={state} dispatch={dispatch} />
           </FCol>

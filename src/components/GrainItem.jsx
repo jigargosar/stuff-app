@@ -13,7 +13,7 @@ import GrainDisplayItem from './GrainDisplayItem'
 // @formatter:on
 //</editor-fold>
 
-const GrainItem = ({ grain, isSelected, edit, dispatch }) => {
+const GrainItem = React.memo(({ grain, isSelected, edit, dispatch }) => {
   const grainDomId = getGrainDomId(grain)
   const commonProps = {
     id: grainDomId,
@@ -40,7 +40,7 @@ const GrainItem = ({ grain, isSelected, edit, dispatch }) => {
     )
   }
 }
-
+)
 GrainItem.propTypes = {}
 
 GrainItem.defaultProps = {}

@@ -16,15 +16,14 @@ import GrainItem from './components/GrainItem'
 import { hotKeys } from './HotKeys'
 import TopInput from './components/TopInput'
 
-function GrainList({ state, dispatch }) {
-  return mapGrains(
+const GrainList = React.memo(({ state, dispatch }) =>
+  mapGrains(
     ({ grain, isSelected, edit }) => (
       <GrainItem key={grain.id} {...{ grain, isSelected, edit, dispatch }} />
     ),
     state,
-  )
-}
-
+  ),
+)
 function appReducer(state, action) {
   console.log(action.type)
   switch (action.type) {
@@ -79,7 +78,7 @@ function App() {
 
   return (
     <AppThemeProvider>
-      <FCol className="items-center">
+      <FCol css={{ minHeight: '100vh' }} className="items-center">
         <FCol p={3} width={'30em'}>
           <TopInput value={state.inputValue} dispatch={dispatch} />
           <FCol pt={3} className="">

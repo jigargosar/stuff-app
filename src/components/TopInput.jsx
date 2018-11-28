@@ -11,8 +11,7 @@ import * as R from 'ramda'
 import React from 'react'
 import InputText from './InputText'
 
-const TopInput = ({ value, dispatch }) => {
-  console.log(`value`, value)
+const TopInput = React.memo(({ value, dispatch }) => {
   return (
     <InputText
       autoFocus
@@ -23,7 +22,7 @@ const TopInput = ({ value, dispatch }) => {
       }
     />
   )
-}
+})
 
 TopInput.propTypes = {
   dispatch: PropTypes.func.isRequired,
